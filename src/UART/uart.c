@@ -62,8 +62,8 @@ int uart_init(){
 
 }
 
-void uart_test(){
-    k_msleep(MAIN_SLEEP_TIME_MS);
+int uart_test(){
+    //k_msleep(MAIN_SLEEP_TIME_MS);
         
     /* Print string received so far. */
     /* Very basic implementation, just for showing the use of the API */
@@ -77,8 +77,9 @@ void uart_test(){
         err = uart_tx(uart_dev, rep_mesg, strlen(rep_mesg), SYS_FOREVER_MS);
         if (err) {
             printk("uart_tx() error. Error code:%d\n\r",err);
-         return;
+         return -1;
         }
+        return 0;
     }
     //printk(".\n");
 }
