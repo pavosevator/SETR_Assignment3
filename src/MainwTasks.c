@@ -5,6 +5,7 @@
 #include "i2c.h"
 #include "cmdproc.h"
 #include "data.h"
+#include "uart.h"
 
 #define STACK_SIZE 1024
 #define PRIORITY_COMMAND 5
