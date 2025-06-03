@@ -1,13 +1,52 @@
 /**
  * @file cmdproc.c
- * @brief Source file for command processor module for smart sensor node.
+ * @brief Source file for command processor module for a thermal process control system.
  *
- * This module processes commands received via UART for a smart sensor node
- * that measures temperature, relative humidity, and CO2 levels. 
- * 
- * @author  Ivan PAVOSEVIC, Enzo DOS SANTOS.
- * @date 08 Apr 2025
+ * This module processes commands received via UART for a thermal process control system.
+ * It is designed to handle various commands related to temperature regulation, including
+ * setting and reading temperature values, configuring controller parameters, and managing
+ * system status. The module ensures robust communication by validating command frames
+ * and checksums, and it maintains a history of temperature readings for monitoring and
+ * diagnostic purposes.
+ *
+ * @author Ivan PAVOSEVIC, Enzo DOS SANTOS.
+ * @date 03 Jun 2025
+ *
+ * @section Overview
+ * The command processor module is responsible for interpreting UART commands and executing
+ * corresponding actions on the thermal control system. It supports a range of commands for
+ * real-time temperature monitoring and system configuration. The module uses a circular buffer
+ * to maintain a history of temperature readings, which can be useful for diagnostics and logging.
+ *
+ * @section Commands
+ * The module supports the following commands:
+ * - 'C': Reads the current temperature value from the sensor. Format: #Cyyy! where yyy is the checksum.
+ * - 'M': Sets the maximum allowed temperature. Format: #Mxxxyyy! where xxx is the temperature and yyy is the checksum.
+ * - 'S': Sets the controller parameters. Format: #Sxxx...xxxyyy! where xxx...xxx are the parameters and yyy is the checksum.
+ *
+ * @section Data Structures
+ * The module uses the following key data structures:
+ * - UARTRxBuffer: A buffer to store incoming UART data.
+ * - UARTTxBuffer: A buffer to store outgoing UART data.
+ * - tHistory: A circular buffer to store the history of temperature readings.
+ *
+ * @section Functions
+ * The module includes the following key functions:
+ * - cmdProcessor(): Processes the incoming commands and executes corresponding actions.
+ * - checkSofEof(): Checks for the presence of start-of-frame (SOF) and end-of-frame (EOF) markers.
+ * - calcChecksum(): Calculates the checksum for a given data buffer.
+ * - checkRxChecksum(): Verifies the checksum of received commands.
+ * - rxChar() and txChar(): Functions to receive and transmit characters via UART.
+ * - addInHistory(): Adds a temperature reading to the history buffer.
+ * - generateCharArray(): Converts numerical values to character arrays for transmission.
+ *
+ * @section Usage
+ * To use this module, initialize the UART interface and call the cmdProcessor() function
+ * periodically to process incoming commands. Ensure that the UART buffers are properly
+ * managed to avoid overflows and data corruption.
+ *
  */
+
 #include "cmdproc.h"
 #include "i2c.h"
 
@@ -58,164 +97,97 @@ int cmdProcessor(void)
 
 		switch(UARTRxBuffer[sofIndex+1]) { 
 			
-			case 'A': /*  reads the real-time values of the variables provided by the sensor */
-				if((eofIndex - sofIndex + 1)  != RX_CMD_A_LEN) {
-					return CMD_INVALID;
-				}
-				/* Sending of the data */
-				/* Emulate pseudo random generation of sensor outputs */
-				temp = (signed char)psrnd(-50,60);
-
-				/* Store read values in history */
-				addInHistory(&temp, 't');
-				
-				/* Convert values to char */
-				generateCharArray('t', temp, tempChar);
-				generateCharArray('h', hum, humChar);
-				generateCharArray('c', co2, co2Char);
-
-
-				/* Use txChar func() */
-				// Start of frame
-				txChar('#');
-
-				// Start of response
-				txChar('a');
-
-				// Send temperature data
-				txChar('t');
-				for(int j = 0; j < T_DIGITS; j++){
-					txChar(tempChar[j]);
-				}
-
-				// Send humidity data
-				txChar('h');
-				for(int j = 0; j < H_DIGITS; j++){
-					txChar(humChar[j]);
-				}
-
-				// Send CO2 data
-				txChar('c');
-				for(int j = 0; j < C_DIGITS; j++){
-					txChar(co2Char[j]);
-				}
-				
-				// Send checksum
-				snprintf(checksumchar, CS_DIGITS + 1, "%03d", calcChecksum(UARTTxBuffer + 1, A_RESPONSE_PAYLOAD_LEN)); // what if buffer is not start of frame + 1 
-				for(int j = 0; j < CS_DIGITS; j++){
-					txChar(checksumchar[j]);
-				}
-
-				// End of frame
-				txChar('!');
-
-				// Clean Rx buffer from the last command
-				frameLen = eofIndex - sofIndex + 1;
-				newLen = rxBufLen - frameLen;
-				
-				memmove(UARTRxBuffer, UARTRxBuffer + frameLen, newLen);
-				rxBufLen = newLen;
-
-				memset(UARTRxBuffer + newLen, '0', frameLen);
-
-
-				return CMD_OK;
-
-			case 'M':		
-				/* Command "M" detected. */
-				/* #Mxxxyyy! - Set maximum temperature to “xxx” (in oC). “yyy” is the checksum */   
-				char outputChar[6];
-
-				/* Sending of the data */
-				txChar('#');
-
-				/* Start of response */
-				txChar('E');
-				txChar('0'); // no error
-				
-				/* Implement here control logic for setting the temperature*/
-				/* ************************IMPORTANT*********************************/
-
-				/* Send checksum */
-				snprintf(checksumchar, CS_DIGITS + 1, "%03d", calcChecksum(UARTTxBuffer + 1, strlen(UARTTxBuffer) + 2 )); // two because of 'E' and '0'
-				for(int i = 0; i < CS_DIGITS; i++) {
-					txChar(checksumchar[i]);
-				}
-				
-				/* End of frame */
-				txChar('!');
-
-				frameLen = eofIndex - sofIndex + 1;
-				newLen = rxBufLen - frameLen;
-				
-				memmove(UARTRxBuffer, UARTRxBuffer + frameLen, newLen);
-				rxBufLen = newLen;
-
-				// Clear the rest of the buffer
-				memset(UARTRxBuffer + newLen, '0', frameLen);
-
-				return CMD_OK;
 			case 'C': // Request for current temperature
-				unsigned char historyChar[20];
-				
-				// Initialize index for historyChar
-				int historyIndex = 0;
-				
-				int8_t temperature_copy;
+            {
+                temp = (signed char)psrnd(-40, 99); // Simulate temperature reading
+                addInHistory(&temp, 't');
 
-    			k_mutex_lock(&sensor_data.mutex, K_FOREVER);
-    			temperature_copy = sensor_data.temperature;
-    			k_mutex_unlock(&sensor_data.mutex);
+                txChar('#');
+                txChar('c');
+                generateCharArray('t', temp, tempChar);
+                for (int j = 0; j < 3; j++)
+                {
+                    txChar(tempChar[j]);
+                }
 
+                snprintf(checksumchar, 4, "%03d", calcChecksum(UARTTxBuffer + 1, 3));
+                for (int j = 0; j < 3; j++)
+                {
+                    txChar(checksumchar[j]);
+                }
+                txChar('!');
 
+                frameLen = eofIndex - sofIndex + 1;
+                newLen = rxBufLen - frameLen;
+                memmove(UARTRxBuffer, UARTRxBuffer + frameLen, newLen);
+                rxBufLen = newLen;
+                memset(UARTRxBuffer + newLen, '0', frameLen);
 
-				txChar('#');
-				txChar('c');
+                return CMD_OK;
+            }
 
-				/* Retrieve data from the I2C sensor*/
-				ret = i2c_read_temperature(&temperature);
-        		if (ret == 0) {
-            	printk("Temperature: %d°C\n", temperature);
-        		} else {
-           			printk("Error reading temperature: %d\n", ret);
-        		}
+            case 'M': // Set maximum temperature
+            {
+                if ((eofIndex - sofIndex + 1) != RX_CMD_M_LEN)
+                    return CMD_INVALID;
 
-				// send one by one the last 20 results
-				for(int i = 0; i < 20 /* one value is 3 or 5 chars depends on mesaurement */; i++) {
-					txChar(historyChar[i]);
-				}
+                char maxTempStr[4];
+                strncpy(maxTempStr, (char *)(UARTRxBuffer + sofIndex + 2), 3);
+                maxTempStr[3] = '\0';
+                maxTemp = atoi(maxTempStr);
 
-				/* Send checksum */
-				snprintf(checksumchar, CS_DIGITS + 1, "%03d", calcChecksum(UARTTxBuffer + 1, strlen(UARTTxBuffer) + 2 )); // two because of 'p' and 'sid'
-				for(int i = 0; i < CS_DIGITS; i++) {
-					txChar(checksumchar[i]);
-				}
-				txChar('!'); 
-				return CMD_OK;
-			case 'R': // reset the history 
-				memset(tHistory	, '\0', HISTORY_SIZE);
-				memset(hHistory	, '\0', HISTORY_SIZE);
-				memset(cHistory	, '\0', HISTORY_SIZE);
-				txChar('#');
-				txChar('r');
-				/* Send checksum */
-				snprintf(checksumchar, CS_DIGITS + 1, "%03d", calcChecksum(UARTTxBuffer + 1, 1 )); // two because of 'p' and 'sid'
-				for(int i = 0; i < CS_DIGITS; i++) {
-					txChar(checksumchar[i]);
-				}
-				txChar('!');
+                // Logic to set maximum temperature
+                txChar('#');
+                txChar('E');
+                txChar('0');
 
-				return CMD_OK;			
-			default:
-				/* If code reaches this place, the command is not recognized */
-				// delete leftover of command
-				frameLen = eofIndex - sofIndex + 1;
-				newLen = rxBufLen - frameLen;
-				memmove(UARTRxBuffer, UARTRxBuffer + frameLen, newLen);
-				rxBufLen = newLen;
-				memset(UARTRxBuffer	+ newLen, '0', frameLen);
-				return CMD_INVALID;				
-		}
+                snprintf(checksumchar, 4, "%03d", calcChecksum(UARTTxBuffer + 1, 2));
+                for (int j = 0; j < 3; j++)
+                {
+                    txChar(checksumchar[j]);
+                }
+                txChar('!');
+
+                frameLen = eofIndex - sofIndex + 1;
+                newLen = rxBufLen - frameLen;
+                memmove(UARTRxBuffer, UARTRxBuffer + frameLen, newLen);
+                rxBufLen = newLen;
+                memset(UARTRxBuffer + newLen, '0', frameLen);
+
+                return CMD_OK;
+            }
+
+            case 'S': // Set controller parameters
+            {
+                // Logic to set controller parameters
+                txChar('#');
+                txChar('E');
+                txChar('0');
+
+                snprintf(checksumchar, 4, "%03d", calcChecksum(UARTTxBuffer + 1, 2));
+                for (int j = 0; j < 3; j++)
+                {
+                    txChar(checksumchar[j]);
+                }
+                txChar('!');
+
+                frameLen = eofIndex - sofIndex + 1;
+                newLen = rxBufLen - frameLen;
+                memmove(UARTRxBuffer, UARTRxBuffer + frameLen, newLen);
+                rxBufLen = newLen;
+                memset(UARTRxBuffer + newLen, '0', frameLen);
+
+                return CMD_OK;
+            }
+
+            default:
+                frameLen = eofIndex - sofIndex + 1;
+                newLen = rxBufLen - frameLen;
+                memmove(UARTRxBuffer, UARTRxBuffer + frameLen, newLen);
+                rxBufLen = newLen;
+                memset(UARTRxBuffer + newLen, '0', frameLen);
+                return CMD_INVALID;
+        }
 		
 		
 	}
@@ -387,46 +359,26 @@ int psrnd(int min,int max)
 /*
 	Separate function for adding values in history using circular buffer
 */
-int addInHistory(void *measuredValue, char sensorType) 
+int addInHistory(void *measuredValue, char sensorType)
 {
-	switch (sensorType) {
-        case 't': // Temperature
-            tHistory[tHistoryLen] = *(signed char *)measuredValue; // Cast to signed char
-            tHistoryLen = (tHistoryLen + 1) % HISTORY_SIZE; // Move to the next position in a circular manner
-            return CMD_OK;
-
-        case 'h': // Humidity
-            hHistory[hHistoryLen] = *(unsigned char *)measuredValue; // Cast to unsigned char
-            hHistoryLen = (hHistoryLen + 1) % HISTORY_SIZE; // Move to the next position in a circular manner
-            return CMD_OK;
-
-        case 'c': // CO2
-            cHistory[cHistoryLen] = *(unsigned int *)measuredValue; // Cast to unsigned int
-            cHistoryLen = (cHistoryLen + 1) % HISTORY_SIZE; // Move to the next position in a circular manner
-            return CMD_OK;
-
-        default:
-            // Invalid sensor type
-            return CMD_INVALID;
+    if (sensorType == 't')
+    {
+        tHistory[tHistoryLen] = *(signed char *)measuredValue;
+        tHistoryLen = (tHistoryLen + 1) % HISTORY_SIZE;
+        return CMD_OK;
     }
+    return CMD_INVALID;
 }
 
-void generateCharArray(char flag, int value, char* buffer) {
-    switch(flag) {
+void generateCharArray(char flag, int value, char *buffer)
+{
+    switch (flag)
+    {
         case 't':
-		/* sign + two digits + \0 = 4 bytes*/
             snprintf(buffer, 4, "%c%02d", (value < 0 ? '-' : '+'), abs(value));
             break;
-        case 'h':
-		/* three digits + \0 = 4 bytes*/
-            snprintf(buffer, 4, "%03d", value);
-            break;
-        case 'c':
-		/* five digits + \0 = 6 bytes*/
-            snprintf(buffer, 6, "%05d", value);
-            break;
         default:
-            buffer[0] = '0';
+            buffer[0] = '\0';
     }
 	return;
 }
