@@ -1,50 +1,12 @@
 /**
  * @file cmdproc.h
- * @brief Header file for command processor module for a thermal process control system.
+ * @brief Header file for command processor module for smart sensor node.
  *
- * This module processes commands received via UART for a thermal process control system.
- * It is designed to handle various commands related to temperature regulation, including
- * setting and reading temperature values, configuring controller parameters, and managing
- * system status. The module ensures robust communication by validating command frames
- * and checksums, and it maintains a history of temperature readings for monitoring and
- * diagnostic purposes.
- *
- * @author Ivan PAVOSEVIC, Enzo DOS SANTOS.
- * @date 03 Jun 2025
- *
- * @section Overview
- * The command processor module is responsible for interpreting UART commands and executing
- * corresponding actions on the thermal control system. It supports a range of commands for
- * real-time temperature monitoring and system configuration. The module uses a circular buffer
- * to maintain a history of temperature readings, which can be useful for diagnostics and logging.
- *
- * @section Commands
- * The module supports the following commands:
- * - 'C': Reads the current temperature value from the sensor. Format: #Cyyy! where yyy is the checksum.
- * - 'M': Sets the maximum allowed temperature. Format: #Mxxxyyy! where xxx is the temperature and yyy is the checksum.
- * - 'S': Sets the controller parameters. Format: #Sxxx...xxxyyy! where xxx...xxx are the parameters and yyy is the checksum.
- *
- * @section Data Structures
- * The module uses the following key data structures:
- * - UARTRxBuffer: A buffer to store incoming UART data.
- * - UARTTxBuffer: A buffer to store outgoing UART data.
- * - tHistory: A circular buffer to store the history of temperature readings.
- *
- * @section Functions
- * The module includes the following key functions:
- * - cmdProcessor(): Processes the incoming commands and executes corresponding actions.
- * - checkSofEof(): Checks for the presence of start-of-frame (SOF) and end-of-frame (EOF) markers.
- * - calcChecksum(): Calculates the checksum for a given data buffer.
- * - checkRxChecksum(): Verifies the checksum of received commands.
- * - rxChar() and txChar(): Functions to receive and transmit characters via UART.
- * - addInHistory(): Adds a temperature reading to the history buffer.
- * - generateCharArray(): Converts numerical values to character arrays for transmission.
- *
- * @section Usage
- * To use this module, initialize the UART interface and call the cmdProcessor() function
- * periodically to process incoming commands. Ensure that the UART buffers are properly
- * managed to avoid overflows and data corruption.
- *
+ * This module processes commands received via UART for a smart sensor node
+ * that measures temperature, relative humidity, and CO2 levels. 
+ * 
+ * @author  Ivan PAVOSEVIC, Enzo DOS SANTOS.
+ * @date 08 Apr 2025
  */
 
 #ifndef CMD_PROC_H_
@@ -163,23 +125,24 @@ extern unsigned int seed;
 
 /* Function prototypes */
 
-/**
- * @brief Processes the chars in the RX buffer looking for commands.
- *
- * Supported commands: \n
- * C: Reads the current temperature value from the sensor. \n
- * M: Sets the maximum allowed temperature. Format: #Mxxxyyy! where xxx is the temperature and yyy is the checksum. \n
- * S: Sets the controller parameters. Format: #Sxxx...xxxyyy! where xxx...xxx are the parameters and yyy is the checksum. \n
- *
- * @return CMD_OK (0): if a valid command was found and executed.
- *         CMD_EMPTY_STRING (-1): if empty string or incomplete command found.
- *         CMD_INVALID (-2): if an invalid command was found.
- *         CMD_CS_ERROR (-3): if a checksum error is detected (command not executed).
- *         CMD_BUFFER_FULL (-4): if the buffer is full.
- *         CMD_MISSING_SOF_ERROR (-6): SOF_SYM not sent via Rx buffer.
- *         CMD_MISSING_EOF_ERROR (-7): EOF_SYM not sent via Rx buffer.
- */
 
+/** @brief Processes the chars in the RX buffer looking for commands.abort
+* 
+*Supported commands: \n
+* A reads the real-time values of the variables provided by the sensor \n
+* P reads the real-time value of one of the sensors \n
+* L returns the last 20 samples of each variable \n
+* R resets the history
+*                                                    
+* @return CMD_OK (0): if a valid command was found and executed           
+* 		  CMD_EMPTY_STRING (-1): if empty string or incomplete command found         
+* 		  CMD_INVALID (-2): if an invalid command was found                     
+* 		  CMD_CS_ERROR (-3): if a CS error is detected (command not executed)    
+* 		  CMD_BUFFER_FULL (-4): if the buffer is full
+*         CMD_BUFFER_EMPTY (-5): if the buffer is empty
+*         CMD_MISSING_SOF_ERROR (-6): SOF_SYM not sent via Rx buffer                          
+*         CMD_MISSING_EOF_ERROR (-7): EOF_SYM not sent via Rx buffer                          
+*/
 int cmdProcessor(void);
 
 
