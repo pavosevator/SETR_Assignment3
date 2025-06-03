@@ -1,0 +1,13 @@
+# Target labels
+ SETR_Assignment3
+# Source files and their labels
+C:/nrfProjects/SETR_Assignment3/build/_sysbuild/sysbuild/images/CMakeFiles/SETR_Assignment3
+C:/nrfProjects/SETR_Assignment3/build/_sysbuild/sysbuild/images/CMakeFiles/SETR_Assignment3.rule
+C:/nrfProjects/SETR_Assignment3/build/_sysbuild/sysbuild/images/CMakeFiles/SETR_Assignment3-complete.rule
+C:/nrfProjects/SETR_Assignment3/build/_sysbuild/sysbuild/images/SETR_Assignment3-prefix/src/SETR_Assignment3-stamp/SETR_Assignment3-build.rule
+C:/nrfProjects/SETR_Assignment3/build/_sysbuild/sysbuild/images/SETR_Assignment3-prefix/src/SETR_Assignment3-stamp/SETR_Assignment3-configure.rule
+C:/nrfProjects/SETR_Assignment3/build/_sysbuild/sysbuild/images/SETR_Assignment3-prefix/src/SETR_Assignment3-stamp/SETR_Assignment3-download.rule
+C:/nrfProjects/SETR_Assignment3/build/_sysbuild/sysbuild/images/SETR_Assignment3-prefix/src/SETR_Assignment3-stamp/SETR_Assignment3-install.rule
+C:/nrfProjects/SETR_Assignment3/build/_sysbuild/sysbuild/images/SETR_Assignment3-prefix/src/SETR_Assignment3-stamp/SETR_Assignment3-mkdir.rule
+C:/nrfProjects/SETR_Assignment3/build/_sysbuild/sysbuild/images/SETR_Assignment3-prefix/src/SETR_Assignment3-stamp/SETR_Assignment3-patch.rule
+C:/nrfProjects/SETR_Assignment3/build/_sysbuild/sysbuild/images/SETR_Assignment3-prefix/src/SETR_Assignment3-stamp/SETR_Assignment3-update.rule

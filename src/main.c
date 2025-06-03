@@ -1,32 +1,32 @@
-#include <zephyr.h>
-#include <sys/printk.h>
+/* main.c - I2C sensor test application */
+
+#include <zephyr/sys/printk.h>
+#include <zephyr/kernel.h>
 #include "i2c.h"
+
+#define UPDATE_INTERVAL_MS 1000
 
 void main(void)
 {
     int ret;
-    int8_t temp;
+    int8_t temperature = 0;
 
-    printk("I2C test starting...\n");
+    printk("Initializing TC74 I2C sensor...\n");
 
-    /* 1) Initialize I²C + TC74 */
     ret = i2c_init();
-    if (ret) {
-        printk("i2c_init() failed: %d\n", ret);
+    if (ret != 0) {
+        printk("Failed to initialize I2C sensor, error: %d\n", ret);
         return;
     }
 
-    /* 2) Read temperature once */
-    ret = i2c_read_temperature_once(&temp);
-    if (ret == 0) {
-        printk("TC74 temperature: %d °C\n", temp);
-    } else {
-        printk("i2c_read_temperature_once() failed: %d\n", ret);
-    }
-
-    /* 3) Done. Now just idle. */
     while (1) {
-        k_sleep(K_MSEC(1000));
+        ret = i2c_read_temperature(&temperature);
+        if (ret == 0) {
+            printk("Temperature: %d°C\n", temperature);
+        } else {
+            printk("Error reading temperature: %d\n", ret);
+        }
+
+        k_msleep(UPDATE_INTERVAL_MS);
     }
 }
-

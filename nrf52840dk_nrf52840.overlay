@@ -11,9 +11,10 @@
 // For more help, browse the DeviceTree documentation at https://docs.zephyrproject.org/latest/guides/dts/index.html
 // You can also visit the nRF DeviceTree extension documentation at https://nrfconnect.github.io/vscode-nrf-connect/devicetree/nrfdevicetree.html
 &i2c0 {
-    tc74sensor: tc74sensor@53{
+    status = "okay";
+    tc74sensor: tc74sensor@4D{
         compatible = "i2c-device";
-        reg = < 0x53 >;
+        reg = < 0x4D >;
         label = "TC74SENSOR";
     };
 };

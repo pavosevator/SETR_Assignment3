@@ -1,0 +1,7 @@
+default: SETR_Assignment3
+build_dir: C:/nrfProjects/SETR_Assignment3/build
+domains:
+  - name: SETR_Assignment3
+    build_dir: C:/nrfProjects/SETR_Assignment3/build/SETR_Assignment3
+flash_order:
+  - SETR_Assignment3

@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/nrfProjects/SETR_Assignment3/build/_sysbuild/sysbuild/images/CMakeFiles/SETR_Assignment3"
+		},
+		{
+			"file" : "C:/nrfProjects/SETR_Assignment3/build/_sysbuild/sysbuild/images/CMakeFiles/SETR_Assignment3.rule"
+		},
+		{
+			"file" : "C:/nrfProjects/SETR_Assignment3/build/_sysbuild/sysbuild/images/CMakeFiles/SETR_Assignment3-complete.rule"
+		},
+		{
+			"file" : "C:/nrfProjects/SETR_Assignment3/build/_sysbuild/sysbuild/images/SETR_Assignment3-prefix/src/SETR_Assignment3-stamp/SETR_Assignment3-build.rule"
+		},
+		{
+			"file" : "C:/nrfProjects/SETR_Assignment3/build/_sysbuild/sysbuild/images/SETR_Assignment3-prefix/src/SETR_Assignment3-stamp/SETR_Assignment3-configure.rule"
+		},
+		{
+			"file" : "C:/nrfProjects/SETR_Assignment3/build/_sysbuild/sysbuild/images/SETR_Assignment3-prefix/src/SETR_Assignment3-stamp/SETR_Assignment3-download.rule"
+		},
+		{
+			"file" : "C:/nrfProjects/SETR_Assignment3/build/_sysbuild/sysbuild/images/SETR_Assignment3-prefix/src/SETR_Assignment3-stamp/SETR_Assignment3-install.rule"
+		},
+		{
+			"file" : "C:/nrfProjects/SETR_Assignment3/build/_sysbuild/sysbuild/images/SETR_Assignment3-prefix/src/SETR_Assignment3-stamp/SETR_Assignment3-mkdir.rule"
+		},
+		{
+			"file" : "C:/nrfProjects/SETR_Assignment3/build/_sysbuild/sysbuild/images/SETR_Assignment3-prefix/src/SETR_Assignment3-stamp/SETR_Assignment3-patch.rule"
+		},
+		{
+			"file" : "C:/nrfProjects/SETR_Assignment3/build/_sysbuild/sysbuild/images/SETR_Assignment3-prefix/src/SETR_Assignment3-stamp/SETR_Assignment3-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"SETR_Assignment3"
+		],
+		"name" : "SETR_Assignment3"
+	}
+}

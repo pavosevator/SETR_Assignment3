@@ -1,13 +1,10 @@
-cmake_minimum_required(VERSION 3.20.0)
+cmake_minimum_required(VERSION 3.21.0)
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 project(Temperature_measurement)
 
-zephyr_include_directories(include)
+target_sources(app PRIVATE src/main.c) 
 
-add_subdirectory(Button_LED)
-add_subdirectory(I2C)
-add_subdirectory(UART)
-add_subdirectory(CmdProc)
-add_subdirectory(Unity)
-
-add_subdirectory(src)
+target_include_directories(app PRIVATE src/I2C)
+target_include_directories(app PRIVATE src/CmdProc)
+target_sources(app PRIVATE src/I2C/i2c.c)
+target_sources(app PRIVATE src/CmdProc/cmdproc.c)
