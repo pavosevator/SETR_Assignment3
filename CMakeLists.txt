@@ -6,5 +6,10 @@ target_sources(app PRIVATE src/main.c)
 
 target_include_directories(app PRIVATE src/I2C)
 target_include_directories(app PRIVATE src/CmdProc)
+target_include_directories(app PRIVATE src/data)
+target_include_directories(app PRIVATE src/UART)
+
 target_sources(app PRIVATE src/I2C/i2c.c)
 target_sources(app PRIVATE src/CmdProc/cmdproc.c)
+target_sources(app PRIVATE src/data/data.c)
+target_sources(app PRIVATE src/UART/UART.c)

@@ -3,10 +3,11 @@
 #include "i2c.h"
 #include <zephyr/sys/printk.h>
 #include <zephyr/drivers/i2c.h>
-#include <errno.h>
 
 #define TC74_CMD_RTR  0x00   /* Read temperature command */
 #define TC74_CMD_RWCR 0x01   /* Configuration register command */
+
+#define ERR_FATAL -1   /* If I2C fails ...*/
 
 /* Device Tree configuration */
 #define I2C0_NID DT_NODELABEL(tc74sensor)
@@ -17,7 +18,7 @@ int i2c_check_bus_ready(void)
 {
     if (!device_is_ready(dev_i2c.bus)) {
         printk("I2C bus not ready!\n");
-        return -ENODEV;
+        return ERR_FATAL;
     }
     return 0;
 }
@@ -29,28 +30,21 @@ int i2c_wake_tc74(void)
     return i2c_write_dt(&dev_i2c, buf, sizeof(buf));
 }
 
-/* Set sensor pointer to temperature register */
-/* Write (command RTR) to set the read address to temperature */
-/* Only necessary if a config done before (not the case), but let's stay in the safe side */
-int i2c_set_temperature_pointer(void)
-{
-    return i2c_write_dt(&dev_i2c, TC74_CMD_RTR, 1);
-}
-
 /* Initialize I2C sensor */
 int i2c_init(void)
 {
-    int ret = i2c_check_bus_ready();
+    int ret = 0;
+    ret = i2c_check_bus_ready();
     if (ret != 0) {
         return ret;
     }
 
-    /* Set temperature pointer register */
-    //ret = i2c_set_temperature_pointer();
+    /* Set temperature pointer register - not needed for now*/
+    /* ret = i2c_write_dt(&dev_i2c, TC74_CMD_RTR, 1);
     if (ret != 0) {
         printk("Error setting temperature pointer\n");
         return ret;
-    }
+    } */ 
 
     printk("I2C sensor initialized successfully\n");
     return 0;
@@ -60,7 +54,7 @@ int i2c_init(void)
 int i2c_read_temperature(int8_t *temp)
 {
     if (!temp) {
-        return -EINVAL;
+        return ERR_FATAL;
     }
 
     int ret = i2c_read_dt(&dev_i2c, (uint8_t*)temp, sizeof(temp));

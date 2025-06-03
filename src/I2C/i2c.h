@@ -18,17 +18,6 @@
 int i2c_check_bus_ready(void);
 
 /**
- * @brief  Send the “Read Temperature Register” (RTR) pointer to the TC74.
- *
- * Writes a single 0x00 byte to select the temperature register.
- *
- * @return
- *   -  0        on success
- *   - –EIO      on I²C transfer failure
- */
-int i2c_set_temperature_pointer(void);
-
-/**
  * @brief  Wake up the TC74 by clearing its shutdown bit (config register).
  *
  * Writes 0x00 to register 0x01 (config) to ensure normal operation.
