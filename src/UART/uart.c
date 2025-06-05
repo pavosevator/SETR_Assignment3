@@ -58,30 +58,38 @@ int uart_init(){
         return FATAL_ERR;
     }
 
+    printk("Start testing...\n");
     return 0;
 
 }
 
-int uart_test(){
+int uart_check_buffer(unsigned char **buf, int *len){
     //k_msleep(MAIN_SLEEP_TIME_MS);
         
     /* Print string received so far. */
     /* Very basic implementation, just for showing the use of the API */
     /* E.g. it does not prevent race conditions with the callback!!!!*/
     if(uart_rxbuf_nchar > 0) {
+        int n = uart_rxbuf_nchar;
         rx_chars[uart_rxbuf_nchar] = 0; /* Terminate the string */
         uart_rxbuf_nchar = 0;           /* Reset counter */
-
-        sprintf(rep_mesg,"You typed [%s]\n\r",rx_chars);            
             
-        err = uart_tx(uart_dev, rep_mesg, strlen(rep_mesg), SYS_FOREVER_MS);
-        if (err) {
-            printk("uart_tx() error. Error code:%d\n\r",err);
-         return -1;
-        }
+        *buf = rx_chars;
+        *len = n;
         return 0;
     }
     //printk(".\n");
+}
+
+void uart_resetRxBuffer(void)                     
+{
+    uart_rxbuf_nchar = 0;
+
+}
+
+int uart_send(const uint8_t *buf, size_t len)
+{
+    return uart_tx(uart_dev, buf, len, SYS_FOREVER_MS);
 }
 
 /* UART callback implementation */

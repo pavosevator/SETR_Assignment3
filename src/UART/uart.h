@@ -3,6 +3,7 @@
 #include <zephyr/devicetree.h>	    /* for DT_NODELABEL() */
 #include <zephyr/drivers/uart.h>    /* for UART API*/
 #include <zephyr/sys/printk.h>      /* for printk()*/
+#include <zephyr/types.h>
 #include <stdio.h>                  /* for sprintf() */
 #include <stdlib.h>
 #include <string.h>
@@ -23,4 +24,6 @@
 void uart_cb(const struct device *dev, struct uart_event *evt, void *user_data);
 
 int uart_init(void);
-void uart_test(void);
+int uart_check_buffer(unsigned char **buf, int *len);
+void uart_resetRxBuffer(void);
+int uart_send(const uint8_t *buf, size_t len);

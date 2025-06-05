@@ -20,6 +20,6 @@ cmake:
   sysbuild: true
 version: 0.1.0
 west:
-  command: C:\ncs\toolchains\0b393f9e1b\opt\bin\Scripts\west build --build-dir c:/nrfProjects/SETR_Assignment3/build c:/nrfProjects/SETR_Assignment3 --pristine --board nrf52840dk/nrf52840 -- -DCONF_FILE=prj.conf
+  command: C:\ncs\toolchains\0b393f9e1b\opt\bin\Scripts\west build --build-dir c:/nrfProjects/SETR_Assignment3/build c:/nrfProjects/SETR_Assignment3 --pristine --board nrf52840dk/nrf52840 --sysbuild -- -DCONF_FILE=prj.conf
   topdir: c:\ncs\v3.0.1
   version: 1.2.0

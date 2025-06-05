@@ -191,7 +191,7 @@ void resetTxBuffer(void);
  * @param buf Buffer to copy the TX buffer content to.
  * @param len Pointer to store the length of the TX buffer content.
  */
-void getTxBuffer(unsigned char * buf, int * len);
+void getTxBuffer(unsigned char **buf, int *len);
 
 /**
  * @brief Calculates the checksum of given payload defined from buffer for n number of bytes.

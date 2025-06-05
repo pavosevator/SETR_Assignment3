@@ -18,18 +18,6 @@
 int i2c_check_bus_ready(void);
 
 /**
- * @brief  Wake up the TC74 by clearing its shutdown bit (config register).
- *
- * Writes 0x00 to register 0x01 (config) to ensure normal operation.
- *
- * @return
- *   -  0        on success
- *   - –ENODEV   if the I²C bus/device isn’t ready
- *   - –EIO      on I²C transfer failure
- */
-int i2c_wake_tc74(void);
-
-/**
  * @brief  Initialize the I²C bus and TC74 sensor.
  *
  *   1. Binds to I2C0 (DT_NODELABEL(tc74sensor)),
@@ -60,7 +48,7 @@ int i2c_init(void);
  *   - –ENODEV   if the I²C bus/device isn’t ready
  *   - –EIO      if the I²C transfer failed
  */
-int i2c_read_temperature(int8_t *temp);
+int i2c_read_temperature(uint8_t *temp);
 
 
 # endif

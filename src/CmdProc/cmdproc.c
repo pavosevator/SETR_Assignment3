@@ -66,7 +66,7 @@ int cmdProcessor(void)
 				}
 				/* Sending of the data */
 				/* Emulate pseudo random generation of sensor outputs */
-				temp = (signed char)psrnd(-50,60);
+				temp = 0;
 
 				/* Store read values in history */
 				addInHistory(&temp, 't');
@@ -144,13 +144,12 @@ int cmdProcessor(void)
 				// Initialize index for historyChar
 				int historyIndex = 0;
 				
-				int8_t temperature_copy;
+				uint8_t temp = 0;
 
-    			k_mutex_lock(&sensor_data.mutex, K_FOREVER);
-    			temperature_copy = sensor_data.temperature;
-    			k_mutex_unlock(&sensor_data.mutex);
-
-				generateCharArray('t', temperature_copy, tempChar);
+    			if (i2c_read_temperature(&temp) != 0) {
+        			return CMD_INVALID;
+    			}
+    			generateCharArray('t', temp, tempChar);
 
 
 				txChar('#');
@@ -165,7 +164,7 @@ int cmdProcessor(void)
 				}
 
 				/* Send checksum */
-				snprintf(checksumchar, CS_DIGITS + 1, "%03d", calcChecksum(UARTTxBuffer + 1, strlen(UARTTxBuffer) + 2 )); // two because of 'p' and 'sid'
+				snprintf(checksumchar, CS_DIGITS + 1, "%03d", calcChecksum(UARTTxBuffer + 1, strlen(UARTTxBuffer) + 1 )); // one because of 'c'
 				for(int i = 0; i < CS_DIGITS; i++) {
 					txChar(checksumchar[i]);
 				}
@@ -339,13 +338,9 @@ void resetTxBuffer(void)
 /*
  * getTxBuffer
  */
-void getTxBuffer(unsigned char * buf, int * len)
-{
-	*len = txBufLen;
-	if(txBufLen > 0) {
-		memcpy(buf,UARTTxBuffer,*len);
-	}		
-	return;
+void getTxBuffer(unsigned char **buf, int *len) {
+    *len = txBufLen;
+    *buf = UARTTxBuffer;
 }
 
 /*
