@@ -19,13 +19,13 @@ int main(void)
     printk("Starting sensor/control application\n");
 
     /* 1) Init I²C and UART (no mutex) */
-    if (i2c_init() != 0) {
+    /*if (i2c_init() != 0) {
         printk("I2C init failed\n");
-        return;
-    }
+        return 0;
+    }*/
     if (uart_init() != 0) {
         printk("UART init failed\n");
-        return;
+        return 0;
     }
 
     /* 3) Main loop: poll for incoming UART data */
@@ -38,13 +38,13 @@ int main(void)
         
 
         /* 3) Run command processor (cmdproc.c) */
-        int majmunko = cmdProcessor();
+        int cmdpros = cmdProcessor();
         resetRxBuffer();  
-        if (majmunko == CMD_OK) {
+        if (cmdpros == CMD_OK) {
             /* 4) Retrieve reply and send via UART (uart.c) */
             getTxBuffer(&tx_data, &tx_len);  /* cmdproc.c */
             if(uart_send(tx_data, tx_len) != 0){
-                printk("Stoopid \n");
+                printk("Error in main \n");
             }
             resetTxBuffer();                 /* cmdproc.c */
         }

@@ -139,16 +139,15 @@ int cmdProcessor(void)
 
 				return CMD_OK;
 			case 'C': // Request for current temperature
-				unsigned char historyChar[20];
-				
 				// Initialize index for historyChar
 				int historyIndex = 0;
 				
-				uint8_t temp = 0;
+				uint8_t temp = 25;
 
-    			if (i2c_read_temperature(&temp) != 0) {
+    			/*int testing = i2c_read_temperature(&temp); 
+				if (testing != 0) {
         			return CMD_INVALID;
-    			}
+    			}*/
     			generateCharArray('t', temp, tempChar);
 
 
@@ -157,18 +156,13 @@ int cmdProcessor(void)
 				for(int j = 0; j < T_DIGITS; j++){
 					txChar(tempChar[j]);
 				}
-
-				// send one by one the last 20 results
-				for(int i = 0; i < 20 /* one value is 3 or 5 chars depends on mesaurement */; i++) {
-					txChar(historyChar[i]);
-				}
-
 				/* Send checksum */
 				snprintf(checksumchar, CS_DIGITS + 1, "%03d", calcChecksum(UARTTxBuffer + 1, strlen(UARTTxBuffer) + 1 )); // one because of 'c'
 				for(int i = 0; i < CS_DIGITS; i++) {
 					txChar(checksumchar[i]);
 				}
 				txChar('!'); 
+				txChar('\n');
 				return CMD_OK;
 			case 'R': // reset the history 
 				memset(tHistory	, '\0', HISTORY_SIZE);

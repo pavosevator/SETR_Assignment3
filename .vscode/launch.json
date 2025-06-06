@@ -7,6 +7,13 @@
 			"name": "Launch SETR_Assignment3",
 			"config": "${workspaceFolder}/build/SETR_Assignment3",
 			"runToEntryPoint": "main"
+		},
+		{
+			"type": "nrf-connect",
+			"request": "launch",
+			"name": "Launch SETR_Assignment3\\build",
+			"config": "${workspaceFolder}/build",
+			"runToEntryPoint": "main"
 		}
 	]
 }
