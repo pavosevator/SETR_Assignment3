@@ -139,8 +139,6 @@ int cmdProcessor(void)
 
 				return CMD_OK;
 			case 'C': // Request for current temperature
-				// Initialize index for historyChar
-				int historyIndex = 0;
 				
 				uint8_t temp = 25;
 
@@ -149,7 +147,6 @@ int cmdProcessor(void)
         			return CMD_INVALID;
     			}*/
     			generateCharArray('t', temp, tempChar);
-
 
 				txChar('#');
 				txChar('c');

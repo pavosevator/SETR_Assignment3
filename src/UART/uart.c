@@ -1,5 +1,7 @@
 #include "uart.h"
 
+static struct k_sem uart_rx_sem;
+
 /* UART related variables */
 const struct device *uart_dev = DEVICE_DT_GET(UART_NODE);
 static uint8_t rx_buf[RXBUF_SIZE];      /* RX buffer, to store received data */
@@ -59,6 +61,7 @@ int uart_init(){
     }
 
     printk("Start testing...\n");
+    k_sem_init(&uart_rx_sem, 0, 1);
     return 0;
 
 }
@@ -116,7 +119,8 @@ void uart_cb(const struct device *dev, struct uart_event *evt, void *user_data)
             /* Simple approach, just for illustration. In most cases it is necessary to use */
             /*    e.g. a FIFO or a circular buffer to communicate with a task that shall process the messages*/
             memcpy(&rx_chars[uart_rxbuf_nchar],&(rx_buf[evt->data.rx.offset]),evt->data.rx.len); 
-            uart_rxbuf_nchar += evt->data.rx.len;           
+            uart_rxbuf_nchar += evt->data.rx.len;
+            k_sem_give(&uart_rx_sem);          
 		    break;
 
 	    case UART_RX_BUF_REQUEST:
@@ -150,4 +154,8 @@ void uart_cb(const struct device *dev, struct uart_event *evt, void *user_data)
 		    break;
     }
 
+}
+
+void uart_wait_for_rx(void){
+    k_sem_take(&uart_rx_sem, K_FOREVER);
 }

@@ -27,3 +27,4 @@ int uart_init(void);
 int uart_check_buffer(unsigned char **buf, int *len);
 void uart_resetRxBuffer(void);
 int uart_send(const uint8_t *buf, size_t len);
+void uart_wait_for_rx(void);
