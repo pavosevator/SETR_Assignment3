@@ -1,4 +1,5 @@
 #include "uart.h"
+#include <zephyr/sys/ring_buffer.h>
 
 static struct k_sem uart_rx_sem;
 
@@ -7,6 +8,9 @@ const struct device *uart_dev = DEVICE_DT_GET(UART_NODE);
 static uint8_t rx_buf[RXBUF_SIZE];      /* RX buffer, to store received data */
 static uint8_t rx_chars[RXBUF_SIZE];    /* chars actually received  */
 volatile int uart_rxbuf_nchar=0;        /* Number of chars currrntly on the rx buffer */
+
+/* FIFO queue */
+K_MSGQ_DEFINE(uart_msgq,sizeof(uint8_t), 32,4);
 
 int err=0; /* Generic error variable */
 uint8_t welcome_mesg[] = "UART demo: Type a few chars in a row and then pause for a little while ...\n\r"; 
@@ -30,7 +34,7 @@ int uart_init(){
         printk("device_is_ready(uart) returned error! Aborting! \n\r");
         return FATAL_ERR;
     }
-
+    printk("Radi init\n");
     /* Configure UART */
     err = uart_configure(uart_dev, &uart_cfg);
     if (err == -ENOSYS) { /* If invalid configuration */
@@ -115,25 +119,23 @@ void uart_cb(const struct device *dev, struct uart_event *evt, void *user_data)
 		
 	    case UART_RX_RDY:
 		    printk("UART_RX_RDY event \n\r");
-            /* Just copy data to a buffer. */
-            /* Simple approach, just for illustration. In most cases it is necessary to use */
-            /*    e.g. a FIFO or a circular buffer to communicate with a task that shall process the messages*/
-            memcpy(&rx_chars[uart_rxbuf_nchar],&(rx_buf[evt->data.rx.offset]),evt->data.rx.len); 
-            uart_rxbuf_nchar += evt->data.rx.len;
+            for(int i = 0; i < evt->data.rx.len; i++){
+                uint8_t b = rx_buf[evt->data.rx.offset + i];
+                k_msgq_put(&uart_msgq, &b, K_NO_WAIT);
+            }
+            /* memcpy(&rx_chars[uart_rxbuf_nchar],&(rx_buf[evt->data.rx.offset]),evt->data.rx.len); 
+            uart_rxbuf_nchar += evt->data.rx.len; */ 
             k_sem_give(&uart_rx_sem);          
-		    break;
-
-	    case UART_RX_BUF_REQUEST:
-		    printk("UART_RX_BUF_REQUEST event \n\r");
-            /* Should be used to allow continuous reception */
-            /* To this end, declare at least two buffers and switch among them here */
-            /*      using function uart_rx_buf_rsp() */
 		    break;
 
 	    case UART_RX_BUF_RELEASED:
 		    printk("UART_RX_BUF_RELEASED event \n\r");
 		    break;
 		
+        case UART_RX_BUF_REQUEST:
+		    printk("UART_RX_BUF_REQUEST event \n\r");
+            break;
+            
 	    case UART_RX_DISABLED: 
             /* When the RX_BUFF becomes full RX is disabled automaticaly.  */
             /* It must be re-enabled manually for continuous reception */

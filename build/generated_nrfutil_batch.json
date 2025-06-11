@@ -5,7 +5,7 @@
     {
       "core": "NRFDL_DEVICE_CORE_APPLICATION",
       "operation": {
-        "chip_erase_mode": "ERASE_ALL",
+        "chip_erase_mode": "ERASE_RANGES_TOUCHED_BY_FIRMWARE",
         "firmware": {
           "file": "C:\\nrfProjects\\SETR_Assignment3\\build\\merged.hex"
         },

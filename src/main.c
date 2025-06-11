@@ -35,19 +35,19 @@ void thread_B_code(void *argA, void *argB, void *argC);
 int main(void)
 {
     /* 1) Init I²C and UART (no mutex) */
-    /*if (i2c_init() != 0) {
+    if (i2c_init() != 0) {
         printk("I2C init failed\n");
         return 0;
-    }*/
-    /* if (uart_init() != 0) {
+    }
+
+    /* 3) Init UART */
+    if (uart_init() != 0) {
         printk("UART init failed\n");
-        return -1;
-    } */
+        return 0;
+    }
 
     int ret = 0;
     uint8_t temperature = 0;
-    printk("Starting sensor/control application\n");
-
 
     thread_A_tid = k_thread_create(&thread_A_data, thread_A_stack,
         K_THREAD_STACK_SIZEOF(thread_A_stack), thread_A_code,
@@ -58,7 +58,7 @@ int main(void)
         NULL, NULL, NULL, thread_B_prio, 0, K_NO_WAIT);
 
     /* 3) Main loop: poll for incoming UART data */
-    while (1) {
+    //while (1) {
         /***********************************************
         if(uart_check_buffer(&rx_data, &rx_len) == 0){
             for (int i = 0; i < rx_len; i++) {
@@ -74,34 +74,38 @@ int main(void)
         } 
         ***************************************************/
     
-        k_msleep(UPDATE_INTERVAL_MS);
-    }
+    //    k_msleep(UPDATE_INTERVAL_MS);
+    //}
     return 0;
 }
 
 void thread_A_code(void *argA , void *argB, void *argC)
 {
-    /* Thread loop */
-    while(1) {
-        
-        /* BLock until sem is given to k_sem_give(&uart_rx_sem) */
-        uart_wait_for_rx();
-        
-        /* */
-        if(uart_check_buffer(&rx_data, &rx_len) == 0){
-            for(int i = 0; i < rx_len; i++){
-                rxChar(rx_data[i]);
-            }
-            uart_resetRxBuffer;
+    uint8_t b;
+
+    while (1) {
+        /* Block until at least one byte arrives */
+        k_msgq_get(&uart_msgq, &b, K_FOREVER);
+
+        /* Feed that byte into cmdproc */
+        rxChar(b);
+
+        /* Drain any additional queued bytes without blocking */
+        while (k_msgq_get(&uart_msgq, &b, K_NO_WAIT) == 0) {
+            rxChar(b);
+        }
+        resetTxBuffer();
+        /* Then call cmdProcessor() as before… */
+        if (cmdProcessor() == CMD_OK) {
+            unsigned char *tx_data;
+            int tx_len;
+            getTxBuffer(&tx_data, &tx_len);
+            uart_send(tx_data, tx_len);
+            
         }
 
-        if(cmdProcessor() == CMD_OK){
-            getTxBuffer(&tx_data, &tx_len);
-            uart_send(tx_data,tx_len);
-            resetTxBuffer;
-        }
     }
-}
+}   
 
 void thread_B_code(void *argA , void *argB, void *argC)
 {

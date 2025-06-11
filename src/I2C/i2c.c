@@ -23,12 +23,6 @@ int i2c_check_bus_ready(void)
     return 0;
 }
 
-int i2c_wake_tc74(void)
-{
-    /* Send: write to register 0x01 the value 0x00 */
-    return i2c_write_dt(&dev_i2c, TC74_CMD_RTR, 1);
-}
-
 /* Initialize I2C sensor */
 int i2c_init(void)
 {
@@ -37,13 +31,7 @@ int i2c_init(void)
     if (ret != 0) {
         return ret;
     }
-
-    ret = i2c_write_dt(&dev_i2c, (uint8_t) TC74_CMD_RTR, 1);
-    if (ret != 0) {
-        printk("Error setting TC74 pointer to temp reg\n");
-        return ret;
-    }
-return 0;
+    return 0;
 }
 
 
@@ -51,16 +39,22 @@ return 0;
 /* Read temperature from sensor */
 int i2c_read_temperature(uint8_t *temp)
 {   
-    if (!temp) {
-        return ERR_FATAL;
-    }
-    int read;
+    int ret;
+    uint8_t cmd = TC74_CMD_RTR;
+    printk("Looking for I2C at %p (addr=0x%02x)\n",
+       (void *)dev_i2c.bus, dev_i2c.addr); 
 
-    read = i2c_read_dt(&dev_i2c, temp, 1);
-    if (read != 0) {
-        printk("Error reading temperature\n");
-        return read;
-    }
+    /* Issue the Read-Temperature command */
+    ret = i2c_write_dt(&dev_i2c, &cmd, 1);
+    if (ret) {
+        printk("I2C write RTR failed (err %d)\n", ret);
+        return ret;
+    } 
 
-    return 0;
+    /* Read back the single-byte temperature */
+    ret = i2c_read_dt(&dev_i2c, temp, 1);
+    if (ret) {
+        printk("I2C read temp failed (err %d)\n", ret);
+    }
+    return ret;
 }

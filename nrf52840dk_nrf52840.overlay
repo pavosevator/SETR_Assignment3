@@ -18,3 +18,7 @@
         label = "TC74SENSOR";
     };
 };
+
+&uart0{
+    status = "okay";
+};

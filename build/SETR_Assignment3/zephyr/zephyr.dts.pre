@@ -1252,5 +1252,9 @@ zephyr_udc0: &usbd {
         label = "TC74SENSOR";
     };
 };
+
+&uart0{
+    status = "okay";
+};
 # 0 "<command-line>" 2
 # 1 "C:/ncs/v3.0.1/zephyr/misc/empty_file.c"

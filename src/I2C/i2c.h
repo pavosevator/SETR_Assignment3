@@ -35,9 +35,6 @@ int i2c_check_bus_ready(void);
 int i2c_init(void);
 
 
-
-int i2c_wake_tc74(void);
-
 /**
  * @brief  Perform a single synchronous read of the TC74’s temperature register.
  *

@@ -19,6 +19,7 @@
 #define RX_TIMEOUT 1000                 /* Inactivity period after the instant when last char was received that triggers an rx event (in us) */
 
 
+extern struct k_msgq uart_msgq;
 
 /* UART callback function prototype */
 void uart_cb(const struct device *dev, struct uart_event *evt, void *user_data);
