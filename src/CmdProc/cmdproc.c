@@ -21,10 +21,6 @@ unsigned char rxBufLen = 0;
 unsigned char UARTTxBuffer[UART_TX_SIZE];
 unsigned char txBufLen = 0; 
 
-/* Used as part of storing history*/
-static signed char tHistory[HISTORY_SIZE];
-unsigned char tHistoryLen = 0;
-
 /* 
  * cmdProcessor
  */ 
@@ -54,135 +50,39 @@ int cmdProcessor(void)
 		return CMD_MISSING_EOF_ERROR; 	// ! not found	
 	
 	int frameLen, newLen;
+	char val[4];
 	/* Check if frame has valid checksum*/
 	if(checkRxChecksum(&sofIndex, &eofIndex) == CMD_OK) {
 		
+		switch(UARTRxBuffer[sofIndex+1]) {
 
-		switch(UARTRxBuffer[sofIndex+1]) { 
-			
-                        case 'M':
-                                if((eofIndex - sofIndex + 1) != 9) {
-                                        txChar('#');
-                                        txChar('E');
-                                        txChar('f');
-                                        snprintf(checksumchar, CS_DIGITS + 1, "%03d",
-                                                 calcChecksum(UARTTxBuffer + 1, 2));
-                                        for(int j = 0; j < CS_DIGITS; j++) {
-                                                txChar(checksumchar[j]);
-                                        }
-                                        txChar('!');
-                                        break;
-                                }
+			case 'M':
+				for (int j = 0; j < 3; j++){
+					val[j] = UARTRxBuffer[sofIndex + 2 + j];
+				}
+				val[3] = '\0';
+				int value = atoi(val);
 
-                                {
-                                        char buf[4];
-                                        bool ok = true;
-                                        for(int j = 0; j < 3; j++) {
-                                                char c = UARTRxBuffer[sofIndex + 2 + j];
-                                                if(c < '0' || c > '9') {
-                                                        ok = false;
-                                                        break;
-                                                }
-                                                buf[j] = c;
-                                        }
-                                        buf[3] = '\0';
-                                        if(!ok) {
-                                                txChar('#');
-                                                txChar('E');
-                                                txChar('i');
-                                                snprintf(checksumchar, CS_DIGITS + 1, "%03d",
-                                                         calcChecksum(UARTTxBuffer + 1, 2));
-                                                for(int j = 0; j < CS_DIGITS; j++) {
-                                                        txChar(checksumchar[j]);
-                                                }
-                                                txChar('!');
-                                                break;
-                                        }
+				k_mutex_lock(&ctrl_state.mutex, K_FOREVER);
+				ctrl_state.max_temp = value;
+				k_mutex_unlock(&ctrl_state.mutex);
 
-                                        ctrl_state.max_temp = atoi(buf);
+				txChar('#');
+				txChar('E');
+				txChar('0');
+				snprintf(checksumchar, CS_DIGITS + 1, "%03d", calcChecksum(UARTTxBuffer + 1, 2));
+				for (int i = 0; i < CS_DIGITS; i++){
+					txChar(checksumchar[i]);
+				}
+				txChar('!');
 
-                                        txChar('#');
-                                        txChar('E');
-                                        txChar('0');
-                                        snprintf(checksumchar, CS_DIGITS + 1, "%03d",
-                                                 calcChecksum(UARTTxBuffer + 1, 2));
-                                        for(int j = 0; j < CS_DIGITS; j++) {
-                                                txChar(checksumchar[j]);
-                                        }
-                                        txChar('!');
-                                }
+				frameLen = eofIndex - sofIndex + 1;
+				newLen = rxBufLen - frameLen;
+				memmove(UARTRxBuffer, UARTRxBuffer + frameLen, newLen);
+				rxBufLen = newLen;
+				memset(UARTRxBuffer + newLen, '0', frameLen);
 
-                                frameLen = eofIndex - sofIndex + 1;
-                                newLen = rxBufLen - frameLen;
-                                memmove(UARTRxBuffer, UARTRxBuffer + frameLen, newLen);
-                                rxBufLen = newLen;
-                                memset(UARTRxBuffer + newLen, '0', frameLen);
-
-                                return CMD_OK;
-
-                        case 'S':
-                                {
-                                        int paramLen = eofIndex - CS_DIGITS - (sofIndex + 2);
-                                        if(paramLen <= 0 || (paramLen % 3) != 0) {
-                                                txChar('#');
-                                                txChar('E');
-                                                txChar('f');
-                                                snprintf(checksumchar, CS_DIGITS + 1, "%03d",
-                                                         calcChecksum(UARTTxBuffer + 1, 2));
-                                                for(int j = 0; j < CS_DIGITS; j++) {
-                                                        txChar(checksumchar[j]);
-                                                }
-                                                txChar('!');
-                                                break;
-                                        }
-                                        int n = paramLen / 3;
-                                        if(n > 3) n = 3;
-                                        bool err = false;
-                                        for(int j = 0; j < n; j++) {
-                                                char buf[4];
-                                                bool ok = true;
-                                                for(int k = 0; k < 3; k++) {
-                                                        char c = UARTRxBuffer[sofIndex + 2 + j*3 + k];
-                                                        if(c < '0' || c > '9') {
-                                                                ok = false;
-                                                                break;
-                                                        }
-                                                        buf[k] = c;
-                                                }
-                                                buf[3] = '\0';
-                                                if(!ok) { err = true; break; }
-                                                ctrl_state.params[j] = atoi(buf);
-                                        }
-                                        if(err) {
-                                                txChar('#');
-                                                txChar('E');
-                                                txChar('i');
-                                                snprintf(checksumchar, CS_DIGITS + 1, "%03d",
-                                                         calcChecksum(UARTTxBuffer + 1, 2));
-                                                for(int j = 0; j < CS_DIGITS; j++) {
-                                                        txChar(checksumchar[j]);
-                                                }
-                                                txChar('!');
-                                        } else {
-                                                txChar('#');
-                                                txChar('E');
-                                                txChar('0');
-                                                snprintf(checksumchar, CS_DIGITS + 1, "%03d",
-                                                         calcChecksum(UARTTxBuffer + 1, 2));
-                                                for(int j = 0; j < CS_DIGITS; j++) {
-                                                        txChar(checksumchar[j]);
-                                                }
-                                                txChar('!');
-                                        }
-                                }
-
-                                frameLen = eofIndex - sofIndex + 1;
-                                newLen = rxBufLen - frameLen;
-                                memmove(UARTRxBuffer, UARTRxBuffer + frameLen, newLen);
-                                rxBufLen = newLen;
-                                memset(UARTRxBuffer + newLen, '0', frameLen);
-
-                                return CMD_OK;
+				return CMD_OK;
 			case 'C': // Request for current temperature
 				//uint8_t temp = 25;
 
@@ -207,18 +107,33 @@ int cmdProcessor(void)
 				txChar('!'); 
 				
 				return CMD_OK;
-			case 'R': // reset the history 
-				memset(tHistory	, '\0', HISTORY_SIZE);
-				txChar('#');
-				txChar('r');
-				/* Send checksum */
-				snprintf(checksumchar, CS_DIGITS + 1, "%03d", calcChecksum(UARTTxBuffer + 1, 1 ));
-				for(int i = 0; i < CS_DIGITS; i++) {
+			case 'S': 
+				for (int j = 0; j < 3; j++){
+					val[j] = UARTRxBuffer[sofIndex + 2 + j];
+				}
+				val[3] = '\0';
+				int duty = atoi(val);
+				if (duty < 0 || duty > 100){
+					txChar('#');
+					txChar('E');
+					txChar('i');
+				}
+				else{
+					k_mutex_lock(&sensor_data.mutex, K_FOREVER);
+					sensor_data.pwm_duty = duty;
+					k_mutex_unlock(&sensor_data.mutex);
+					txChar('#');
+					txChar('E');
+					txChar('0');
+				}
+				snprintf(checksumchar, CS_DIGITS + 1, "%03d", calcChecksum(UARTTxBuffer + 1, 2));
+				for (int i = 0; i < CS_DIGITS; i++)
+				{
 					txChar(checksumchar[i]);
 				}
 				txChar('!');
-
-				return CMD_OK;			
+				return CMD_OK;
+					
 			default:
 				/* If code reaches this place, the command is not recognized */
 				// delete leftover of command
@@ -378,22 +293,6 @@ void resetTxBuffer(void)
 void getTxBuffer(unsigned char **buf, int *len) {
     *len = txBufLen;
     *buf = UARTTxBuffer;
-}
-
-/*
-	Separate function for adding values in history using circular buffer
-*/
-int addInHistory(void *measuredValue, char sensorType) 
-{
-	switch (sensorType) {
-        case 't': // Temperature
-            tHistory[tHistoryLen] = *(signed char *)measuredValue; // Cast to signed char
-            tHistoryLen = (tHistoryLen + 1) % HISTORY_SIZE; // Move to the next position in a circular manner
-            return CMD_OK;
-        default:
-            // Invalid sensor type
-            return CMD_INVALID;
-    }
 }
 
 void generateCharArray(char flag, int value, char* buffer) {
