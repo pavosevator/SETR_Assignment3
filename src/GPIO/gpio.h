@@ -18,7 +18,7 @@
 #define LED4_NODE DT_ALIAS(led3)
 
 /* Function prototypes */
-void gpio_init(void);
+int gpio_init(void);
 void button_task(void);
 void led_task(void);
 

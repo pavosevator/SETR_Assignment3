@@ -6,6 +6,7 @@
 #include "cmdproc.h"
 #include "data.h"
 #include "uart.h"
+#include "gpio.h"
 
 #define UPDATE_INTERVAL_MS 1000
 
@@ -60,6 +61,13 @@ int main(void)
         return 0;
     }
 
+    if (gpio_init() != 0) {
+        printk("UART init failed\n");
+        return 0;
+    }
+
+    k_mutex_init(&sensor_data.mutex);
+
     int ret = 0;
     uint8_t temperature = 0;
 
@@ -93,8 +101,13 @@ void command_thread_func(void *argA , void *argB, void *argC)
     uint8_t t = 0;
 
     while (1) {
-        /* Block until at least one byte arrives */
-        k_msgq_get(&uart_msgq, &b, K_FOREVER);
+        if (!system_on) {
+            k_sleep(K_MSEC(100));
+            continue;
+        }
+        if (k_msgq_get(&uart_msgq, &b, K_MSEC(100)) != 0) {
+            continue;
+        }
 
         /* Feed that byte into cmdproc */
         rxChar(b);
@@ -123,7 +136,10 @@ void command_thread_func(void *argA , void *argB, void *argC)
 
 void control_thread_func(void *argA, void *argB, void *argC){
     while (1) {
-        printk("Control thread running\n");
+        if (!system_on) {
+            k_sleep(K_MSEC(100));
+            continue;
+        }
         k_sleep(K_MSEC(200));
     }
 }
@@ -131,7 +147,11 @@ void control_thread_func(void *argA, void *argB, void *argC){
 void actuator_thread_func(void *argA, void *argB, void *argC)
 {
     while (1) {
-        printk("Actuator thread running\n");
+        if (!system_on) {
+            k_sleep(K_MSEC(100));
+            continue;
+        }
+        //printk("Actuator thread running\n");
         k_sleep(K_MSEC(200));
     }
 }
@@ -139,8 +159,7 @@ void actuator_thread_func(void *argA, void *argB, void *argC)
 void ui_thread_func(void *argA, void *argB, void *argC)
 {
     while (1) {
-        printk("UI thread running\n");
-        k_sleep(K_MSEC(200));
+        ui_task();
     }
 }
   

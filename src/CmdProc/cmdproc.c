@@ -60,84 +60,129 @@ int cmdProcessor(void)
 
 		switch(UARTRxBuffer[sofIndex+1]) { 
 			
-			case 'A': /*  reads the real-time values of the variables provided by the sensor */
-				if((eofIndex - sofIndex + 1)  != RX_CMD_A_LEN) {
-					return CMD_INVALID;
-				}
-				/* Sending of the data */
-				/* Emulate pseudo random generation of sensor outputs */
-				temp = 0;
+                        case 'M':
+                                if((eofIndex - sofIndex + 1) != 9) {
+                                        txChar('#');
+                                        txChar('E');
+                                        txChar('f');
+                                        snprintf(checksumchar, CS_DIGITS + 1, "%03d",
+                                                 calcChecksum(UARTTxBuffer + 1, 2));
+                                        for(int j = 0; j < CS_DIGITS; j++) {
+                                                txChar(checksumchar[j]);
+                                        }
+                                        txChar('!');
+                                        break;
+                                }
 
-				/* Store read values in history */
-				addInHistory(&temp, 't');
+                                {
+                                        char buf[4];
+                                        bool ok = true;
+                                        for(int j = 0; j < 3; j++) {
+                                                char c = UARTRxBuffer[sofIndex + 2 + j];
+                                                if(c < '0' || c > '9') {
+                                                        ok = false;
+                                                        break;
+                                                }
+                                                buf[j] = c;
+                                        }
+                                        buf[3] = '\0';
+                                        if(!ok) {
+                                                txChar('#');
+                                                txChar('E');
+                                                txChar('i');
+                                                snprintf(checksumchar, CS_DIGITS + 1, "%03d",
+                                                         calcChecksum(UARTTxBuffer + 1, 2));
+                                                for(int j = 0; j < CS_DIGITS; j++) {
+                                                        txChar(checksumchar[j]);
+                                                }
+                                                txChar('!');
+                                                break;
+                                        }
 
-				/* Use txChar func() */
-				// Start of frame
-				txChar('#');
+                                        ctrl_state.max_temp = atoi(buf);
 
-				// Start of response
-				txChar('a');
+                                        txChar('#');
+                                        txChar('E');
+                                        txChar('0');
+                                        snprintf(checksumchar, CS_DIGITS + 1, "%03d",
+                                                 calcChecksum(UARTTxBuffer + 1, 2));
+                                        for(int j = 0; j < CS_DIGITS; j++) {
+                                                txChar(checksumchar[j]);
+                                        }
+                                        txChar('!');
+                                }
 
-				// Send temperature data
-				txChar('t');
-				for(int j = 0; j < T_DIGITS; j++){
-					txChar(tempChar[j]);
-				}
+                                frameLen = eofIndex - sofIndex + 1;
+                                newLen = rxBufLen - frameLen;
+                                memmove(UARTRxBuffer, UARTRxBuffer + frameLen, newLen);
+                                rxBufLen = newLen;
+                                memset(UARTRxBuffer + newLen, '0', frameLen);
 
-				// Send checksum
-				snprintf(checksumchar, CS_DIGITS + 1, "%03d", calcChecksum(UARTTxBuffer + 1, 1)); // what if buffer is not start of frame + 1 
-				for(int j = 0; j < CS_DIGITS; j++){
-					txChar(checksumchar[j]);
-				}
+                                return CMD_OK;
 
-				// End of frame
-				txChar('!');
+                        case 'S':
+                                {
+                                        int paramLen = eofIndex - CS_DIGITS - (sofIndex + 2);
+                                        if(paramLen <= 0 || (paramLen % 3) != 0) {
+                                                txChar('#');
+                                                txChar('E');
+                                                txChar('f');
+                                                snprintf(checksumchar, CS_DIGITS + 1, "%03d",
+                                                         calcChecksum(UARTTxBuffer + 1, 2));
+                                                for(int j = 0; j < CS_DIGITS; j++) {
+                                                        txChar(checksumchar[j]);
+                                                }
+                                                txChar('!');
+                                                break;
+                                        }
+                                        int n = paramLen / 3;
+                                        if(n > 3) n = 3;
+                                        bool err = false;
+                                        for(int j = 0; j < n; j++) {
+                                                char buf[4];
+                                                bool ok = true;
+                                                for(int k = 0; k < 3; k++) {
+                                                        char c = UARTRxBuffer[sofIndex + 2 + j*3 + k];
+                                                        if(c < '0' || c > '9') {
+                                                                ok = false;
+                                                                break;
+                                                        }
+                                                        buf[k] = c;
+                                                }
+                                                buf[3] = '\0';
+                                                if(!ok) { err = true; break; }
+                                                ctrl_state.params[j] = atoi(buf);
+                                        }
+                                        if(err) {
+                                                txChar('#');
+                                                txChar('E');
+                                                txChar('i');
+                                                snprintf(checksumchar, CS_DIGITS + 1, "%03d",
+                                                         calcChecksum(UARTTxBuffer + 1, 2));
+                                                for(int j = 0; j < CS_DIGITS; j++) {
+                                                        txChar(checksumchar[j]);
+                                                }
+                                                txChar('!');
+                                        } else {
+                                                txChar('#');
+                                                txChar('E');
+                                                txChar('0');
+                                                snprintf(checksumchar, CS_DIGITS + 1, "%03d",
+                                                         calcChecksum(UARTTxBuffer + 1, 2));
+                                                for(int j = 0; j < CS_DIGITS; j++) {
+                                                        txChar(checksumchar[j]);
+                                                }
+                                                txChar('!');
+                                        }
+                                }
 
-				// Clean Rx buffer from the last command
-				frameLen = eofIndex - sofIndex + 1;
-				newLen = rxBufLen - frameLen;
-				
-				memmove(UARTRxBuffer, UARTRxBuffer + frameLen, newLen);
-				rxBufLen = newLen;
+                                frameLen = eofIndex - sofIndex + 1;
+                                newLen = rxBufLen - frameLen;
+                                memmove(UARTRxBuffer, UARTRxBuffer + frameLen, newLen);
+                                rxBufLen = newLen;
+                                memset(UARTRxBuffer + newLen, '0', frameLen);
 
-				memset(UARTRxBuffer + newLen, '0', frameLen);
-
-				return CMD_OK;
-
-			case 'M':		
-				/* Command "M" detected. */
-				/* #Mxxxyyy! - Set maximum temperature to “xxx” (in oC). “yyy” is the checksum */   
-				char outputChar[6];
-
-				/* Sending of the data */
-				txChar('#');
-
-				/* Start of response */
-				txChar('E');
-				txChar('0'); // no error
-				
-				/* Implement here control logic for setting the temperature*/
-				/* ************************IMPORTANT*********************************/
-
-				/* Send checksum */
-				snprintf(checksumchar, CS_DIGITS + 1, "%03d", calcChecksum(UARTTxBuffer + 1, strlen(UARTTxBuffer) + 2 )); // two because of 'E' and '0'
-				for(int i = 0; i < CS_DIGITS; i++) {
-					txChar(checksumchar[i]);
-				}
-				
-				/* End of frame */
-				txChar('!');
-
-				frameLen = eofIndex - sofIndex + 1;
-				newLen = rxBufLen - frameLen;
-				
-				memmove(UARTRxBuffer, UARTRxBuffer + frameLen, newLen);
-				rxBufLen = newLen;
-
-				// Clear the rest of the buffer
-				memset(UARTRxBuffer + newLen, '0', frameLen);
-
-				return CMD_OK;
+                                return CMD_OK;
 			case 'C': // Request for current temperature
 				//uint8_t temp = 25;
 
