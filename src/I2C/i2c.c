@@ -38,13 +38,12 @@ void sensor_thread_func(void *argA , void *argB, void *argC)
             k_sleep(K_MSEC(100));
             continue;
         }
-        //printk("Sensor thread running\n");
         if (i2c_write_read_dt(&dev_i2c, &cmd, 1, &temp_raw, 1) == 0) {
-            int temp = (int8_t)temp_raw; 
-        } else {
-            printk("Failed to read temp sensor");
-        }
-
+            int temp = (int8_t)temp_raw;
+            k_mutex_lock(&sensor_data.mutex, K_FOREVER);
+            sensor_data.temperature = temp;
+            k_mutex_unlock(&sensor_data.mutex);
+        } 
         k_msleep(500);
     }
 }

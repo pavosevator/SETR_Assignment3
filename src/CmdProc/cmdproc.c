@@ -188,10 +188,9 @@ int cmdProcessor(void)
 
     			uint8_t temp;
     		
-    			/* 1) get real sensor reading */
-    			if (i2c_read_temperature(&temp) != 0) {
-    		    	return CMD_INVALID;     /* or send an error frame */
-    			}
+                k_mutex_lock(&sensor_data.mutex, K_FOREVER);
+                temp = sensor_data.temperature;
+                k_mutex_unlock(&sensor_data.mutex);
 
     			generateCharArray('t', temp, tempChar);
 

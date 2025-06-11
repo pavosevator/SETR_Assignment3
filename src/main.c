@@ -125,12 +125,6 @@ void command_thread_func(void *argA , void *argB, void *argC)
             uart_send(tx_data, tx_len);
             
         }
-        if(i2c_read_temperature(&t) != 0){
-            printk("majmune");
-        } else {
-            printk("%d\n", t);
-        }
-
     }
 }
 
