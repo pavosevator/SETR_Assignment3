@@ -40,6 +40,8 @@ void ui_task(void) {
     bool prev = false;
     while (1) {
         bool pressed = gpio_pin_get_dt(&button1);
+        bool pressed2 = gpio_pin_get_dt(&button2);
+        bool pressed3 = gpio_pin_get_dt(&button4);
 
         if (pressed && !prev) {
             system_on = !system_on;
@@ -47,6 +49,16 @@ void ui_task(void) {
             printk("System %s\n", system_on ? "ON" : "OFF");
         
         k_sleep(K_MSEC(400)); // Sleep to debounce and reduce CPU usage
+        }
+
+        if(pressed2){
+            printk("Decrease temperature\n");
+            k_sleep(K_MSEC(400)); 
+        }
+        
+        if(pressed3){
+            printk("Increase temperature\n");
+            k_sleep(K_MSEC(400)); 
         }
 
         //gpio_pin_set_dt(&led2, !system_on);
