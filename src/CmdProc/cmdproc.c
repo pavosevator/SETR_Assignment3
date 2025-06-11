@@ -130,7 +130,7 @@ int cmdProcessor(void)
 					k_mutex_unlock(&sensor_data.mutex);
 					txChar('#');
 					txChar('E');
-					txChar('0');
+					txChar('9');
 				}
 				snprintf(checksumchar, CS_DIGITS + 1, "%03d", calcChecksum(UARTTxBuffer + 1, 2));
 				for (int i = 0; i < CS_DIGITS; i++)
