@@ -104,7 +104,13 @@ int cmdProcessor(void)
 				for(int i = 0; i < CS_DIGITS; i++) {
 					txChar(checksumchar[i]);
 				}
-				txChar('!'); 
+				txChar('!');
+
+				frameLen = eofIndex - sofIndex + 1;
+				newLen = rxBufLen - frameLen;
+				memmove(UARTRxBuffer, UARTRxBuffer + frameLen, newLen);
+				rxBufLen = newLen;
+				memset(UARTRxBuffer + newLen, '0', frameLen);
 				
 				return CMD_OK;
 			case 'S': 
@@ -132,6 +138,12 @@ int cmdProcessor(void)
 					txChar(checksumchar[i]);
 				}
 				txChar('!');
+				
+				frameLen = eofIndex - sofIndex + 1;
+				newLen = rxBufLen - frameLen;
+				memmove(UARTRxBuffer, UARTRxBuffer + frameLen, newLen);
+				rxBufLen = newLen;
+				memset(UARTRxBuffer + newLen, '0', frameLen);
 				return CMD_OK;
 					
 			default:
