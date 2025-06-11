@@ -7,16 +7,7 @@
 #include <zephyr/sys/printk.h>
 #include <errno.h>
 #include <stdint.h>
-
-/**
- * @brief  Check if the I²C bus and TC74 device are ready.
- *
- * @return
- *   -  0        if the bus/device is ready
- *   - –ENODEV   if the I²C bus or device is not ready
- */
-int i2c_check_bus_ready(void);
-
+void thread_B_code(void *argA , void *argB, void *argC);
 /**
  * @brief  Initialize the I²C bus and TC74 sensor.
  *

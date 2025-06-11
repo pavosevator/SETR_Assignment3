@@ -13,8 +13,8 @@
 #define I2C0_NID DT_NODELABEL(tc74sensor)
 static const struct i2c_dt_spec dev_i2c = I2C_DT_SPEC_GET(I2C0_NID);
 
-/* Check if I2C bus is ready */
-int i2c_check_bus_ready(void)
+/* Initialize I2C sensor */
+int i2c_init(void)
 {
     if (!device_is_ready(dev_i2c.bus)) {
         printk("I2C bus not ready!\n");
@@ -23,38 +23,40 @@ int i2c_check_bus_ready(void)
     return 0;
 }
 
-/* Initialize I2C sensor */
-int i2c_init(void)
+void thread_B_code(void *argA , void *argB, void *argC)
 {
-    int ret = 0;
-    ret = i2c_check_bus_ready();
-    if (ret != 0) {
-        return ret;
+    if (!device_is_ready(dev_i2c.bus)) {
+        printk("I2C bus not ready\n");
+        return;
     }
-    return 0;
+
+    uint8_t cmd = TC74_CMD_RTR;
+    uint8_t temp_raw;
+
+    while (1) {
+        int ret = i2c_write_read_dt(&dev_i2c, &cmd, 1, &temp_raw, 1);
+        if (ret == 0) {
+            int temp = (int8_t)temp_raw;  // Sign-extend to handle negative temperatures
+        } else {
+            printk("Failed to read temp sensor (code %d)\n", ret);
+        }
+
+        k_msleep(500);
+    }
 }
 
 
-
 /* Read temperature from sensor */
-int i2c_read_temperature(uint8_t *temp)
-{   
+int i2c_read_temperature(uint8_t *temperature)
+{
+    uint8_t reg_ptr = TC74_CMD_RTR; // command for temperature register
     int ret;
-    uint8_t cmd = TC74_CMD_RTR;
-    printk("Looking for I2C at %p (addr=0x%02x)\n",
-       (void *)dev_i2c.bus, dev_i2c.addr); 
 
-    /* Issue the Read-Temperature command */
-    ret = i2c_write_dt(&dev_i2c, &cmd, 1);
-    if (ret) {
-        printk("I2C write RTR failed (err %d)\n", ret);
-        return ret;
-    } 
+    ret = i2c_write_read_dt(&dev_i2c, &reg_ptr, 1, temperature, 1);
 
-    /* Read back the single-byte temperature */
-    ret = i2c_read_dt(&dev_i2c, temp, 1);
-    if (ret) {
-        printk("I2C read temp failed (err %d)\n", ret);
+    if (ret != 0) {
+        printk("I2C write_read failed: %d\n", ret);
     }
+
     return ret;
 }

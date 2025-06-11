@@ -107,7 +107,3 @@ void thread_A_code(void *argA , void *argB, void *argC)
     }
 }   
 
-void thread_B_code(void *argA , void *argB, void *argC)
-{
-    printk("Thread B init (sporadic, waits on a semaphore by task A)\n");
-}
