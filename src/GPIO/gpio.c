@@ -46,9 +46,9 @@ void ui_task(void) {
             gpio_pin_set_dt(&led1, system_on);
             printk("System %s\n", system_on ? "ON" : "OFF");
         
-        k_sleep(K_MSEC(100)); // Sleep to debounce and reduce CPU usage
+        k_sleep(K_MSEC(400)); // Sleep to debounce and reduce CPU usage
         }
 
-        gpio_pin_set_dt(&led2, !system_on);
+        //gpio_pin_set_dt(&led2, !system_on);
     }
 }
