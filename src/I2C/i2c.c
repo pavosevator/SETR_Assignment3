@@ -23,7 +23,7 @@ int i2c_init(void)
     return 0;
 }
 
-void thread_B_code(void *argA , void *argB, void *argC)
+void sensor_thread_func(void *argA , void *argB, void *argC)
 {
     if (!device_is_ready(dev_i2c.bus)) {
         printk("I2C bus not ready\n");
@@ -34,11 +34,10 @@ void thread_B_code(void *argA , void *argB, void *argC)
     uint8_t temp_raw;
 
     while (1) {
-        int ret = i2c_write_read_dt(&dev_i2c, &cmd, 1, &temp_raw, 1);
-        if (ret == 0) {
-            int temp = (int8_t)temp_raw;  // Sign-extend to handle negative temperatures
+        if (i2c_write_read_dt(&dev_i2c, &cmd, 1, &temp_raw, 1) == 0) {
+            int temp = (int8_t)temp_raw; 
         } else {
-            printk("Failed to read temp sensor (code %d)\n", ret);
+            printk("Failed to read temp sensor");
         }
 
         k_msleep(500);

@@ -7,7 +7,7 @@
 #include <zephyr/sys/printk.h>
 #include <errno.h>
 #include <stdint.h>
-void thread_B_code(void *argA , void *argB, void *argC);
+void sensor_thread_func(void *argA, void *argB, void *argC);
 /**
  * @brief  Initialize the I²C bus and TC74 sensor.
  *

@@ -11,25 +11,39 @@
 
 #define STACK_SIZE 1024
 
-#define thread_A_prio 1
-#define thread_B_prio 2
+#define COMMAND_PRIO 1
+#define SENSOR_PRIO 2
+#define CONTROL_PRIO 3
+#define ACTUATOR_PRIO 4
+#define UI_PRIO 5
 
-K_THREAD_STACK_DEFINE(thread_A_stack, STACK_SIZE);
-K_THREAD_STACK_DEFINE(thread_B_stack, STACK_SIZE);
+K_THREAD_STACK_DEFINE(command_stack, STACK_SIZE);
+K_THREAD_STACK_DEFINE(sensor_stack, STACK_SIZE);
+K_THREAD_STACK_DEFINE(control_stack, STACK_SIZE);
+K_THREAD_STACK_DEFINE(actuator_stack, STACK_SIZE);
+K_THREAD_STACK_DEFINE(ui_stack, STACK_SIZE);
 
-struct k_thread thread_A_data;
-struct k_thread thread_B_data;
+struct k_thread command_thread;
+struct k_thread sensor_thread;
+struct k_thread control_thread;
+struct k_thread actuator_thread;
+struct k_thread ui_thread;
 
-k_tid_t thread_A_tid;
-k_tid_t thread_B_tid;
+k_tid_t command_tid;
+k_tid_t sensor_tid;
+k_tid_t control_tid;
+k_tid_t actuator_tid;
+k_tid_t ui_tid;
 
 static unsigned char *rx_data;
 static int rx_len;
 static unsigned char *tx_data;
 static int tx_len;
 
-void thread_A_code(void *argA, void *argB, void *argC);
-void thread_B_code(void *argA, void *argB, void *argC);
+void command_thread_func(void *argA, void *argB, void *argC);
+void control_thread_func(void *argA, void *argB, void *argC);
+void actuator_thread_func(void *argA, void *argB, void *argC);
+void ui_thread_func(void *argA, void *argB, void *argC);
 
 
 int main(void)
@@ -49,39 +63,34 @@ int main(void)
     int ret = 0;
     uint8_t temperature = 0;
 
-    thread_A_tid = k_thread_create(&thread_A_data, thread_A_stack,
-        K_THREAD_STACK_SIZEOF(thread_A_stack), thread_A_code,
-        NULL, NULL, NULL, thread_A_prio, 0, K_NO_WAIT);
+    command_tid = k_thread_create(&command_thread, command_stack,
+        K_THREAD_STACK_SIZEOF(command_stack), command_thread_func,
+        NULL, NULL, NULL, COMMAND_PRIO, 0, K_NO_WAIT);
 
-    thread_B_tid = k_thread_create(&thread_B_data, thread_B_stack,
-        K_THREAD_STACK_SIZEOF(thread_B_stack), thread_B_code,
-        NULL, NULL, NULL, thread_B_prio, 0, K_NO_WAIT);
+    sensor_tid = k_thread_create(&sensor_thread, sensor_stack,
+        K_THREAD_STACK_SIZEOF(sensor_stack), sensor_thread_func,
+        NULL, NULL, NULL, SENSOR_PRIO, 0, K_NO_WAIT);
 
-    /* 3) Main loop: poll for incoming UART data */
-    //while (1) {
-        /***********************************************
-        if(uart_check_buffer(&rx_data, &rx_len) == 0){
-            for (int i = 0; i < rx_len; i++) {
-                rxChar(rx_data[i]);     
-            }
-        
-        if (cmdProcessor() == CMD_OK) { 
-            getTxBuffer(&tx_data, &tx_len);  
-            if(uart_send(tx_data, tx_len) != 0){
-                printk("Error in main \n");
-            }
-            resetTxBuffer();            
-        } 
-        ***************************************************/
-    
-    //    k_msleep(UPDATE_INTERVAL_MS);
-    //}
+    control_tid = k_thread_create(&control_thread, control_stack,
+        K_THREAD_STACK_SIZEOF(control_stack), control_thread_func,
+        NULL, NULL, NULL, CONTROL_PRIO, 0, K_NO_WAIT);
+
+    actuator_tid = k_thread_create(&actuator_thread, actuator_stack,
+        K_THREAD_STACK_SIZEOF(actuator_stack), actuator_thread_func,
+        NULL, NULL, NULL, ACTUATOR_PRIO, 0, K_NO_WAIT);
+
+    ui_tid = k_thread_create(&ui_thread, ui_stack,
+        K_THREAD_STACK_SIZEOF(ui_stack), ui_thread_func,
+        NULL, NULL, NULL, UI_PRIO, 0, K_NO_WAIT);
+
+    k_sleep(K_FOREVER);
     return 0;
 }
 
-void thread_A_code(void *argA , void *argB, void *argC)
+void command_thread_func(void *argA , void *argB, void *argC)
 {
     uint8_t b;
+    uint8_t t = 0;
 
     while (1) {
         /* Block until at least one byte arrives */
@@ -103,7 +112,36 @@ void thread_A_code(void *argA , void *argB, void *argC)
             uart_send(tx_data, tx_len);
             
         }
+        if(i2c_read_temperature(&t) != 0){
+            printk("majmune");
+        } else {
+            printk("%d\n", t);
+        }
 
     }
-}   
+}
+
+void control_thread_func(void *argA, void *argB, void *argC){
+    while (1) {
+        printk("Control thread running\n");
+        k_sleep(K_MSEC(200));
+    }
+}
+
+void actuator_thread_func(void *argA, void *argB, void *argC)
+{
+    while (1) {
+        printk("Actuator thread running\n");
+        k_sleep(K_MSEC(200));
+    }
+}
+
+void ui_thread_func(void *argA, void *argB, void *argC)
+{
+    while (1) {
+        printk("UI thread running\n");
+        k_sleep(K_MSEC(200));
+    }
+}
+  
 

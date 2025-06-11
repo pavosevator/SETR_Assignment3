@@ -1,3 +1,6 @@
+#ifndef UART_H_
+#define UART_H_
+
 #include <zephyr/kernel.h>          /* for k_msleep() */
 #include <zephyr/device.h>          /* for device_is_ready() and device structure */
 #include <zephyr/devicetree.h>	    /* for DT_NODELABEL() */
@@ -29,3 +32,5 @@ int uart_check_buffer(unsigned char **buf, int *len);
 void uart_resetRxBuffer(void);
 int uart_send(const uint8_t *buf, size_t len);
 void uart_wait_for_rx(void);
+
+#endif
