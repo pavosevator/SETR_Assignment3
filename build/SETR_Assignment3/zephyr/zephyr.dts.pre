@@ -1246,27 +1246,32 @@ zephyr_udc0: &usbd {
 # 13 "C:/nrfProjects/SETR_Assignment3/nrf52840dk_nrf52840.overlay"
 &i2c0 {
     status = "okay";
-    tc74sensor: tc74sensor@4D{
+    tc74sensor: tc74sensor@4d{
         compatible = "i2c-device";
-        reg = < 0x4D >;
+        reg = < 0x4d >;
         label = "TC74SENSOR";
     };
 };
 
-&uart0{
+&uart0 {
     status = "okay";
 };
 
-/{
- heater_gpio {
-  compatible = "gpio-leds";
-  heater_out: heater_out {
-   gpios = <&gpio0 9 (0 << 0)>;
-   label = "Heater Output";
-  };
- };
+&gpio1{
+    status = "okay";
+};
 
-
+/ {
+    gpiocustom {
+        compatible = "gpio-keys";
+        heater: heater {
+            gpios = <&gpio0 28 (0 << 0)>;
+            label = "Heater Output";
+        };
+    };
+    aliases {
+        heater = &heater;
+    };
 };
 # 0 "<command-line>" 2
 # 1 "C:/ncs/v3.0.1/zephyr/misc/empty_file.c"

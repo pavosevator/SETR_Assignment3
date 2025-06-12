@@ -33,6 +33,7 @@
 		mcuboot-button0 = &button0;
 		mcuboot-led0 = &led0;
 		watchdog0 = &wdt0;
+		heater = &heater;
 	};
 	soc {
 		#address-cells = < 0x1 >;
@@ -154,7 +155,7 @@
 			pinctrl-0 = < &i2c0_default >;
 			pinctrl-1 = < &i2c0_sleep >;
 			pinctrl-names = "default", "sleep";
-			tc74sensor: tc74sensor@4D {
+			tc74sensor: tc74sensor@4d {
 				compatible = "i2c-device";
 				reg = < 0x4d >;
 				label = "TC74SENSOR";
@@ -812,10 +813,10 @@
 		#io-channel-cells = < 0x1 >;
 		io-channel-map = < 0x0 &adc 0x1 >, < 0x1 &adc 0x2 >, < 0x2 &adc 0x4 >, < 0x3 &adc 0x5 >, < 0x4 &adc 0x6 >, < 0x5 &adc 0x7 >;
 	};
-	heater_gpio {
-		compatible = "gpio-leds";
-		heater_out: heater_out {
-			gpios = < &gpio0 0x9 0x0 >;
+	gpiocustom {
+		compatible = "gpio-keys";
+		heater: heater {
+			gpios = < &gpio0 0x1c 0x0 >;
 			label = "Heater Output";
 		};
 	};

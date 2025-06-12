@@ -30,6 +30,10 @@
 		{
 			"name": "basic_03_pwmDigIOIntDemo",
 			"path": "../../primjeri_SETR/basic_03_pwmDigIOIntDemo"
+		},
+		{
+			"name": "wkup_pins",
+			"path": "../wkup_pins"
 		}
 	],
 	"settings": {

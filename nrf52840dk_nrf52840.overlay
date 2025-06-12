@@ -12,25 +12,30 @@
 // You can also visit the nRF DeviceTree extension documentation at https://nrfconnect.github.io/vscode-nrf-connect/devicetree/nrfdevicetree.html
 &i2c0 {
     status = "okay";
-    tc74sensor: tc74sensor@4D{
+    tc74sensor: tc74sensor@4d{
         compatible = "i2c-device";
-        reg = < 0x4D >;
+        reg = < 0x4d >;
         label = "TC74SENSOR";
     };
 };
 
-&uart0{
+&uart0 {
     status = "okay";
 };
 
-/{
-	heater_gpio {
-		compatible = "gpio-leds";
-		heater_out: heater_out {
-			gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;
-			label = "Heater Output";
-		};
-	};
+&gpio1{
+    status = "okay";
+};
 
-
+/ {
+    gpiocustom {
+        compatible = "gpio-keys";
+        heater: heater {
+            gpios = <&gpio0 28 GPIO_ACTIVE_HIGH>;
+            label = "Heater Output";
+        };
+    };
+    aliases {
+        heater = &heater;
+    };
 };
