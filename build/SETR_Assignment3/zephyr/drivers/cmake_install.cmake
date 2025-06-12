@@ -99,11 +99,6 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/nrfProjects/SETR_Assignment3/build/SETR_Assignment3/zephyr/drivers/pwm/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
   include("C:/nrfProjects/SETR_Assignment3/build/SETR_Assignment3/zephyr/drivers/serial/cmake_install.cmake")
 endif()
 

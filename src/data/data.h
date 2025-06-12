@@ -6,7 +6,6 @@
 
 struct shared_data {
     struct k_mutex mutex;
-    uint8_t pwm_duty;
     int8_t temperature;
 };
 

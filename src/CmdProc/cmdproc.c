@@ -125,9 +125,6 @@ int cmdProcessor(void)
 					txChar('i');
 				}
 				else{
-					k_mutex_lock(&sensor_data.mutex, K_FOREVER);
-					sensor_data.pwm_duty = duty;
-					k_mutex_unlock(&sensor_data.mutex);
 					txChar('#');
 					txChar('E');
 					txChar('9');

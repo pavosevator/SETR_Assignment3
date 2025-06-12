@@ -1258,48 +1258,15 @@ zephyr_udc0: &usbd {
 };
 
 /{
-    extleds {
+ heater_gpio {
   compatible = "gpio-leds";
-  extled4: extled_4 {
-   gpios = <&gpio0 3 (1 << 0)>;
-   label = "External LED 4";
-  };
- };
-
- pwmleds {
-  compatible = "pwm-leds";
-  pwm_led2: pwm_led_2 {
-
-   pwms = <&pwm1 1 (((20) * 1000UL) * 1000UL) (1 << 0)>;
+  heater_out: heater_out {
+   gpios = <&gpio0 9 (0 << 0)>;
+   label = "Heater Output";
   };
  };
 
 
-};
-
-&pwm1 {
- status = "okay";
- pinctrl-0 = <&pwm1_default>;
- pinctrl-1 = <&pwm1_sleep>;
- pinctrl-names = "default", "sleep";
-};
-
-&pinctrl {
-
- pwm1_default: pwm1_default {
-  group1 {
-
-   psels = <((((((0) * 32U) + (15)) & 0x1FFU) << 0U) | ((23U & 0xFFU) << 24U))>;
-   nordic,invert;
-  };
- };
-
- pwm1_sleep: pwm1_sleep {
-  group1 {
-
-   psels = <((((((0) * 32U) + (15)) & 0x1FFU) << 0U) | ((23U & 0xFFU) << 24U))>;
-  };
- };
 };
 # 0 "<command-line>" 2
 # 1 "C:/ncs/v3.0.1/zephyr/misc/empty_file.c"

@@ -1,25 +1,30 @@
 #include "heater.h"
-#include <zephyr/drivers/pwm.h>
+#include <zephyr/drivers/gpio.h>
 #include <zephyr/device.h>
 
-#define HEATER_NODE DT_NODELABEL(heater_pwm)
+#define HEATER_NODE DT_NODELABEL(heater_out)
 
-static const struct pwm_dt_spec heater = PWM_DT_SPEC_GET(HEATER_NODE);
+static const struct gpio_dt_spec heater = GPIO_DT_SPEC_GET(HEATER_NODE, gpios);
 
 int heater_init(void)
 {
-    if (!device_is_ready(heater.dev)) {
+    if (!device_is_ready(heater.port)) {
         return -1;
     }
-    pwm_set_pulse_dt(&heater, 0);
-    return 0;
+    return gpio_pin_configure_dt(&heater, GPIO_OUTPUT_INACTIVE);
 }
 
-void heater_set(uint8_t duty)
+void heater_on(void)
 {
-    if (!device_is_ready(heater.dev)) {
-        return;
-    }
-    uint32_t pulse = (heater.period * duty) / 100U;
-    pwm_set_pulse_dt(&heater, pulse);
+    gpio_pin_set_dt(&heater, 1);
+}
+
+void heater_off(void)
+{
+    gpio_pin_set_dt(&heater, 0);
+}
+
+void heater_toggle(void)
+{
+    gpio_pin_toggle_dt(&heater);
 }

@@ -7,6 +7,7 @@
 #include "data.h"
 #include "uart.h"
 #include "gpio.h"
+#include "heater.h"
 
 #define UPDATE_INTERVAL_MS 1000
 

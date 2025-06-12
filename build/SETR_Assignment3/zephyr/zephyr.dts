@@ -211,7 +211,7 @@
 			interrupts = < 0x6 0x5 >;
 			status = "okay";
 			instance = < 0x0 >;
-			phandle = < 0x19 >;
+			phandle = < 0x17 >;
 		};
 		adc: adc@40007000 {
 			compatible = "nordic,nrf-saadc";
@@ -220,7 +220,7 @@
 			status = "okay";
 			#io-channel-cells = < 0x1 >;
 			zephyr,pm-device-runtime-auto;
-			phandle = < 0x1f >;
+			phandle = < 0x1c >;
 		};
 		timer0: timer@40008000 {
 			compatible = "nordic,nrf-timer";
@@ -239,7 +239,7 @@
 			max-bit-width = < 0x20 >;
 			interrupts = < 0x9 0x1 >;
 			prescaler = < 0x0 >;
-			phandle = < 0x1a >;
+			phandle = < 0x18 >;
 		};
 		timer2: timer@4000a000 {
 			compatible = "nordic,nrf-timer";
@@ -374,7 +374,7 @@
 			pinctrl-0 = < &pwm0_default >;
 			pinctrl-1 = < &pwm0_sleep >;
 			pinctrl-names = "default", "sleep";
-			phandle = < 0x1c >;
+			phandle = < 0x1a >;
 		};
 		pdm0: pdm@4001d000 {
 			compatible = "nordic,nrf-pdm";
@@ -435,12 +435,8 @@
 			compatible = "nordic,nrf-pwm";
 			reg = < 0x40021000 0x1000 >;
 			interrupts = < 0x21 0x1 >;
-			status = "okay";
+			status = "disabled";
 			#pwm-cells = < 0x3 >;
-			pinctrl-0 = < &pwm1_default >;
-			pinctrl-1 = < &pwm1_sleep >;
-			pinctrl-names = "default", "sleep";
-			phandle = < 0x1d >;
 		};
 		pwm2: pwm@40022000 {
 			compatible = "nordic,nrf-pwm";
@@ -558,7 +554,7 @@
 			gpiote-instance = < &gpiote >;
 			gpio-reserved-ranges = < 0x0 0x2 >, < 0x6 0x1 >, < 0x8 0x3 >, < 0x11 0x7 >;
 			gpio-line-names = "XL1", "XL2", "AREF", "A0", "A1", "RTS", "TXD", "CTS", "RXD", "NFC1", "NFC2", "BUTTON1", "BUTTON2", "LED1", "LED2", "LED3", "LED4", "QSPI CS", "RESET", "QSPI CLK", "QSPI DIO0", "QSPI DIO1", "QSPI DIO2", "QSPI DIO3", "BUTTON3", "BUTTON4", "SDA", "SCL", "A2", "A3", "A4", "A5";
-			phandle = < 0x1b >;
+			phandle = < 0x19 >;
 		};
 		gpio1: gpio@50000300 {
 			compatible = "nordic,nrf-gpio";
@@ -570,7 +566,7 @@
 			port = < 0x1 >;
 			gpiote-instance = < &gpiote >;
 			gpio-line-names = "", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "", "D8", "D9", "D10", "D11", "D12", "D13";
-			phandle = < 0x1e >;
+			phandle = < 0x1b >;
 		};
 		cryptocell: crypto@5002a000 {
 			compatible = "nordic,cryptocell", "arm,cryptocell-310";
@@ -600,7 +596,7 @@
 			};
 		};
 		uart1_default: uart1_default {
-			phandle = < 0x12 >;
+			phandle = < 0x10 >;
 			group1 {
 				psels = < 0x1000021 >;
 				bias-pull-up;
@@ -610,7 +606,7 @@
 			};
 		};
 		uart1_sleep: uart1_sleep {
-			phandle = < 0x13 >;
+			phandle = < 0x11 >;
 			group1 {
 				psels = < 0x1000021 >, < 0x22 >;
 				low-power-enable;
@@ -683,27 +679,27 @@
 			};
 		};
 		spi2_default: spi2_default {
-			phandle = < 0x10 >;
+			phandle = < 0xe >;
 			group1 {
 				psels = < 0x4000013 >, < 0x5000014 >, < 0x6000015 >;
 			};
 		};
 		spi2_sleep: spi2_sleep {
-			phandle = < 0x11 >;
+			phandle = < 0xf >;
 			group1 {
 				psels = < 0x4000013 >, < 0x5000014 >, < 0x6000015 >;
 				low-power-enable;
 			};
 		};
 		qspi_default: qspi_default {
-			phandle = < 0x14 >;
+			phandle = < 0x12 >;
 			group1 {
 				psels = < 0x1d000013 >, < 0x1f000014 >, < 0x20000015 >, < 0x21000016 >, < 0x22000017 >, < 0x1e000011 >;
 				nordic,drive-mode = < 0x3 >;
 			};
 		};
 		qspi_sleep: qspi_sleep {
-			phandle = < 0x15 >;
+			phandle = < 0x13 >;
 			group1 {
 				psels = < 0x1d000013 >, < 0x1f000014 >, < 0x20000015 >, < 0x21000016 >, < 0x22000017 >;
 				low-power-enable;
@@ -715,29 +711,16 @@
 			};
 		};
 		spi3_default: spi3_default {
-			phandle = < 0x17 >;
+			phandle = < 0x15 >;
 			group1 {
 				psels = < 0x400002f >, < 0x600002e >, < 0x500002d >;
 			};
 		};
 		spi3_sleep: spi3_sleep {
-			phandle = < 0x18 >;
+			phandle = < 0x16 >;
 			group1 {
 				psels = < 0x400002f >, < 0x600002e >, < 0x500002d >;
 				low-power-enable;
-			};
-		};
-		pwm1_default: pwm1_default {
-			phandle = < 0xe >;
-			group1 {
-				psels = < 0x1700000f >;
-				nordic,invert;
-			};
-		};
-		pwm1_sleep: pwm1_sleep {
-			phandle = < 0xf >;
-			group1 {
-				psels = < 0x1700000f >;
 			};
 		};
 	};
@@ -792,9 +775,6 @@
 		pwm_led0: pwm_led_0 {
 			pwms = < &pwm0 0x0 0x1312d00 0x1 >;
 		};
-		pwm_led2: pwm_led_2 {
-			pwms = < &pwm1 0x1 0x1312d00 0x1 >;
-		};
 	};
 	buttons {
 		compatible = "gpio-keys";
@@ -825,18 +805,18 @@
 		gpio-map-mask = < 0xffffffff 0xffffffc0 >;
 		gpio-map-pass-thru = < 0x0 0x3f >;
 		gpio-map = < 0x0 0x0 &gpio0 0x3 0x0 >, < 0x1 0x0 &gpio0 0x4 0x0 >, < 0x2 0x0 &gpio0 0x1c 0x0 >, < 0x3 0x0 &gpio0 0x1d 0x0 >, < 0x4 0x0 &gpio0 0x1e 0x0 >, < 0x5 0x0 &gpio0 0x1f 0x0 >, < 0x6 0x0 &gpio1 0x1 0x0 >, < 0x7 0x0 &gpio1 0x2 0x0 >, < 0x8 0x0 &gpio1 0x3 0x0 >, < 0x9 0x0 &gpio1 0x4 0x0 >, < 0xa 0x0 &gpio1 0x5 0x0 >, < 0xb 0x0 &gpio1 0x6 0x0 >, < 0xc 0x0 &gpio1 0x7 0x0 >, < 0xd 0x0 &gpio1 0x8 0x0 >, < 0xe 0x0 &gpio1 0xa 0x0 >, < 0xf 0x0 &gpio1 0xb 0x0 >, < 0x10 0x0 &gpio1 0xc 0x0 >, < 0x11 0x0 &gpio1 0xd 0x0 >, < 0x12 0x0 &gpio1 0xe 0x0 >, < 0x13 0x0 &gpio1 0xf 0x0 >, < 0x14 0x0 &gpio0 0x1a 0x0 >, < 0x15 0x0 &gpio0 0x1b 0x0 >;
-		phandle = < 0x16 >;
+		phandle = < 0x14 >;
 	};
 	arduino_adc: analog-connector {
 		compatible = "arduino,uno-adc";
 		#io-channel-cells = < 0x1 >;
 		io-channel-map = < 0x0 &adc 0x1 >, < 0x1 &adc 0x2 >, < 0x2 &adc 0x4 >, < 0x3 &adc 0x5 >, < 0x4 &adc 0x6 >, < 0x5 &adc 0x7 >;
 	};
-	extleds {
+	heater_gpio {
 		compatible = "gpio-leds";
-		extled4: extled_4 {
-			gpios = < &gpio0 0x3 0x1 >;
-			label = "External LED 4";
+		heater_out: heater_out {
+			gpios = < &gpio0 0x9 0x0 >;
+			label = "Heater Output";
 		};
 	};
 };
