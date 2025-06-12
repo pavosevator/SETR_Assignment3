@@ -9,7 +9,9 @@ int heater_init(void)
     if (!device_is_ready(heater.port)) {
         return -1;
     }
-    return gpio_pin_configure_dt(&heater, GPIO_OUTPUT);
+    gpio_pin_configure_dt(&heater, GPIO_OUTPUT_ACTIVE);
+    gpio_pin_set_dt(&heater, 0);
+    return 0;
 }
 
 void heater_on(void)

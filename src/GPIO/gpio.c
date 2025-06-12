@@ -62,7 +62,7 @@ void ui_task(void) {
         }
         
         if(pressed3 && system_on){
-            heater_on();
+            heater_toggle();
             printk("Heater toggled\n");
             k_sleep(K_MSEC(400));
         } 

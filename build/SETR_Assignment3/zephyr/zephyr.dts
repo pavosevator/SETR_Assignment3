@@ -814,9 +814,9 @@
 		io-channel-map = < 0x0 &adc 0x1 >, < 0x1 &adc 0x2 >, < 0x2 &adc 0x4 >, < 0x3 &adc 0x5 >, < 0x4 &adc 0x6 >, < 0x5 &adc 0x7 >;
 	};
 	gpiocustom {
-		compatible = "gpio-keys";
+		compatible = "gpio-leds";
 		heater: heater {
-			gpios = < &gpio0 0x1c 0x0 >;
+			gpios = < &gpio1 0x9 0x0 >;
 			label = "Heater Output";
 		};
 	};

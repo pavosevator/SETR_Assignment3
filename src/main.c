@@ -63,7 +63,11 @@ int main(void)
     }
 
     if (gpio_init() != 0) {
-        printk("UART init failed\n");
+        printk("GPIO init failed\n");
+        return 0;
+    }
+    if (heater_init() != 0) {
+        printk("Heater init failed\n");
         return 0;
     }
 

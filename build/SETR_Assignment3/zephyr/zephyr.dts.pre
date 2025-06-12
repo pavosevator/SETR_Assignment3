@@ -1257,15 +1257,11 @@ zephyr_udc0: &usbd {
     status = "okay";
 };
 
-&gpio1{
-    status = "okay";
-};
-
 / {
     gpiocustom {
-        compatible = "gpio-keys";
+        compatible = "gpio-leds";
         heater: heater {
-            gpios = <&gpio0 28 (0 << 0)>;
+            gpios = <&gpio1 9 (0 << 0)>;
             label = "Heater Output";
         };
     };
