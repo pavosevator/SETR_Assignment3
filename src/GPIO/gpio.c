@@ -43,34 +43,59 @@ int gpio_init(void) {
 void ui_task(void) {
     bool prev = false;
     while (1) {
-        bool pressed1 = gpio_pin_get_dt(&button1);  
-        bool pressed2 = gpio_pin_get_dt(&button2);  
+        bool btn_system = gpio_pin_get_dt(&button1);  
+        bool btn_increase = gpio_pin_get_dt(&button2);  
         bool pressed3 = gpio_pin_get_dt(&button3);
-        bool pressed4 = gpio_pin_get_dt(&button4);
+        bool btn_decrease = gpio_pin_get_dt(&button4);
 
-        if (pressed1 && !prev) {
-            system_on = !system_on;
-            gpio_pin_set_dt(&led1, system_on);
-            printk("System %s\n", system_on ? "ON" : "OFF");
+        bool sys_state;
+
+        if (btn_system && !prev) {
+            
+			k_mutex_lock(&ctrl_state.mutex, K_FOREVER);
+			ctrl_state.system_on = !ctrl_state.system_on;
+            sys_state = ctrl_state.system_on;
+			k_mutex_unlock(&ctrl_state.mutex);
+
+            gpio_pin_set_dt(&led1, sys_state);
+            printk("System %s\n", sys_state ? "ON" : "OFF");
         
         k_sleep(K_MSEC(400)); // Sleep to debounce and reduce CPU usage
         }
 
-        if(pressed2 && system_on){
-            printk("Decrease temperature\n");
+        if(btn_increase && sys_state){
+            k_mutex_lock(&ctrl_state.mutex, K_FOREVER);
+            ctrl_state.max_temp++;
+            printk("Temperature goal increased to: %d\n",ctrl_state.max_temp);
+            k_mutex_unlock(&ctrl_state.mutex);
             k_sleep(K_MSEC(400)); 
         }
         
-        if(pressed3 && system_on){
+        if(pressed3 && sys_state){
             heater_toggle();
             printk("Heater toggled\n");
             k_sleep(K_MSEC(400));
         } 
-        if(pressed4 && system_on){
-            printk("Increase temperature\n");
+        if(btn_decrease && sys_state){
+            k_mutex_lock(&ctrl_state.mutex, K_FOREVER);
+            ctrl_state.max_temp--;
+            printk("Temperature goal decreased to: %d\n",ctrl_state.max_temp);
+            k_mutex_unlock(&ctrl_state.mutex);
+            
             k_sleep(K_MSEC(400)); 
         }
 
-        //gpio_pin_set_dt(&led2, !system_on);
     }
+}
+
+void led2_toggle(bool state){
+    gpio_pin_set_dt(&led2, state); // when delta temperature is less than 2
+}
+
+void led3_toggle(bool state){
+    gpio_pin_set_dt(&led3, state); // warning: low temp
+}
+
+void led4_toggle(bool state){
+    gpio_pin_set_dt(&led4, state); // warning: high temp
 }

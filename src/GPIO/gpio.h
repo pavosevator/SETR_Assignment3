@@ -22,5 +22,8 @@
 int gpio_init(void);
 void button_task(void);
 void led_task(void);
+void led2_toggle(bool state);
+void led3_toggle(bool state);
+void led4_toggle(bool state);
 
 #endif // GPIO_H

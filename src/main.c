@@ -47,34 +47,24 @@ void control_thread_func(void *argA, void *argB, void *argC);
 void actuator_thread_func(void *argA, void *argB, void *argC);
 void ui_thread_func(void *argA, void *argB, void *argC);
 
-
-int main(void)
+void app_init(void)
 {
-    /* 1) Init I²C and UART (no mutex) */
-    if (i2c_init() != 0) {
-        printk("I2C init failed\n");
-        return 0;
-    }
+    if (i2c_init() != 0) { printk("I2C failed\n"); return; }
+    if (uart_init() != 0) { printk("UART failed\n"); return; }
+    if (gpio_init() != 0) { printk("GPIO failed\n"); return; }
+    if (heater_init() != 0) { printk("Heater failed\n"); return; }
 
-    /* 3) Init UART */
-    if (uart_init() != 0) {
-        printk("UART init failed\n");
-        return 0;
-    }
-
-    if (gpio_init() != 0) {
-        printk("GPIO init failed\n");
-        return 0;
-    }
-    if (heater_init() != 0) {
-        printk("Heater init failed\n");
-        return 0;
-    }
+    ctrl_state.system_on = false;
 
     k_mutex_init(&sensor_data.mutex);
+    k_mutex_init(&ctrl_state.mutex);
+
+    ctrl_state.max_temp = 25;
+    led4_toggle(0);
+    led3_toggle(0);
 
     int ret = 0;
-    uint8_t temperature = 0;
+    uint8_t current_temp = 0;
 
     command_tid = k_thread_create(&command_thread, command_stack,
         K_THREAD_STACK_SIZEOF(command_stack), command_thread_func,
@@ -96,6 +86,14 @@ int main(void)
         K_THREAD_STACK_SIZEOF(ui_stack), ui_thread_func,
         NULL, NULL, NULL, UI_PRIO, 0, K_NO_WAIT);
 
+}
+
+
+int main(void)
+{
+
+    app_init(); /* One function for testing where all is initialized*/
+
     k_sleep(K_FOREVER);
     return 0;
 }
@@ -106,7 +104,7 @@ void command_thread_func(void *argA , void *argB, void *argC)
     uint8_t t = 0;
 
     while (1) {
-        if (!system_on) {
+        if (!ctrl_state.system_on) {
             k_sleep(K_MSEC(100));
             continue;
         }
@@ -134,10 +132,27 @@ void command_thread_func(void *argA , void *argB, void *argC)
 }
 
 void control_thread_func(void *argA, void *argB, void *argC){
+    int delta;
     while (1) {
-        if (!system_on) {
-            k_sleep(K_MSEC(100));
-            continue;
+        if (ctrl_state.system_on) {
+            delta = sensor_data.current_temp - ctrl_state.max_temp;
+            if(delta > 2){ /* warning-high*/
+                led2_toggle(0);
+                led3_toggle(0);
+                led4_toggle(1);
+            } else if(delta <-2){ /* warning low */
+                led2_toggle(0);
+                led3_toggle(1);
+                led4_toggle(0);
+            } else { /* Temperature is okay*/
+                led2_toggle(1);
+                led3_toggle(0);
+                led4_toggle(0);
+            }
+        } else {
+            led2_toggle(0);
+            led3_toggle(0);
+            led4_toggle(0);
         }
         k_sleep(K_MSEC(200));
     }
@@ -146,11 +161,17 @@ void control_thread_func(void *argA, void *argB, void *argC){
 void actuator_thread_func(void *argA, void *argB, void *argC)
 {
     while (1) {
-        if (!system_on) {
+        if (ctrl_state.system_on) {
+            /* Logic for actuating the sensor*/
+            if(ctrl_state.max_temp >= sensor_data.current_temp){
+                heater_on();
+            } else if(ctrl_state.max_temp < sensor_data.current_temp){
+                heater_off();
+            }
+
             k_sleep(K_MSEC(100));
             continue;
         }
-        //printk("Actuator thread running\n");
         k_sleep(K_MSEC(200));
     }
 }

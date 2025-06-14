@@ -2,15 +2,15 @@
  * @file cmdproc.c
  * @brief Source file for command processor module for smart sensor node.
  *
- * This module processes commands received via UART for a smart sensor node
- * that measures temperature, relative humidity, and CO2 levels. 
+ * 
  * 
  * @author  Ivan PAVOSEVIC, Enzo DOS SANTOS.
- * @date 08 Apr 2025
+ * @date 
  */
 #include "cmdproc.h"
 #include "i2c.h"
 #include "data.h"
+#include "gpio.h"
 
 
 /* Internal variables */
@@ -56,7 +56,7 @@ int cmdProcessor(void)
 		
 		switch(UARTRxBuffer[sofIndex+1]) {
 
-			case 'M':
+			case 'M': // set the maximum temperature
 				for (int j = 0; j < 3; j++){
 					val[j] = UARTRxBuffer[sofIndex + 2 + j];
 				}
@@ -89,7 +89,7 @@ int cmdProcessor(void)
     			uint8_t temp;
     		
                 k_mutex_lock(&sensor_data.mutex, K_FOREVER);
-                temp = sensor_data.temperature;
+                temp = sensor_data.current_temp;
                 k_mutex_unlock(&sensor_data.mutex);
 
     			generateCharArray('t', temp, tempChar);

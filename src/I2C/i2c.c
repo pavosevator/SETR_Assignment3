@@ -34,14 +34,14 @@ void sensor_thread_func(void *argA , void *argB, void *argC)
     uint8_t temp_raw;
 
     while (1) {
-        if (!system_on) {
+        if (!ctrl_state.system_on) {
             k_sleep(K_MSEC(100));
             continue;
         }
         if (i2c_write_read_dt(&dev_i2c, &cmd, 1, &temp_raw, 1) == 0) {
             int temp = (int8_t)temp_raw;
             k_mutex_lock(&sensor_data.mutex, K_FOREVER);
-            sensor_data.temperature = temp;
+            sensor_data.current_temp = temp;
             k_mutex_unlock(&sensor_data.mutex);
         } 
         k_msleep(500);
@@ -50,12 +50,12 @@ void sensor_thread_func(void *argA , void *argB, void *argC)
 
 
 /* Read temperature from sensor */
-int i2c_read_temperature(uint8_t *temperature)
+int i2c_read_temperature(uint8_t *current_temp)
 {
     uint8_t reg_ptr = TC74_CMD_RTR; // command for temperature register
     int ret;
 
-    ret = i2c_write_read_dt(&dev_i2c, &reg_ptr, 1, temperature, 1);
+    ret = i2c_write_read_dt(&dev_i2c, &reg_ptr, 1, current_temp, 1);
 
     if (ret != 0) {
         printk("I2C write_read failed: %d\n", ret);
