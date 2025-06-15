@@ -22,7 +22,7 @@
   ASCII-frame command parser/formatter (`#M`, `#C`, `#S`, checksum, ACK/ERR) 
 - **`data.c / data.h`**  
   Shared RTDB definitions
-  - **`test_1.c`**  
+- **`test_1.c`**  
   Unity testing file
 
   ## IMPORTANT NOTE
