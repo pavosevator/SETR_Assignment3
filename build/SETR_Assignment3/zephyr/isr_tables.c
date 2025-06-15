@@ -58,13 +58,13 @@ uintptr_t __irq_vector_table _irq_vector_table[48] = {
 	((uintptr_t)&_isr_wrapper),
 };
 struct _isr_table_entry __sw_isr_table _sw_isr_table[48] = {
-	{(const void *)0x33dd, (ISR)0x6e89}, /* 0 */
+	{(const void *)0x33dd, (ISR)0x6e01}, /* 0 */
 	{(const void *)0x0, (ISR)z_irq_spurious}, /* 1 */
-	{(const void *)0x76d0, (ISR)0x6a01}, /* 2 */
-	{(const void *)0x406d, (ISR)0x6e89}, /* 3 */
+	{(const void *)0x7648, (ISR)0x6979}, /* 2 */
+	{(const void *)0x406d, (ISR)0x6e01}, /* 3 */
 	{(const void *)0x0, (ISR)z_irq_spurious}, /* 4 */
 	{(const void *)0x0, (ISR)z_irq_spurious}, /* 5 */
-	{(const void *)0x3a7d, (ISR)0x6e89}, /* 6 */
+	{(const void *)0x3a7d, (ISR)0x6e01}, /* 6 */
 	{(const void *)0x0, (ISR)z_irq_spurious}, /* 7 */
 	{(const void *)0x0, (ISR)z_irq_spurious}, /* 8 */
 	{(const void *)0x0, (ISR)z_irq_spurious}, /* 9 */
