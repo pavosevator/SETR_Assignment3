@@ -1,0 +1,86 @@
+\doxysection{src/\+Heater/heater.c File Reference}
+\hypertarget{heater_8c}{}\label{heater_8c}\index{src/Heater/heater.c@{src/Heater/heater.c}}
+
+
+Heater control interface for Zephyr-\/based embedded systems.  
+
+
+{\ttfamily \#include "{}heater.\+h"{}}\newline
+{\ttfamily \#include $<$zephyr/drivers/gpio.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{heater_8c_a14ee22dbcf5f283c6f64f866213102b3}\label{heater_8c_a14ee22dbcf5f283c6f64f866213102b3} 
+\#define {\bfseries HEATER\+\_\+\+NODE}~DT\+\_\+\+NODELABEL(heater)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{heater_8c_a21c58f658bbbba87393c37ce821a7b15}{heater\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Initialize the heater GPIO. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{heater_8c_a11ff01e82f68d886ebf88b0e6c3b9ef7}{heater\+\_\+on}} (void)
+\begin{DoxyCompactList}\small\item\em Turn the heater on. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{heater_8c_aa377f11ac36aba3cc86d71773fe864ff}{heater\+\_\+off}} (void)
+\begin{DoxyCompactList}\small\item\em Turn the heater off. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{heater_8c_a2726abca64678bd3328c3a86d9b5d1cf}{heater\+\_\+toggle}} (void)
+\begin{DoxyCompactList}\small\item\em Toggle the heater state. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Heater control interface for Zephyr-\/based embedded systems. 
+
+This module provides simple functions to initialize and control a heating element via GPIO using the Zephyr RTOS. 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{heater_8c_a21c58f658bbbba87393c37ce821a7b15}\index{heater.c@{heater.c}!heater\_init@{heater\_init}}
+\index{heater\_init@{heater\_init}!heater.c@{heater.c}}
+\doxysubsubsection{\texorpdfstring{heater\_init()}{heater\_init()}}
+{\footnotesize\ttfamily \label{heater_8c_a21c58f658bbbba87393c37ce821a7b15} 
+int heater\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Initialize the heater GPIO. 
+
+Initialize the heater GPIO pin.
+
+Configures the heater GPIO pin as an output and drives it low (heater off) after verifying the GPIO device is ready.
+
+\begin{DoxyReturn}{Returns}
+0 on success, -\/1 on failure (GPIO device not ready) 
+\end{DoxyReturn}
+\Hypertarget{heater_8c_aa377f11ac36aba3cc86d71773fe864ff}\index{heater.c@{heater.c}!heater\_off@{heater\_off}}
+\index{heater\_off@{heater\_off}!heater.c@{heater.c}}
+\doxysubsubsection{\texorpdfstring{heater\_off()}{heater\_off()}}
+{\footnotesize\ttfamily \label{heater_8c_aa377f11ac36aba3cc86d71773fe864ff} 
+void heater\+\_\+off (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Turn the heater off. 
+
+Turn the heater OFF.
+
+Drives the heater GPIO pin low, de-\/energizing the heater element. \Hypertarget{heater_8c_a11ff01e82f68d886ebf88b0e6c3b9ef7}\index{heater.c@{heater.c}!heater\_on@{heater\_on}}
+\index{heater\_on@{heater\_on}!heater.c@{heater.c}}
+\doxysubsubsection{\texorpdfstring{heater\_on()}{heater\_on()}}
+{\footnotesize\ttfamily \label{heater_8c_a11ff01e82f68d886ebf88b0e6c3b9ef7} 
+void heater\+\_\+on (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Turn the heater on. 
+
+Turn the heater ON.
+
+Drives the heater GPIO pin to the active level (typically high), energizing the heater element or relay. \Hypertarget{heater_8c_a2726abca64678bd3328c3a86d9b5d1cf}\index{heater.c@{heater.c}!heater\_toggle@{heater\_toggle}}
+\index{heater\_toggle@{heater\_toggle}!heater.c@{heater.c}}
+\doxysubsubsection{\texorpdfstring{heater\_toggle()}{heater\_toggle()}}
+{\footnotesize\ttfamily \label{heater_8c_a2726abca64678bd3328c3a86d9b5d1cf} 
+void heater\+\_\+toggle (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Toggle the heater state. 
+
+Flips the current output level of the heater GPIO pin. If the heater was on, it will turn off, and vice versa. 

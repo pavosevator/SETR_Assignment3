@@ -1,0 +1,210 @@
+\doxysection{src/\+UART/uart.c File Reference}
+\hypertarget{uart_8c}{}\label{uart_8c}\index{src/UART/uart.c@{src/UART/uart.c}}
+
+
+UART interface implementation for n\+RF52840 using Zephyr.  
+
+
+{\ttfamily \#include "{}uart.\+h"{}}\newline
+{\ttfamily \#include $<$zephyr/sys/ring\+\_\+buffer.\+h$>$}\newline
+{\ttfamily \#include $<$zephyr/kernel.\+h$>$}\newline
+{\ttfamily \#include $<$zephyr/drivers/uart.\+h$>$}\newline
+{\ttfamily \#include $<$zephyr/sys/printk.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{uart_8c_a81ff70a2946d6a022892af2ee7fa6b20}{K\+\_\+\+MSGQ\+\_\+\+DEFINE}} (\mbox{\hyperlink{uart_8h_a5ef38de1537b76a8b3c6ce5a89413b72}{uart\+\_\+msgq}}, sizeof(uint8\+\_\+t), 32, 4)
+\item 
+int \mbox{\hyperlink{uart_8c_af619fe0b949297d40d50ab9f41e96999}{uart\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Initialize and configure UART peripheral. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{uart_8c_a0bc2c302aaf9d2d6ee601d09c37f696a}{uart\+\_\+check\+\_\+buffer}} (unsigned char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}buf, int \texorpdfstring{$\ast$}{*}len)
+\begin{DoxyCompactList}\small\item\em Check and retrieve data from RX buffer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{uart_8c_ab95e4a985595ec387937b2781911a84f}{uart\+\_\+reset\+Rx\+Buffer}} (void)
+\begin{DoxyCompactList}\small\item\em Clear received character count. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{uart_8c_a022f9387e4c678486f22ac4f0c677438}{uart\+\_\+send}} (const uint8\+\_\+t \texorpdfstring{$\ast$}{*}buf, size\+\_\+t len)
+\begin{DoxyCompactList}\small\item\em Send data over UART. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{uart_8c_a322bf2588d266226a6c485677f737ef3}{uart\+\_\+cb}} (const struct device \texorpdfstring{$\ast$}{*}dev, struct uart\+\_\+event \texorpdfstring{$\ast$}{*}evt, void \texorpdfstring{$\ast$}{*}user\+\_\+data)
+\begin{DoxyCompactList}\small\item\em UART interrupt/event callback. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{uart_8c_ae28061eb950077898ba7952fd3b233c4}{uart\+\_\+wait\+\_\+for\+\_\+rx}} (void)
+\begin{DoxyCompactList}\small\item\em Block until at least one RX event occurs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const struct device \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{uart_8c_a660f23134aaae43c9ff2c6096fa59342}{uart\+\_\+dev}} = DEVICE\+\_\+\+DT\+\_\+\+GET(\mbox{\hyperlink{uart_8h_a07b40c5bd9acc44f62a9182527dbcc9b}{UART\+\_\+\+NODE}})
+\item 
+\Hypertarget{uart_8c_a7f447b32df78b68d1bd7a3581558ca3a}\label{uart_8c_a7f447b32df78b68d1bd7a3581558ca3a} 
+volatile int {\bfseries uart\+\_\+rxbuf\+\_\+nchar} = 0
+\item 
+int \mbox{\hyperlink{uart_8c_a6ce68847c12434f60d1b2654a3dc3409}{err}} = 0
+\item 
+uint8\+\_\+t \mbox{\hyperlink{uart_8c_aa10d925c769d61749a2c03cbc08accf9}{welcome\+\_\+mesg}} \mbox{[}$\,$\mbox{]}
+\item 
+\Hypertarget{uart_8c_a565d5826c90f24cba59e1de26779f4a1}\label{uart_8c_a565d5826c90f24cba59e1de26779f4a1} 
+uint8\+\_\+t {\bfseries rep\+\_\+mesg} \mbox{[}\mbox{\hyperlink{uart_8h_a8b8af8bedcac87c0d3c68634448b94a7}{MSG\+\_\+\+BUF\+\_\+\+SIZE}}\mbox{]}
+\item 
+const struct uart\+\_\+config \mbox{\hyperlink{uart_8c_acbbb8dc9e34f2cbd68792504dc18da81}{uart\+\_\+cfg}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+UART interface implementation for n\+RF52840 using Zephyr. 
+
+This module provides UART initialization, asynchronous TX/\+RX handling, and APIs to send and receive data using Zephyr RTOS features. 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{uart_8c_a81ff70a2946d6a022892af2ee7fa6b20}\index{uart.c@{uart.c}!K\_MSGQ\_DEFINE@{K\_MSGQ\_DEFINE}}
+\index{K\_MSGQ\_DEFINE@{K\_MSGQ\_DEFINE}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{K\_MSGQ\_DEFINE()}{K\_MSGQ\_DEFINE()}}
+{\footnotesize\ttfamily \label{uart_8c_a81ff70a2946d6a022892af2ee7fa6b20} 
+K\+\_\+\+MSGQ\+\_\+\+DEFINE (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{uart_8h_a5ef38de1537b76a8b3c6ce5a89413b72}{uart\+\_\+msgq}}}]{}{, }\item[{sizeof(uint8\+\_\+t)}]{}{, }\item[{32}]{}{, }\item[{4}]{}{}\end{DoxyParamCaption})}
+
+\hypertarget{uart_8c_autotoc_md4}{}\doxysubsubsection{\texorpdfstring{Message queue for received bytes}{Message queue for received bytes}}\label{uart_8c_autotoc_md4}
+Stores individual bytes from RX\+\_\+\+RDY events for later processing \Hypertarget{uart_8c_a322bf2588d266226a6c485677f737ef3}\index{uart.c@{uart.c}!uart\_cb@{uart\_cb}}
+\index{uart\_cb@{uart\_cb}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{uart\_cb()}{uart\_cb()}}
+{\footnotesize\ttfamily \label{uart_8c_a322bf2588d266226a6c485677f737ef3} 
+void uart\+\_\+cb (\begin{DoxyParamCaption}\item[{const struct device \texorpdfstring{$\ast$}{*}}]{dev}{, }\item[{struct uart\+\_\+event \texorpdfstring{$\ast$}{*}}]{evt}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{user\+\_\+data}{}\end{DoxyParamCaption})}
+
+
+
+UART interrupt/event callback. 
+
+UART driver callback.
+
+Handles asynchronous TX and RX events. Keep ISR logic minimal; heavy processing (e.\+g., parsing) should occur in separate threads. \Hypertarget{uart_8c_a0bc2c302aaf9d2d6ee601d09c37f696a}\index{uart.c@{uart.c}!uart\_check\_buffer@{uart\_check\_buffer}}
+\index{uart\_check\_buffer@{uart\_check\_buffer}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{uart\_check\_buffer()}{uart\_check\_buffer()}}
+{\footnotesize\ttfamily \label{uart_8c_a0bc2c302aaf9d2d6ee601d09c37f696a} 
+int uart\+\_\+check\+\_\+buffer (\begin{DoxyParamCaption}\item[{unsigned char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{buf}{, }\item[{int \texorpdfstring{$\ast$}{*}}]{len}{}\end{DoxyParamCaption})}
+
+
+
+Check and retrieve data from RX buffer. 
+
+Test whether a complete frame has been received.
+
+If characters have been accumulated, terminate as string, reset counter, and return pointer and length to caller.
+
+
+\begin{DoxyParams}{Parameters}
+{\em buf} & Pointer to store address of received data \\
+\hline
+{\em len} & Pointer to store number of bytes received \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if data available, otherwise unspecified 
+\end{DoxyReturn}
+\Hypertarget{uart_8c_af619fe0b949297d40d50ab9f41e96999}\index{uart.c@{uart.c}!uart\_init@{uart\_init}}
+\index{uart\_init@{uart\_init}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{uart\_init()}{uart\_init()}}
+{\footnotesize\ttfamily \label{uart_8c_af619fe0b949297d40d50ab9f41e96999} 
+int uart\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Initialize and configure UART peripheral. 
+
+Initialise the UART peripheral and associated kernel objects.
+
+Steps\+:
+\begin{DoxyEnumerate}
+\item Verify device readiness
+\item Apply runtime configuration
+\item Register interrupt-\/driven callback
+\item Enable RX with timeout
+\item Send welcome message
+\item Initialize RX semaphore
+\end{DoxyEnumerate}
+
+\begin{DoxyReturn}{Returns}
+0 on success or FATAL\+\_\+\+ERR on failure 
+\end{DoxyReturn}
+\Hypertarget{uart_8c_ab95e4a985595ec387937b2781911a84f}\index{uart.c@{uart.c}!uart\_resetRxBuffer@{uart\_resetRxBuffer}}
+\index{uart\_resetRxBuffer@{uart\_resetRxBuffer}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{uart\_resetRxBuffer()}{uart\_resetRxBuffer()}}
+{\footnotesize\ttfamily \label{uart_8c_ab95e4a985595ec387937b2781911a84f} 
+void uart\+\_\+reset\+Rx\+Buffer (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Clear received character count. 
+
+Clear the internal RX buffer. \Hypertarget{uart_8c_a022f9387e4c678486f22ac4f0c677438}\index{uart.c@{uart.c}!uart\_send@{uart\_send}}
+\index{uart\_send@{uart\_send}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{uart\_send()}{uart\_send()}}
+{\footnotesize\ttfamily \label{uart_8c_a022f9387e4c678486f22ac4f0c677438} 
+int uart\+\_\+send (\begin{DoxyParamCaption}\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{buf}{, }\item[{size\+\_\+t}]{len}{}\end{DoxyParamCaption})}
+
+
+
+Send data over UART. 
+
+Blocking transmit helper.
+
+
+\begin{DoxyParams}{Parameters}
+{\em buf} & Pointer to data buffer \\
+\hline
+{\em len} & Number of bytes to send \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+UART driver return code 
+\end{DoxyReturn}
+\Hypertarget{uart_8c_ae28061eb950077898ba7952fd3b233c4}\index{uart.c@{uart.c}!uart\_wait\_for\_rx@{uart\_wait\_for\_rx}}
+\index{uart\_wait\_for\_rx@{uart\_wait\_for\_rx}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{uart\_wait\_for\_rx()}{uart\_wait\_for\_rx()}}
+{\footnotesize\ttfamily \label{uart_8c_ae28061eb950077898ba7952fd3b233c4} 
+void uart\+\_\+wait\+\_\+for\+\_\+rx (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Block until at least one RX event occurs. 
+
+Block the calling thread until a frame is received. 
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{uart_8c_a6ce68847c12434f60d1b2654a3dc3409}\index{uart.c@{uart.c}!err@{err}}
+\index{err@{err}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{err}{err}}
+{\footnotesize\ttfamily \label{uart_8c_a6ce68847c12434f60d1b2654a3dc3409} 
+int err = 0}
+
+Generic error and message buffers \Hypertarget{uart_8c_acbbb8dc9e34f2cbd68792504dc18da81}\index{uart.c@{uart.c}!uart\_cfg@{uart\_cfg}}
+\index{uart\_cfg@{uart\_cfg}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{uart\_cfg}{uart\_cfg}}
+{\footnotesize\ttfamily \label{uart_8c_acbbb8dc9e34f2cbd68792504dc18da81} 
+const struct uart\+\_\+config uart\+\_\+cfg}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ .baudrate\ =\ 115200,}
+\DoxyCodeLine{\ \ \ \ .parity\ =\ UART\_CFG\_PARITY\_NONE,}
+\DoxyCodeLine{\ \ \ \ .stop\_bits\ =\ UART\_CFG\_STOP\_BITS\_1,}
+\DoxyCodeLine{\ \ \ \ .data\_bits\ =\ UART\_CFG\_DATA\_BITS\_8,}
+\DoxyCodeLine{\ \ \ \ .flow\_ctrl\ =\ UART\_CFG\_FLOW\_CTRL\_NONE}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{uart_8c_autotoc_md5}{}\doxysubsubsection{\texorpdfstring{UART configuration settings}{UART configuration settings}}\label{uart_8c_autotoc_md5}
+If dynamic configuration is enabled (CONFIG\+\_\+\+UART\+\_\+\+USE\+\_\+\+RUNTIME\+\_\+\+CONFIGURE), these runtime parameters are applied. Otherwise, devicetree settings prevail. \Hypertarget{uart_8c_a660f23134aaae43c9ff2c6096fa59342}\index{uart.c@{uart.c}!uart\_dev@{uart\_dev}}
+\index{uart\_dev@{uart\_dev}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{uart\_dev}{uart\_dev}}
+{\footnotesize\ttfamily \label{uart_8c_a660f23134aaae43c9ff2c6096fa59342} 
+const struct device\texorpdfstring{$\ast$}{*} uart\+\_\+dev = DEVICE\+\_\+\+DT\+\_\+\+GET(\mbox{\hyperlink{uart_8h_a07b40c5bd9acc44f62a9182527dbcc9b}{UART\+\_\+\+NODE}})}
+
+\hypertarget{uart_8c_autotoc_md2}{}\doxysubsubsection{\texorpdfstring{UART device instance from Device\+Tree}{UART device instance from Device\+Tree}}\label{uart_8c_autotoc_md2}
+The UART\+\_\+\+NODE label must be defined in your board\textquotesingle{}s devicetree. \Hypertarget{uart_8c_aa10d925c769d61749a2c03cbc08accf9}\index{uart.c@{uart.c}!welcome\_mesg@{welcome\_mesg}}
+\index{welcome\_mesg@{welcome\_mesg}!uart.c@{uart.c}}
+\doxysubsubsection{\texorpdfstring{welcome\_mesg}{welcome\_mesg}}
+{\footnotesize\ttfamily \label{uart_8c_aa10d925c769d61749a2c03cbc08accf9} 
+uint8\+\_\+t welcome\+\_\+mesg\mbox{[}$\,$\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{"{}UART\ demo:\ Type\ a\ few\ chars\ in\ a\ row\ and\ then\ pause\ for\ a\ little\ while\ ...\(\backslash\)n\(\backslash\)r"{}}}
+
+\end{DoxyCode}

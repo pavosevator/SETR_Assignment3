@@ -1,0 +1,26 @@
+\doxysection{i2c.\+h}
+\hypertarget{i2c_8h_source}{}\label{i2c_8h_source}\index{src/I2C/i2c.h@{src/I2C/i2c.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ I2C\_H\_}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ I2C\_H\_}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <zephyr/kernel.h>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <zephyr/drivers/i2c.h>}\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <zephyr/devicetree.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <zephyr/device.h>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <zephyr/sys/printk.h>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <errno.h>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}data.h"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{i2c_8c_a3b66eb6cc6ae3514944169a9bc550ded}{sensor\_thread\_func}}(\textcolor{keywordtype}{void}\ *argA,\ \textcolor{keywordtype}{void}\ *argB,\ \textcolor{keywordtype}{void}\ *argC);}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00029\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{i2c_8c_a599b53a348ffd9b2298fcb561417add4}{i2c\_init}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00046\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{i2c_8c_a2ece0787f26f95fa4966ec862ae85447}{i2c\_read\_temperature}}(uint8\_t\ *temp);}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#\ endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,92 @@
+\doxysection{src/\+GPIO/gpio.c File Reference}
+\hypertarget{gpio_8c}{}\label{gpio_8c}\index{src/GPIO/gpio.c@{src/GPIO/gpio.c}}
+
+
+GPIO interface for button and LED handling using Zephyr RTOS.  
+
+
+{\ttfamily \#include "{}gpio.\+h"{}}\newline
+{\ttfamily \#include "{}data.\+h"{}}\newline
+{\ttfamily \#include $<$zephyr/drivers/gpio.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{gpio_8c_aef3bfa643c3b8a552ebe6d85a6ee9581}{gpio\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Initialize all GPIOs (buttons and LEDs) \end{DoxyCompactList}\item 
+\Hypertarget{gpio_8c_aa3cc2e58affba462b069f6e1255a7e83}\label{gpio_8c_aa3cc2e58affba462b069f6e1255a7e83} 
+void {\bfseries ui\+\_\+task} (void)
+\item 
+void \mbox{\hyperlink{gpio_8c_ae2cc898d427561ab2502a08ec2f48a2c}{led2\+\_\+toggle}} (bool state)
+\begin{DoxyCompactList}\small\item\em Toggle LED 2 state. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{gpio_8c_a89e71f24e8e120d27b3d5e72e0958842}{led3\+\_\+toggle}} (bool state)
+\begin{DoxyCompactList}\small\item\em Toggle LED 3 state. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{gpio_8c_aea28b60b4a1d85916d06a75802dfe276}{led4\+\_\+toggle}} (bool state)
+\begin{DoxyCompactList}\small\item\em Toggle LED 4 state. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+GPIO interface for button and LED handling using Zephyr RTOS. 
+
+This header defines initialization and control functions for buttons and LEDs. It uses GPIOs defined in the device tree via DT aliases ({\ttfamily sw0} to {\ttfamily sw3}, {\ttfamily led0} to {\ttfamily led3}). 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{gpio_8c_aef3bfa643c3b8a552ebe6d85a6ee9581}\index{gpio.c@{gpio.c}!gpio\_init@{gpio\_init}}
+\index{gpio\_init@{gpio\_init}!gpio.c@{gpio.c}}
+\doxysubsubsection{\texorpdfstring{gpio\_init()}{gpio\_init()}}
+{\footnotesize\ttfamily \label{gpio_8c_aef3bfa643c3b8a552ebe6d85a6ee9581} 
+int gpio\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Initialize all GPIOs (buttons and LEDs) 
+
+Configures GPIO pins for input (buttons) and output (LEDs) based on Device\+Tree aliases.
+
+\begin{DoxyReturn}{Returns}
+0 on success, or a negative error code on failure 
+\end{DoxyReturn}
+\Hypertarget{gpio_8c_ae2cc898d427561ab2502a08ec2f48a2c}\index{gpio.c@{gpio.c}!led2\_toggle@{led2\_toggle}}
+\index{led2\_toggle@{led2\_toggle}!gpio.c@{gpio.c}}
+\doxysubsubsection{\texorpdfstring{led2\_toggle()}{led2\_toggle()}}
+{\footnotesize\ttfamily \label{gpio_8c_ae2cc898d427561ab2502a08ec2f48a2c} 
+void led2\+\_\+toggle (\begin{DoxyParamCaption}\item[{bool}]{state}{}\end{DoxyParamCaption})}
+
+
+
+Toggle LED 2 state. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & Boolean state\+: true to turn ON, false to turn OFF \\
+\hline
+\end{DoxyParams}
+\Hypertarget{gpio_8c_a89e71f24e8e120d27b3d5e72e0958842}\index{gpio.c@{gpio.c}!led3\_toggle@{led3\_toggle}}
+\index{led3\_toggle@{led3\_toggle}!gpio.c@{gpio.c}}
+\doxysubsubsection{\texorpdfstring{led3\_toggle()}{led3\_toggle()}}
+{\footnotesize\ttfamily \label{gpio_8c_a89e71f24e8e120d27b3d5e72e0958842} 
+void led3\+\_\+toggle (\begin{DoxyParamCaption}\item[{bool}]{state}{}\end{DoxyParamCaption})}
+
+
+
+Toggle LED 3 state. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & Boolean state\+: true to turn ON, false to turn OFF \\
+\hline
+\end{DoxyParams}
+\Hypertarget{gpio_8c_aea28b60b4a1d85916d06a75802dfe276}\index{gpio.c@{gpio.c}!led4\_toggle@{led4\_toggle}}
+\index{led4\_toggle@{led4\_toggle}!gpio.c@{gpio.c}}
+\doxysubsubsection{\texorpdfstring{led4\_toggle()}{led4\_toggle()}}
+{\footnotesize\ttfamily \label{gpio_8c_aea28b60b4a1d85916d06a75802dfe276} 
+void led4\+\_\+toggle (\begin{DoxyParamCaption}\item[{bool}]{state}{}\end{DoxyParamCaption})}
+
+
+
+Toggle LED 4 state. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & Boolean state\+: true to turn ON, false to turn OFF \\
+\hline
+\end{DoxyParams}

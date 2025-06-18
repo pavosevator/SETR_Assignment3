@@ -1,0 +1,117 @@
+\doxysection{src/\+I2\+C/i2c.c File Reference}
+\hypertarget{i2c_8c}{}\label{i2c_8c}\index{src/I2C/i2c.c@{src/I2C/i2c.c}}
+
+
+I2C interface implementation for TC74 temperature sensor.  
+
+
+{\ttfamily \#include "{}i2c.\+h"{}}\newline
+{\ttfamily \#include $<$zephyr/sys/printk.\+h$>$}\newline
+{\ttfamily \#include $<$zephyr/drivers/i2c.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{i2c_8c_a79aaa89920d05217559f07e3602af050}{TC74\+\_\+\+CMD\+\_\+\+RTR}}~0x00   /\texorpdfstring{$\ast$}{*} Read temperature command \texorpdfstring{$\ast$}{*}/
+\item 
+\Hypertarget{i2c_8c_a4cba5a0e57322b7316b506dc43b8c699}\label{i2c_8c_a4cba5a0e57322b7316b506dc43b8c699} 
+\#define {\bfseries TC74\+\_\+\+CMD\+\_\+\+RWCR}~0x01   /\texorpdfstring{$\ast$}{*} Configuration register command \texorpdfstring{$\ast$}{*}/
+\item 
+\Hypertarget{i2c_8c_ae03a6d163a5dac57274d28e3d7bbf61a}\label{i2c_8c_ae03a6d163a5dac57274d28e3d7bbf61a} 
+\#define {\bfseries ERR\+\_\+\+FATAL}~-\/1
+\item 
+\#define \mbox{\hyperlink{i2c_8c_a61e15cb2413134ad4873a095057ba60e}{I2\+C0\+\_\+\+NID}}~DT\+\_\+\+NODELABEL(tc74sensor)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{i2c_8c_a599b53a348ffd9b2298fcb561417add4}{i2c\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Initialize the I2C interface to the TC74 sensor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{i2c_8c_a3b66eb6cc6ae3514944169a9bc550ded}{sensor\+\_\+thread\+\_\+func}} (void \texorpdfstring{$\ast$}{*}argA, void \texorpdfstring{$\ast$}{*}argB, void \texorpdfstring{$\ast$}{*}argC)
+\begin{DoxyCompactList}\small\item\em Periodic sensor read thread. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{i2c_8c_a2ece0787f26f95fa4966ec862ae85447}{i2c\+\_\+read\+\_\+temperature}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}current\+\_\+temp)
+\begin{DoxyCompactList}\small\item\em Read current temperature from the TC74 sensor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+I2C interface implementation for TC74 temperature sensor. 
+
+This module provides functions to initialize and communicate with a TC74 sensor over I2C, including a periodic thread that reads temperature values and updates shared system state. 
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{i2c_8c_a61e15cb2413134ad4873a095057ba60e}\index{i2c.c@{i2c.c}!I2C0\_NID@{I2C0\_NID}}
+\index{I2C0\_NID@{I2C0\_NID}!i2c.c@{i2c.c}}
+\doxysubsubsection{\texorpdfstring{I2C0\_NID}{I2C0\_NID}}
+{\footnotesize\ttfamily \label{i2c_8c_a61e15cb2413134ad4873a095057ba60e} 
+\#define I2\+C0\+\_\+\+NID~DT\+\_\+\+NODELABEL(tc74sensor)}
+
+\hypertarget{i2c_8c_autotoc_md1}{}\doxysubsubsection{\texorpdfstring{Device Tree binding for the I2\+C-\/connected TC74 sensor}{Device Tree binding for the I2\+C-\/connected TC74 sensor}}\label{i2c_8c_autotoc_md1}
+The DT\+\_\+\+NODELABEL(tc74sensor) entry must be defined in the board\textquotesingle{}s .dts file to match the hardware wiring. Zephyr I2\+C\+\_\+\+DT\+\_\+\+SPEC\+\_\+\+GET macro reads bus \& address. \Hypertarget{i2c_8c_a79aaa89920d05217559f07e3602af050}\index{i2c.c@{i2c.c}!TC74\_CMD\_RTR@{TC74\_CMD\_RTR}}
+\index{TC74\_CMD\_RTR@{TC74\_CMD\_RTR}!i2c.c@{i2c.c}}
+\doxysubsubsection{\texorpdfstring{TC74\_CMD\_RTR}{TC74\_CMD\_RTR}}
+{\footnotesize\ttfamily \label{i2c_8c_a79aaa89920d05217559f07e3602af050} 
+\#define TC74\+\_\+\+CMD\+\_\+\+RTR~0x00   /\texorpdfstring{$\ast$}{*} Read temperature command \texorpdfstring{$\ast$}{*}/}
+
+\hypertarget{i2c_8c_autotoc_md0}{}\doxysubsubsection{\texorpdfstring{TC74 sensor commands}{TC74 sensor commands}}\label{i2c_8c_autotoc_md0}
+TC74\+\_\+\+CMD\+\_\+\+RTR (0x00)\+: Selects the Read-\/\+Temperature register TC74\+\_\+\+CMD\+\_\+\+RWCR (0x01)\+: Selects the Read/\+Write Configuration register 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{i2c_8c_a599b53a348ffd9b2298fcb561417add4}\index{i2c.c@{i2c.c}!i2c\_init@{i2c\_init}}
+\index{i2c\_init@{i2c\_init}!i2c.c@{i2c.c}}
+\doxysubsubsection{\texorpdfstring{i2c\_init()}{i2c\_init()}}
+{\footnotesize\ttfamily \label{i2c_8c_a599b53a348ffd9b2298fcb561417add4} 
+int i2c\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Initialize the I2C interface to the TC74 sensor. 
+
+Initialize the I²C bus and TC74 sensor.
+
+Checks that the I2C bus driver is ready before any transactions.
+
+\begin{DoxyReturn}{Returns}
+0 on success, ERR\+\_\+\+FATAL if the bus device is not ready 
+\end{DoxyReturn}
+\Hypertarget{i2c_8c_a2ece0787f26f95fa4966ec862ae85447}\index{i2c.c@{i2c.c}!i2c\_read\_temperature@{i2c\_read\_temperature}}
+\index{i2c\_read\_temperature@{i2c\_read\_temperature}!i2c.c@{i2c.c}}
+\doxysubsubsection{\texorpdfstring{i2c\_read\_temperature()}{i2c\_read\_temperature()}}
+{\footnotesize\ttfamily \label{i2c_8c_a2ece0787f26f95fa4966ec862ae85447} 
+int i2c\+\_\+read\+\_\+temperature (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{current\+\_\+temp}{}\end{DoxyParamCaption})}
+
+
+
+Read current temperature from the TC74 sensor. 
+
+Perform a single synchronous read of the TC74’s temperature register.
+
+Sends the Read-\/\+Temperature command then reads one byte from the sensor.
+
+
+\begin{DoxyParams}{Parameters}
+{\em current\+\_\+temp} & Pointer to a uint8\+\_\+t where the raw temperature will be stored \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 on success, non-\/zero error code on failure 
+\end{DoxyReturn}
+\Hypertarget{i2c_8c_a3b66eb6cc6ae3514944169a9bc550ded}\index{i2c.c@{i2c.c}!sensor\_thread\_func@{sensor\_thread\_func}}
+\index{sensor\_thread\_func@{sensor\_thread\_func}!i2c.c@{i2c.c}}
+\doxysubsubsection{\texorpdfstring{sensor\_thread\_func()}{sensor\_thread\_func()}}
+{\footnotesize\ttfamily \label{i2c_8c_a3b66eb6cc6ae3514944169a9bc550ded} 
+void sensor\+\_\+thread\+\_\+func (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argA}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{argB}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{argC}{}\end{DoxyParamCaption})}
+
+
+
+Periodic sensor read thread. 
+
+This function is intended to be run as a Zephyr thread. It polls the TC74 at a fixed interval and stores the converted temperature into a shared data structure, protecting access with a mutex.
+
+
+\begin{DoxyParams}{Parameters}
+{\em argA} & Unused \\
+\hline
+{\em argB} & Unused \\
+\hline
+{\em argC} & Unused \\
+\hline
+\end{DoxyParams}

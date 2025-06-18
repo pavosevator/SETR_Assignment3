@@ -1,0 +1,254 @@
+\doxysection{src/\+UART/uart.h File Reference}
+\hypertarget{uart_8h}{}\label{uart_8h}\index{src/UART/uart.h@{src/UART/uart.h}}
+
+
+UART driver interface for the temperature‑controller project running on the n\+RF52840‑\+DK under Zephyr RTOS.  
+
+
+{\ttfamily \#include $<$zephyr/kernel.\+h$>$}\newline
+{\ttfamily \#include $<$zephyr/device.\+h$>$}\newline
+{\ttfamily \#include $<$zephyr/devicetree.\+h$>$}\newline
+{\ttfamily \#include $<$zephyr/drivers/uart.\+h$>$}\newline
+{\ttfamily \#include $<$zephyr/sys/printk.\+h$>$}\newline
+{\ttfamily \#include $<$zephyr/types.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{uart_8h_a07b40c5bd9acc44f62a9182527dbcc9b}{UART\+\_\+\+NODE}}~DT\+\_\+\+NODELABEL(uart0)
+\begin{DoxyCompactList}\small\item\em Device\+Tree node of the UART peripheral used by this application. \end{DoxyCompactList}\item 
+\Hypertarget{uart_8h_aabfdd434c3f5fc98789fd65dc741f3f5}\label{uart_8h_aabfdd434c3f5fc98789fd65dc741f3f5} 
+\#define {\bfseries MAIN\+\_\+\+SLEEP\+\_\+\+TIME\+\_\+\+MS}~1000
+\begin{DoxyCompactList}\small\item\em Delay between successive iterations of the {\ttfamily main} thread (ms). \end{DoxyCompactList}\item 
+\Hypertarget{uart_8h_aa46777f75164fc107271e38f1f773e4d}\label{uart_8h_aa46777f75164fc107271e38f1f773e4d} 
+\#define {\bfseries FATAL\+\_\+\+ERR}~-\/1
+\begin{DoxyCompactList}\small\item\em Fatal error return code. The application terminates when returned. \end{DoxyCompactList}\item 
+\Hypertarget{uart_8h_a630686ccbe0cb17e592951055a5da582}\label{uart_8h_a630686ccbe0cb17e592951055a5da582} 
+\#define {\bfseries RXBUF\+\_\+\+SIZE}~60
+\begin{DoxyCompactList}\small\item\em Size of the receive buffer in bytes. \end{DoxyCompactList}\item 
+\Hypertarget{uart_8h_a923af2d146f214e75816a7f5993cee29}\label{uart_8h_a923af2d146f214e75816a7f5993cee29} 
+\#define {\bfseries TXBUF\+\_\+\+SIZE}~60
+\begin{DoxyCompactList}\small\item\em Size of the transmit buffer in bytes. \end{DoxyCompactList}\item 
+\Hypertarget{uart_8h_a8b8af8bedcac87c0d3c68634448b94a7}\label{uart_8h_a8b8af8bedcac87c0d3c68634448b94a7} 
+\#define {\bfseries MSG\+\_\+\+BUF\+\_\+\+SIZE}~100
+\begin{DoxyCompactList}\small\item\em Size of the application‑level message buffer in bytes. \end{DoxyCompactList}\item 
+\Hypertarget{uart_8h_ab6426fc74901f4fbec94862ebb672b81}\label{uart_8h_ab6426fc74901f4fbec94862ebb672b81} 
+\#define {\bfseries RX\+\_\+\+TIMEOUT}~1000
+\begin{DoxyCompactList}\small\item\em Idle time (µs) after the last received character that triggers a UART RX timeout event. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{uart_8h_a322bf2588d266226a6c485677f737ef3}{uart\+\_\+cb}} (const struct device \texorpdfstring{$\ast$}{*}dev, struct uart\+\_\+event \texorpdfstring{$\ast$}{*}evt, void \texorpdfstring{$\ast$}{*}user\+\_\+data)
+\begin{DoxyCompactList}\small\item\em UART driver callback. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{uart_8h_af619fe0b949297d40d50ab9f41e96999}{uart\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Initialise the UART peripheral and associated kernel objects. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{uart_8h_a0bc2c302aaf9d2d6ee601d09c37f696a}{uart\+\_\+check\+\_\+buffer}} (unsigned char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}buf, int \texorpdfstring{$\ast$}{*}len)
+\begin{DoxyCompactList}\small\item\em Test whether a complete frame has been received. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{uart_8h_ab95e4a985595ec387937b2781911a84f}{uart\+\_\+reset\+Rx\+Buffer}} (void)
+\begin{DoxyCompactList}\small\item\em Clear the internal RX buffer. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{uart_8h_a022f9387e4c678486f22ac4f0c677438}{uart\+\_\+send}} (const uint8\+\_\+t \texorpdfstring{$\ast$}{*}buf, size\+\_\+t len)
+\begin{DoxyCompactList}\small\item\em Blocking transmit helper. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{uart_8h_ae28061eb950077898ba7952fd3b233c4}{uart\+\_\+wait\+\_\+for\+\_\+rx}} (void)
+\begin{DoxyCompactList}\small\item\em Block the calling thread until a frame is received. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct k\+\_\+msgq \mbox{\hyperlink{uart_8h_a5ef38de1537b76a8b3c6ce5a89413b72}{uart\+\_\+msgq}}
+\begin{DoxyCompactList}\small\item\em Message queue receiving complete UART frames. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+UART driver interface for the temperature‑controller project running on the n\+RF52840‑\+DK under Zephyr RTOS. 
+
+The module wraps Zephyr’s asynchronous UART API to offer\+:
+\begin{DoxyItemize}
+\item Non‑blocking transmission with a simple \doxylink{uart_8c_a022f9387e4c678486f22ac4f0c677438}{uart\+\_\+send} helper.
+\item Interrupt‑driven reception that collects characters in an internal buffer and dispatches complete frames through a Zephyr message queue (\doxylink{uart_8h_a5ef38de1537b76a8b3c6ce5a89413b72}{uart\+\_\+msgq}).
+\item Basic runtime initialisation (\doxylink{uart_8c_af619fe0b949297d40d50ab9f41e96999}{uart\+\_\+init}) and buffer‑management helpers.
+\end{DoxyItemize}
+
+All definitions are implemented in {\ttfamily \doxylink{uart_8c}{uart.\+c}}. 
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{uart_8h_a07b40c5bd9acc44f62a9182527dbcc9b}\index{uart.h@{uart.h}!UART\_NODE@{UART\_NODE}}
+\index{UART\_NODE@{UART\_NODE}!uart.h@{uart.h}}
+\doxysubsubsection{\texorpdfstring{UART\_NODE}{UART\_NODE}}
+{\footnotesize\ttfamily \label{uart_8h_a07b40c5bd9acc44f62a9182527dbcc9b} 
+\#define UART\+\_\+\+NODE~DT\+\_\+\+NODELABEL(uart0)}
+
+
+
+Device\+Tree node of the UART peripheral used by this application. 
+
+\texorpdfstring{$<$}{<} Zephyr kernel helpers such as k\+\_\+msleep(). \texorpdfstring{$<$}{<} Device driver structures and helpers. \texorpdfstring{$<$}{<} Device\+Tree access macros (DT\+\_\+\+NODELABEL). \texorpdfstring{$<$}{<} Zephyr UART driver API. \texorpdfstring{$<$}{<} printk() for low‑level logging. \texorpdfstring{$<$}{<} sprintf(). 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{uart_8h_a322bf2588d266226a6c485677f737ef3}\index{uart.h@{uart.h}!uart\_cb@{uart\_cb}}
+\index{uart\_cb@{uart\_cb}!uart.h@{uart.h}}
+\doxysubsubsection{\texorpdfstring{uart\_cb()}{uart\_cb()}}
+{\footnotesize\ttfamily \label{uart_8h_a322bf2588d266226a6c485677f737ef3} 
+void uart\+\_\+cb (\begin{DoxyParamCaption}\item[{const struct device \texorpdfstring{$\ast$}{*}}]{dev}{, }\item[{struct uart\+\_\+event \texorpdfstring{$\ast$}{*}}]{evt}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{user\+\_\+data}{}\end{DoxyParamCaption})}
+
+
+
+UART driver callback. 
+
+Registered with the Zephyr UART driver to handle TX and RX events. When a full frame is received or a timeout occurs, the function enqueues the data into \doxylink{uart_8h_a5ef38de1537b76a8b3c6ce5a89413b72}{uart\+\_\+msgq}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dev} & Pointer to the UART device that raised the callback. \\
+\hline
+{\em evt} & Pointer to the UART event description provided by Zephyr. \\
+\hline
+{\em user\+\_\+data} & User context pointer supplied during registration (unused).\\
+\hline
+\end{DoxyParams}
+UART driver callback.
+
+Handles asynchronous TX and RX events. Keep ISR logic minimal; heavy processing (e.\+g., parsing) should occur in separate threads. \Hypertarget{uart_8h_a0bc2c302aaf9d2d6ee601d09c37f696a}\index{uart.h@{uart.h}!uart\_check\_buffer@{uart\_check\_buffer}}
+\index{uart\_check\_buffer@{uart\_check\_buffer}!uart.h@{uart.h}}
+\doxysubsubsection{\texorpdfstring{uart\_check\_buffer()}{uart\_check\_buffer()}}
+{\footnotesize\ttfamily \label{uart_8h_a0bc2c302aaf9d2d6ee601d09c37f696a} 
+int uart\+\_\+check\+\_\+buffer (\begin{DoxyParamCaption}\item[{unsigned char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{buf}{, }\item[{int \texorpdfstring{$\ast$}{*}}]{len}{}\end{DoxyParamCaption})}
+
+
+
+Test whether a complete frame has been received. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em buf} & Pointer to the internal RX buffer pointer. Updated on success. \\
+\hline
+\mbox{\texttt{ out}}  & {\em len} & Pointer to an integer that receives the length of the frame (bytes).\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & No complete frame is available. \\
+\hline
+{\em 1} & Frame available and {\ttfamily buf} / {\ttfamily len} were updated. \\
+\hline
+{\em $<$0} & Negative error code.\\
+\hline
+\end{DoxyRetVals}
+Test whether a complete frame has been received.
+
+If characters have been accumulated, terminate as string, reset counter, and return pointer and length to caller.
+
+
+\begin{DoxyParams}{Parameters}
+{\em buf} & Pointer to store address of received data \\
+\hline
+{\em len} & Pointer to store number of bytes received \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if data available, otherwise unspecified 
+\end{DoxyReturn}
+\Hypertarget{uart_8h_af619fe0b949297d40d50ab9f41e96999}\index{uart.h@{uart.h}!uart\_init@{uart\_init}}
+\index{uart\_init@{uart\_init}!uart.h@{uart.h}}
+\doxysubsubsection{\texorpdfstring{uart\_init()}{uart\_init()}}
+{\footnotesize\ttfamily \label{uart_8h_af619fe0b949297d40d50ab9f41e96999} 
+int uart\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Initialise the UART peripheral and associated kernel objects. 
+
+This function configures the UART device defined by \doxylink{uart_8h_a07b40c5bd9acc44f62a9182527dbcc9b}{UART\+\_\+\+NODE} for asynchronous operation, allocates the RX buffer, and registers \doxylink{uart_8c_a322bf2588d266226a6c485677f737ef3}{uart\+\_\+cb} as the event callback.
+
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & Success. \\
+\hline
+{\em -\/errno} & Negative error code propagated from Zephyr drivers.\\
+\hline
+\end{DoxyRetVals}
+Initialise the UART peripheral and associated kernel objects.
+
+Steps\+:
+\begin{DoxyEnumerate}
+\item Verify device readiness
+\item Apply runtime configuration
+\item Register interrupt-\/driven callback
+\item Enable RX with timeout
+\item Send welcome message
+\item Initialize RX semaphore
+\end{DoxyEnumerate}
+
+\begin{DoxyReturn}{Returns}
+0 on success or FATAL\+\_\+\+ERR on failure 
+\end{DoxyReturn}
+\Hypertarget{uart_8h_ab95e4a985595ec387937b2781911a84f}\index{uart.h@{uart.h}!uart\_resetRxBuffer@{uart\_resetRxBuffer}}
+\index{uart\_resetRxBuffer@{uart\_resetRxBuffer}!uart.h@{uart.h}}
+\doxysubsubsection{\texorpdfstring{uart\_resetRxBuffer()}{uart\_resetRxBuffer()}}
+{\footnotesize\ttfamily \label{uart_8h_ab95e4a985595ec387937b2781911a84f} 
+void uart\+\_\+reset\+Rx\+Buffer (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Clear the internal RX buffer. 
+
+Applications should call this after they have processed the frame obtained through \doxylink{uart_8c_a0bc2c302aaf9d2d6ee601d09c37f696a}{uart\+\_\+check\+\_\+buffer()}.
+
+Clear the internal RX buffer. \Hypertarget{uart_8h_a022f9387e4c678486f22ac4f0c677438}\index{uart.h@{uart.h}!uart\_send@{uart\_send}}
+\index{uart\_send@{uart\_send}!uart.h@{uart.h}}
+\doxysubsubsection{\texorpdfstring{uart\_send()}{uart\_send()}}
+{\footnotesize\ttfamily \label{uart_8h_a022f9387e4c678486f22ac4f0c677438} 
+int uart\+\_\+send (\begin{DoxyParamCaption}\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{buf}{, }\item[{size\+\_\+t}]{len}{}\end{DoxyParamCaption})}
+
+
+
+Blocking transmit helper. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em buf} & Pointer to the data to send. \\
+\hline
+\mbox{\texttt{ in}}  & {\em len} & Number of bytes to transmit.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 on success, negative errno on failure.
+\end{DoxyReturn}
+Blocking transmit helper.
+
+
+\begin{DoxyParams}{Parameters}
+{\em buf} & Pointer to data buffer \\
+\hline
+{\em len} & Number of bytes to send \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+UART driver return code 
+\end{DoxyReturn}
+\Hypertarget{uart_8h_ae28061eb950077898ba7952fd3b233c4}\index{uart.h@{uart.h}!uart\_wait\_for\_rx@{uart\_wait\_for\_rx}}
+\index{uart\_wait\_for\_rx@{uart\_wait\_for\_rx}!uart.h@{uart.h}}
+\doxysubsubsection{\texorpdfstring{uart\_wait\_for\_rx()}{uart\_wait\_for\_rx()}}
+{\footnotesize\ttfamily \label{uart_8h_ae28061eb950077898ba7952fd3b233c4} 
+void uart\+\_\+wait\+\_\+for\+\_\+rx (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Block the calling thread until a frame is received. 
+
+Internally this function waits on \doxylink{uart_8h_a5ef38de1537b76a8b3c6ce5a89413b72}{uart\+\_\+msgq}, forwarding the timeout of the queue call to the caller.
+
+Block the calling thread until a frame is received. 
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{uart_8h_a5ef38de1537b76a8b3c6ce5a89413b72}\index{uart.h@{uart.h}!uart\_msgq@{uart\_msgq}}
+\index{uart\_msgq@{uart\_msgq}!uart.h@{uart.h}}
+\doxysubsubsection{\texorpdfstring{uart\_msgq}{uart\_msgq}}
+{\footnotesize\ttfamily \label{uart_8h_a5ef38de1537b76a8b3c6ce5a89413b72} 
+struct k\+\_\+msgq uart\+\_\+msgq\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Message queue receiving complete UART frames. 
+
+Each queue element is a null‑terminated string whose maximum length is \doxylink{uart_8h_a630686ccbe0cb17e592951055a5da582}{RXBUF\+\_\+\+SIZE} bytes. Application threads can block on this queue using {\ttfamily k\+\_\+msgq\+\_\+get()} to wait for new frames. 

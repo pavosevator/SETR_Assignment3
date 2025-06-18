@@ -1,0 +1,51 @@
+\doxysection{uart.\+h}
+\hypertarget{uart_8h_source}{}\label{uart_8h_source}\index{src/UART/uart.h@{src/UART/uart.h}}
+\mbox{\hyperlink{uart_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#ifndef\ UART\_H\_}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#define\ UART\_H\_}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <zephyr/kernel.h>}\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <zephyr/device.h>}\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ <zephyr/devicetree.h>}\ \ \ \ \ \ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ <zephyr/drivers/uart.h>}\ \ \ \ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#include\ <zephyr/sys/printk.h>}\ \ \ \ \ \ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ <zephyr/types.h>}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ <stdio.h>}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#define\ UART\_NODE\ DT\_NODELABEL(uart0)}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#define\ MAIN\_SLEEP\_TIME\_MS\ 1000}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ FATAL\_ERR\ -\/1}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ RXBUF\_SIZE\ 60}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#define\ TXBUF\_SIZE\ 60}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#define\ MSG\_BUF\_SIZE\ 100}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ RX\_TIMEOUT\ 1000}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00062\ \textcolor{keyword}{extern}\ \textcolor{keyword}{struct\ }k\_msgq\ \mbox{\hyperlink{uart_8h_a5ef38de1537b76a8b3c6ce5a89413b72}{uart\_msgq}};}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00075\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{uart_8h_a322bf2588d266226a6c485677f737ef3}{uart\_cb}}(\textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ device\ *dev,\ \textcolor{keyword}{struct}\ uart\_event\ *evt,\ \textcolor{keywordtype}{void}\ *user\_data);}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00087\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{uart_8h_af619fe0b949297d40d50ab9f41e96999}{uart\_init}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00101\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{uart_8h_a0bc2c302aaf9d2d6ee601d09c37f696a}{uart\_check\_buffer}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ **buf,\ \textcolor{keywordtype}{int}\ *len);}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00109\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{uart_8h_ab95e4a985595ec387937b2781911a84f}{uart\_resetRxBuffer}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00119\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{uart_8h_a022f9387e4c678486f22ac4f0c677438}{uart\_send}}(\textcolor{keyword}{const}\ uint8\_t\ *buf,\ \textcolor{keywordtype}{size\_t}\ len);}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00127\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{uart_8h_ae28061eb950077898ba7952fd3b233c4}{uart\_wait\_for\_rx}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ UART\_H\_\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

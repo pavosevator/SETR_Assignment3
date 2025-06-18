@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['control_20system_0',['Thermal Process Control System',['../md__r_e_a_d_m_e.html#autotoc_md1',1,'']]]
+  ['addinhistory_0',['addInHistory',['../cmdproc_8h.html#a5c2454bba0f5fd587bf2c6277df9ee7e',1,'cmdproc.h']]],
+  ['aliases_1',['GPIO DeviceTree Aliases',['../group__gpio__aliases.html',1,'']]]
 ];
