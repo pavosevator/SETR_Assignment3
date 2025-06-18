@@ -25,11 +25,11 @@
 #define STACK_SIZE 1024            // Stack size for each thread
 
 // Thread priorities (lower number = higher priority)
-#define COMMAND_PRIO 1
-#define SENSOR_PRIO  2
-#define CONTROL_PRIO 3
-#define ACTUATOR_PRIO 4
-#define UI_PRIO 5
+#define COMMAND_PRIO 2
+#define SENSOR_PRIO  3
+#define CONTROL_PRIO 4
+#define ACTUATOR_PRIO 5
+#define UI_PRIO 1
 
 // Define thread stacks
 K_THREAD_STACK_DEFINE(command_stack, STACK_SIZE);
@@ -51,6 +51,32 @@ k_tid_t sensor_tid;
 k_tid_t control_tid;
 k_tid_t actuator_tid;
 k_tid_t ui_tid;
+
+/* Semaphores and timers for periodic threads */
+static struct k_sem control_sem;
+static struct k_sem actuator_sem;
+static struct k_sem ui_sem;
+
+static struct k_timer control_timer;
+static struct k_timer actuator_timer;
+static struct k_timer ui_timer;
+
+static void control_timer_handler(struct k_timer *t)
+{
+    k_sem_give(&control_sem);
+}
+
+static void actuator_timer_handler(struct k_timer *t)
+{
+    k_sem_give(&actuator_sem);
+}
+
+static void ui_timer_handler(struct k_timer *t)
+{
+    k_sem_give(&ui_sem);
+}
+
+
 
 // Buffers for UART transmission (not actively used in main.c, reserved for modules)
 static unsigned char *rx_data;
@@ -86,9 +112,28 @@ void app_init(void)
     k_mutex_init(&sensor_data.mutex);
     k_mutex_init(&ctrl_state.mutex);
 
+    /* Initialize semaphores and timers for periodic threads */
+    k_sem_init(&control_sem, 0, 1);
+    k_sem_init(&actuator_sem, 0, 1);
+    k_sem_init(&ui_sem, 0, 1);
+
+    k_timer_init(&control_timer, control_timer_handler, NULL);
+    k_timer_start(&control_timer, K_NO_WAIT, K_MSEC(200));
+
+    /* Actuator period depends on system state (start with system off) */
+    k_timer_init(&actuator_timer, actuator_timer_handler, NULL);
+    k_timer_start(&actuator_timer, K_NO_WAIT, K_MSEC(200));
+
+    k_timer_init(&ui_timer, ui_timer_handler, NULL);
+    k_timer_start(&ui_timer, K_NO_WAIT, K_MSEC(150));
+
+
     // Initial LED state
     led4_toggle(0);
     led3_toggle(0);
+
+    //Voltage on PIN1.9 used for heater = 0 V
+    heater_off();
 
     // Thread creation
     command_tid = k_thread_create(&command_thread, command_stack,
@@ -170,6 +215,7 @@ void control_thread_func(void *argA, void *argB, void *argC)
 {
     int delta;
     while (1) {
+        k_sem_take(&control_sem, K_FOREVER);
         if (ctrl_state.system_on) {
             delta = sensor_data.current_temp - ctrl_state.max_temp;
 
@@ -192,7 +238,6 @@ void control_thread_func(void *argA, void *argB, void *argC)
             led3_toggle(0);
             led4_toggle(0);
         }
-        k_sleep(K_MSEC(200));
     }
 }
 
@@ -202,19 +247,26 @@ void control_thread_func(void *argA, void *argB, void *argC)
  * Turns the heater on or off based on temperature and system state
  */
 void actuator_thread_func(void *argA, void *argB, void *argC)
-{
+{   
+    static int actuator_period = 200;
     while (1) {
+        k_sem_take(&actuator_sem, K_FOREVER);
+        bool sys_state;
+        k_mutex_lock(&ctrl_state.mutex, K_FOREVER);
+        sys_state = ctrl_state.system_on;
+        k_mutex_unlock(&ctrl_state.mutex);
         if (ctrl_state.system_on) {
             if (ctrl_state.max_temp >= sensor_data.current_temp) {
                 heater_on();
             } else {
                 heater_off();
             }
-            k_sleep(K_MSEC(100));
-            continue;
         }
-        // System off: check less frequently
-        k_sleep(K_MSEC(200));
+        int desired = sys_state ? 100 : 200;
+        if (desired != actuator_period) {
+            actuator_period = desired;
+            k_timer_start(&actuator_timer, K_NO_WAIT, K_MSEC(desired));
+        }
     }
 }
 
@@ -226,6 +278,7 @@ void actuator_thread_func(void *argA, void *argB, void *argC)
 void ui_thread_func(void *argA, void *argB, void *argC)
 {
     while (1) {
+        k_sem_take(&ui_sem, K_FOREVER);
         ui_task();  // UI logic runs here (defined in a different module)
     }
 }

@@ -8,8 +8,6 @@
  */
 
 #include "i2c.h"
-#include <zephyr/sys/printk.h>
-#include <zephyr/drivers/i2c.h>
 
 /**
  * TC74 sensor commands
@@ -32,6 +30,16 @@
 #define I2C0_NID DT_NODELABEL(tc74sensor)
 static const struct i2c_dt_spec dev_i2c = I2C_DT_SPEC_GET(I2C0_NID);
 
+/* Timer and semaphore for periodic sensor sampling */
+static struct k_sem sensor_sem;
+static struct k_timer sensor_timer;
+
+static void sensor_timer_handler(struct k_timer *t)
+{
+    k_sem_give(&sensor_sem);
+}
+
+
 /**
  * @brief Initialize the I2C interface to the TC74 sensor
  *
@@ -46,9 +54,15 @@ int i2c_init(void)
         printk("I2C bus not ready!\n");
         return ERR_FATAL;
     }
+    
+    /* Initialize semaphore and timer used by the sensor thread */
+    k_sem_init(&sensor_sem, 0, 1);
+    k_timer_init(&sensor_timer, sensor_timer_handler, NULL);
+    k_timer_start(&sensor_timer, K_NO_WAIT, K_MSEC(500));
+
+
     return 0;
 }
-
 /**
  * @brief Periodic sensor read thread
  *
@@ -72,9 +86,9 @@ void sensor_thread_func(void *argA, void *argB, void *argC)
     uint8_t temp_raw;
 
     while (1) {
+        k_sem_take(&sensor_sem, K_FOREVER);
         /* Skip reading if system is turned off */
         if (!ctrl_state.system_on) {
-            k_sleep(K_MSEC(100));
             continue;
         }
 
@@ -89,8 +103,6 @@ void sensor_thread_func(void *argA, void *argB, void *argC)
             k_mutex_unlock(&sensor_data.mutex);
         }
 
-        /* Wait 500 ms before next measurement */
-        k_msleep(500);
     }
 }
 
