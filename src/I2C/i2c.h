@@ -10,6 +10,7 @@
 #include "data.h"
 
 void sensor_thread_func(void *argA, void *argB, void *argC);
+
 /**
  * @brief  Initialize the I²C bus and TC74 sensor.
  *
@@ -18,7 +19,7 @@ void sensor_thread_func(void *argA, void *argB, void *argC);
  *   3. Wakes TC74 if necessary (i2c_wake_tc74),
  *   4. Sets the RTR pointer (i2c_set_temperature_pointer).
  *
- * Must be called before any other I²C operations.  
+ *   Must be called before any other I²C operations.  
  *
  * @return
  *   -  0        on success

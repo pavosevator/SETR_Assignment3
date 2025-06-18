@@ -1,8 +1,9 @@
-/*
- * heater.c - GPIO-based heater control interface for Nordic nRF52840
+/**
+ * @file heater.c
+ * @brief Heater control interface for Zephyr-based embedded systems.
  *
- * This module provides initialization and on/off/toggle control of a heater
- * element wired to a GPIO pin, using Zephyr's device tree bindings.
+ * This module provides simple functions to initialize and control a heating element
+ * via GPIO using the Zephyr RTOS.
  */
 
 #include "heater.h"

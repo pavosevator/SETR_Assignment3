@@ -1,0 +1,29 @@
+\chapter{SETR\+\_\+\+Assignment3}
+\hypertarget{md__r_e_a_d_m_e}{}\label{md__r_e_a_d_m_e}\index{SETR\_Assignment3@{SETR\_Assignment3}}
+\label{md__r_e_a_d_m_e_autotoc_md0}%
+\Hypertarget{md__r_e_a_d_m_e_autotoc_md0}%
+\hypertarget{md__r_e_a_d_m_e_autotoc_md1}{}\doxysection{\texorpdfstring{Thermal Process Control System}{Thermal Process Control System}}\label{md__r_e_a_d_m_e_autotoc_md1}
+{\bfseries{Prototype of a heater controller using n\+RF52840-\/\+DK and Zephyr}}\hypertarget{md__r_e_a_d_m_e_autotoc_md2}{}\doxysubsection{\texorpdfstring{Hardware}{Hardware}}\label{md__r_e_a_d_m_e_autotoc_md2}
+
+\begin{DoxyItemize}
+\item {\bfseries{Board\+:}} Nordic n\+RF52840-\/\+DK ~\newline
+
+\item {\bfseries{Sensor\+:}} TC74\+A0-\/3.\+3\+VAT I²C temperature sensor
+\item {\bfseries{Actuator\+:}} 5 W resistor driven via TN0702 FET
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md3}{}\doxysubsection{\texorpdfstring{Software Modules}{Software Modules}}\label{md__r_e_a_d_m_e_autotoc_md3}
+
+\begin{DoxyItemize}
+\item {\bfseries{{\ttfamily main.\+c}}} ~\newline
+ Initializes UART, spawns two threads (A = UART RX→\+CMD, B = control task)
+\item {\bfseries{{\ttfamily i2c.\+c} / {\ttfamily i2c.\+h}}} ~\newline
+ I²C driver for waking and reading TC74
+\item {\bfseries{{\ttfamily uart.\+c} / {\ttfamily uart.\+h}}} ~\newline
+ UART setup (115200 8N1), callback → message queue → semaphore
+\item {\bfseries{{\ttfamily cmdproc.\+c} / {\ttfamily cmdproc.\+h}}} ~\newline
+ ASCII-\/frame command parser/formatter ({\ttfamily \#M}, {\ttfamily \#C}, {\ttfamily \#S}, checksum, ACK/\+ERR)
+\item {\bfseries{{\ttfamily data.\+c / data.\+h}}} ~\newline
+ Shared RTDB definitions
+\item {\bfseries{{\ttfamily test\+\_\+1.\+c}}} ~\newline
+ Unity testing file
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md4}{}\doxysubsection{\texorpdfstring{IMPORTANT NOTE}{IMPORTANT NOTE}}\label{md__r_e_a_d_m_e_autotoc_md4}
+To change between unity testing and running the main.\+c, access the root folder\textquotesingle{}s CMake\+Lists.\+txt and switch UNIT\+\_\+\+TESTING 

@@ -1,9 +1,9 @@
-/*
- * uart.c - UART interface implementation for nRF52840 using Zephyr
+/**
+ * @file uart.c
+ * @brief UART interface implementation for nRF52840 using Zephyr.
  *
- * This module initializes the UART peripheral, sets up callbacks for
- * asynchronous TX/RX handling, and provides simple APIs to send and retrieve
- * data. Incoming bytes are queued via a message queue and signaled via a semaphore.
+ * This module provides UART initialization, asynchronous TX/RX handling, 
+ * and APIs to send and receive data using Zephyr RTOS features.
  */
 
 #include "uart.h"
@@ -12,49 +12,49 @@
 #include <zephyr/drivers/uart.h>      /* UART driver API */
 #include <zephyr/sys/printk.h>        /* printk logging */
 
-/*
- * Semaphore used to signal that new data has arrived
- */
+/** 
+ *@brief Semaphore used to signal that new data has arrived
+ **/
 static struct k_sem uart_rx_sem;
 
-/*
+/**
  * UART device instance from DeviceTree
  * -------------------------------------------------------------
  * The UART_NODE label must be defined in your board's devicetree.
- */
+ **/
 const struct device *uart_dev = DEVICE_DT_GET(UART_NODE);
 
-/*
+/** 
  * RX buffers to hold incoming data
  * -------------------------------------------------------------
  * rx_buf: DMA buffer provided to driver
  * rx_chars: accumulation buffer for processed bytes
- */
+ **/
 static uint8_t rx_buf[RXBUF_SIZE];
 static uint8_t rx_chars[RXBUF_SIZE];
 volatile int uart_rxbuf_nchar = 0;    /* Number of bytes currently stored in rx_chars */
 
-/*
+/** 
  * Message queue for received bytes
  * -------------------------------------------------------------
  * Stores individual bytes from RX_RDY events for later processing
- */
+ **/
 K_MSGQ_DEFINE(uart_msgq, sizeof(uint8_t), 32, 4);
 
-/*
+/** 
  * Generic error and message buffers
- */
+ **/
 int err = 0;
 uint8_t welcome_mesg[] =
     "UART demo: Type a few chars in a row and then pause for a little while ...\n\r";
 uint8_t rep_mesg[MSG_BUF_SIZE];    /* Buffer for user to fill with reply data */
 
-/*
+/** 
  * UART configuration settings
  * -------------------------------------------------------------
  * If dynamic configuration is enabled (CONFIG_UART_USE_RUNTIME_CONFIGURE),
  * these runtime parameters are applied. Otherwise, devicetree settings prevail.
- */
+ **/
 const struct uart_config uart_cfg = {
     .baudrate = 115200,
     .parity = UART_CFG_PARITY_NONE,
@@ -75,7 +75,7 @@ const struct uart_config uart_cfg = {
  *  6. Initialize RX semaphore
  *
  * @return 0 on success or FATAL_ERR on failure
- */
+ **/
 int uart_init(void)
 {
     /* Ensure the UART device is accessible */
@@ -129,7 +129,7 @@ int uart_init(void)
  * @param buf Pointer to store address of received data
  * @param len Pointer to store number of bytes received
  * @return 0 if data available, otherwise unspecified
- */
+ **/
 int uart_check_buffer(unsigned char **buf, int *len)
 {
     if (uart_rxbuf_nchar > 0) {
@@ -158,7 +158,7 @@ void uart_resetRxBuffer(void)
  * @param buf Pointer to data buffer
  * @param len Number of bytes to send
  * @return UART driver return code
- */
+ **/
 int uart_send(const uint8_t *buf, size_t len)
 {
     return uart_tx(uart_dev, buf, len, SYS_FOREVER_MS);
@@ -169,7 +169,7 @@ int uart_send(const uint8_t *buf, size_t len)
  *
  * Handles asynchronous TX and RX events. Keep ISR logic minimal;
  * heavy processing (e.g., parsing) should occur in separate threads.
- */
+ **/
 void uart_cb(const struct device *dev, struct uart_event *evt, void *user_data)
 {
     int ret;
@@ -225,7 +225,7 @@ void uart_cb(const struct device *dev, struct uart_event *evt, void *user_data)
 
 /**
  * @brief Block until at least one RX event occurs
- */
+ **/
 void uart_wait_for_rx(void)
 {
     k_sem_take(&uart_rx_sem, K_FOREVER);

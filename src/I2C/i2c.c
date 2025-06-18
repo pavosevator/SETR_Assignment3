@@ -1,32 +1,34 @@
-/*
- * i2c.c - Well-documented I2C interface implementation for TC74 temperature sensor
+/**
+ * @file i2c.c
+ * @brief I2C interface implementation for TC74 temperature sensor.
  *
- * This module provides initialization and reading functions for the TC74 sensor
- * over the I2C bus, as well as a dedicated thread for periodic temperature acquisition.
+ * This module provides functions to initialize and communicate with
+ * a TC74 sensor over I2C, including a periodic thread that reads
+ * temperature values and updates shared system state.
  */
 
 #include "i2c.h"
 #include <zephyr/sys/printk.h>
 #include <zephyr/drivers/i2c.h>
 
-/*
+/**
  * TC74 sensor commands
  * -------------------------------------------------------------
  * TC74_CMD_RTR  (0x00): Selects the Read-Temperature register
  * TC74_CMD_RWCR (0x01): Selects the Read/Write Configuration register
- */
+ **/
 #define TC74_CMD_RTR  0x00   /* Read temperature command */
 #define TC74_CMD_RWCR 0x01   /* Configuration register command */
 
 /* Generic error code for fatal I2C failures */
 #define ERR_FATAL -1
 
-/*
+/**
  * Device Tree binding for the I2C-connected TC74 sensor
  * -------------------------------------------------------------
  * The DT_NODELABEL(tc74sensor) entry must be defined in the board's .dts file
  * to match the hardware wiring. Zephyr I2C_DT_SPEC_GET macro reads bus & address.
- */
+ **/
 #define I2C0_NID DT_NODELABEL(tc74sensor)
 static const struct i2c_dt_spec dev_i2c = I2C_DT_SPEC_GET(I2C0_NID);
 
@@ -36,7 +38,7 @@ static const struct i2c_dt_spec dev_i2c = I2C_DT_SPEC_GET(I2C0_NID);
  * Checks that the I2C bus driver is ready before any transactions.
  *
  * @return 0 on success, ERR_FATAL if the bus device is not ready
- */
+ **/
 int i2c_init(void)
 {
     if (!device_is_ready(dev_i2c.bus)) {

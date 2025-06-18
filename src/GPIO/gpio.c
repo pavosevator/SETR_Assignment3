@@ -1,3 +1,11 @@
+/**
+ * @file gpio.c
+ * @brief GPIO interface for button and LED handling using Zephyr RTOS
+ *
+ * This header defines initialization and control functions for buttons and LEDs.
+ * It uses GPIOs defined in the device tree via DT aliases (`sw0` to `sw3`, `led0` to `led3`).
+ */
+ 
 #include "gpio.h"
 #include "data.h"
 #include <zephyr/drivers/gpio.h>    /* for GPIO api*/
