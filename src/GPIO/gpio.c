@@ -60,7 +60,7 @@ void ui_task(void) {
     bool btn_decrease = gpio_pin_get_dt(&button4);
 
     bool sys_state;
-
+    
     k_mutex_lock(&ctrl_state.mutex, K_FOREVER);
     sys_state = ctrl_state.system_on;
     if (btn_system && !prev_system) {
@@ -91,6 +91,9 @@ void ui_task(void) {
         ctrl_state.max_temp--;
         printk("Temperature goal decreased to: %d\n", ctrl_state.max_temp);
         k_mutex_unlock(&ctrl_state.mutex);
+    }
+    else if(!sys_state){
+        heater_off();
     }
 
     prev_system = btn_system;
