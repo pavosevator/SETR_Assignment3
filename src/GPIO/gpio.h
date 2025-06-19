@@ -9,6 +9,8 @@
 #ifndef GPIO_H
 #define GPIO_H
 
+#include "data.h"
+#include "heater.h"
 #include <zephyr/kernel.h>          /* for k_msleep() */
 #include <zephyr/device.h>          /* for device_is_ready() and device structure */
 #include <zephyr/devicetree.h>		/* for DT_NODELABEL() */

@@ -7,7 +7,6 @@
  */
  
 #include "gpio.h"
-#include "data.h"
 #include <zephyr/drivers/gpio.h>    /* for GPIO api*/
 
 /* Define GPIO specifications for buttons */

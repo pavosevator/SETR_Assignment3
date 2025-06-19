@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.21.0)
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 project(Temperature_measurement)
 
-set(UNIT_TESTING OFF)  # Flip this to OFF when building the full app
+set(UNIT_TESTING ON)  # Flip this to OFF when building the full app
 
 # Common source folders
 target_include_directories(app PRIVATE
