@@ -127,7 +127,6 @@ void app_init(void)
     k_timer_init(&ui_timer, ui_timer_handler, NULL);
     k_timer_start(&ui_timer, K_NO_WAIT, K_MSEC(150));
 
-
     // Initial LED state
     led4_toggle(0);
     led3_toggle(0);
@@ -155,6 +154,7 @@ void app_init(void)
     ui_tid = k_thread_create(&ui_thread, ui_stack,
         K_THREAD_STACK_SIZEOF(ui_stack), ui_thread_func,
         NULL, NULL, NULL, UI_PRIO, 0, K_NO_WAIT);
+
 }
 
 /**
@@ -176,6 +176,7 @@ int main(void)
  */
 void command_thread_func(void *argA , void *argB, void *argC)
 {
+    printk("Command thread\n");
     uint8_t b;
     while (1) {
         if (!ctrl_state.system_on) {
@@ -212,7 +213,8 @@ void command_thread_func(void *argA , void *argB, void *argC)
  * Compares current temperature to target and signals warning using LEDs
  */
 void control_thread_func(void *argA, void *argB, void *argC)
-{
+{   
+    printk("Control thread\n");
     int delta;
     while (1) {
         k_sem_take(&control_sem, K_FOREVER);
@@ -248,20 +250,30 @@ void control_thread_func(void *argA, void *argB, void *argC)
  */
 void actuator_thread_func(void *argA, void *argB, void *argC)
 {   
+    printk("Actuator thread\n");
     static int actuator_period = 200;
     while (1) {
         k_sem_take(&actuator_sem, K_FOREVER);
+        if (!ctrl_state.system_on) {
+            continue;
+        }
         bool sys_state;
+        int max_t;
         k_mutex_lock(&ctrl_state.mutex, K_FOREVER);
         sys_state = ctrl_state.system_on;
+        max_t = ctrl_state.max_temp;
         k_mutex_unlock(&ctrl_state.mutex);
+        k_mutex_lock(&sensor_data.mutex, K_FOREVER);
+        int curr_t = sensor_data.current_temp;
         if (ctrl_state.system_on) {
-            if (ctrl_state.max_temp >= sensor_data.current_temp) {
+            if (max_t > curr_t) {
                 heater_on();
             } else {
                 heater_off();
             }
         }
+        k_mutex_unlock(&sensor_data.mutex); 
+
         int desired = sys_state ? 100 : 200;
         if (desired != actuator_period) {
             actuator_period = desired;
@@ -276,9 +288,13 @@ void actuator_thread_func(void *argA, void *argB, void *argC)
  * Handles user interface logic (e.g. display or input polling)
  */
 void ui_thread_func(void *argA, void *argB, void *argC)
-{
+{   
+    printk("UI thread\n");
     while (1) {
         k_sem_take(&ui_sem, K_FOREVER);
+        if (!ctrl_state.system_on) {
+            continue;
+        }
         ui_task();  // UI logic runs here (defined in a different module)
     }
 }
