@@ -36,8 +36,8 @@ static void button_isr(const struct device *dev, struct gpio_callback *cb, uint3
     struct btn_ctx *ctx = CONTAINER_OF(cb, struct btn_ctx, cb);
     int64_t now = k_uptime_get();
 
-    /* Debounce: ignore events within 20 ms */
-    if ((now - ctx->last_ts) < 20) {
+    /* Debounce: ignore events within X ms */
+    if ((now - ctx->last_ts) < 200) {
         return;
     }
     ctx->last_ts = now;

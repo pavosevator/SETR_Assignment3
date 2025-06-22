@@ -55,11 +55,9 @@ k_tid_t ui_tid;
 /* Semaphores and timers for periodic threads */
 static struct k_sem control_sem;
 static struct k_sem actuator_sem;
-static struct k_sem ui_sem;
 
 static struct k_timer control_timer;
 static struct k_timer actuator_timer;
-static struct k_timer ui_timer;
 
 static void control_timer_handler(struct k_timer *t)
 {
@@ -69,11 +67,6 @@ static void control_timer_handler(struct k_timer *t)
 static void actuator_timer_handler(struct k_timer *t)
 {
     k_sem_give(&actuator_sem);
-}
-
-static void ui_timer_handler(struct k_timer *t)
-{
-    k_sem_give(&ui_sem);
 }
 
 
@@ -115,7 +108,6 @@ void app_init(void)
     /* Initialize semaphores and timers for periodic threads */
     k_sem_init(&control_sem, 0, 1);
     k_sem_init(&actuator_sem, 0, 1);
-    k_sem_init(&ui_sem, 0, 1);
 
     k_timer_init(&control_timer, control_timer_handler, NULL);
     k_timer_start(&control_timer, K_NO_WAIT, K_MSEC(200));
@@ -123,9 +115,6 @@ void app_init(void)
     /* Actuator period depends on system state (start with system off) */
     k_timer_init(&actuator_timer, actuator_timer_handler, NULL);
     k_timer_start(&actuator_timer, K_NO_WAIT, K_MSEC(200));
-
-    k_timer_init(&ui_timer, ui_timer_handler, NULL);
-    k_timer_start(&ui_timer, K_NO_WAIT, K_MSEC(150));
 
     // Initial LED state
     led4_toggle(0);
@@ -287,10 +276,6 @@ void actuator_thread_func(void *argA, void *argB, void *argC)
 void ui_thread_func(void *argA, void *argB, void *argC)
 {   
     while (1) {
-        k_sem_take(&ui_sem, K_FOREVER);
-        if (!ctrl_state.system_on) {
-            continue;
-        }
         ui_task();  // UI logic runs here (defined in a different module)
     }
 }
