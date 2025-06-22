@@ -11,7 +11,7 @@
 
 #include "data.h"
 #include "heater.h"
-#include <zephyr/kernel.h>          /* for k_msleep() */
+#include <zephyr/kernel.h>
 #include <zephyr/device.h>          /* for device_is_ready() and device structure */
 #include <zephyr/devicetree.h>		/* for DT_NODELABEL() */
 #include <zephyr/drivers/gpio.h>    /* for GPIO api*/
@@ -33,28 +33,26 @@
 #define LED4_NODE DT_ALIAS(led3)
 /**@}*/
 
+/** Button events delivered by the interrupt callbacks. */
+enum button_event {
+    BTN_SYSTEM,
+    BTN_INCREASE,
+    BTN_TOGGLE,
+    BTN_DECREASE,
+};
+
+/** Message queue publishing button events. */
+extern struct k_msgq button_msgq;
+
 /**
- * @brief Initialize all GPIOs (buttons and LEDs)
+ * @brief Initialize all GPIOs and interrupts.
  *
- * Configures GPIO pins for input (buttons) and output (LEDs) based on DeviceTree aliases.
- *
- * @return 0 on success, or a negative error code on failure
+ * Configures buttons with pull-ups and edge interrupts and initialises LED pins.
  */
 int gpio_init(void);
 
-/**
- * @brief Task handling button press logic
- *
- * Should be called regularly (or run as a thread) to monitor button states.
- */
-void button_task(void);
-
-/**
- * @brief Task to manage LED behavior
- *
- * Handles blinking or pattern updates of LEDs depending on the system state.
- */
-void led_task(void);
+/** UI thread that waits for button events and updates the system state. */
+void ui_task(void);
 
 /**
  * @brief Toggle LED 2 state

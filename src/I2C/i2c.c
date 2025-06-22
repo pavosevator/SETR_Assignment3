@@ -76,7 +76,6 @@ int i2c_init(void)
  */
 void sensor_thread_func(void *argA, void *argB, void *argC)
 {   
-    printk("Sensor thread\n");
     /* Ensure the I2C bus is still available */
     if (!device_is_ready(dev_i2c.bus)) {
         printk("I2C bus not ready\n");

@@ -176,7 +176,6 @@ int main(void)
  */
 void command_thread_func(void *argA , void *argB, void *argC)
 {
-    printk("Command thread\n");
     uint8_t b;
     while (1) {
         if (!ctrl_state.system_on) {
@@ -214,7 +213,6 @@ void command_thread_func(void *argA , void *argB, void *argC)
  */
 void control_thread_func(void *argA, void *argB, void *argC)
 {   
-    printk("Control thread\n");
     int delta;
     while (1) {
         k_sem_take(&control_sem, K_FOREVER);
@@ -250,7 +248,6 @@ void control_thread_func(void *argA, void *argB, void *argC)
  */
 void actuator_thread_func(void *argA, void *argB, void *argC)
 {   
-    printk("Actuator thread\n");
     static int actuator_period = 200;
     while (1) {
         k_sem_take(&actuator_sem, K_FOREVER);
@@ -289,7 +286,6 @@ void actuator_thread_func(void *argA, void *argB, void *argC)
  */
 void ui_thread_func(void *argA, void *argB, void *argC)
 {   
-    printk("UI thread\n");
     while (1) {
         k_sem_take(&ui_sem, K_FOREVER);
         if (!ctrl_state.system_on) {
