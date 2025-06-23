@@ -44,6 +44,8 @@ enum button_event {
 /** Message queue publishing button events. */
 extern struct k_msgq button_msgq;
 
+void ui_thread_func(void *argA, void *argB, void *argC);
+
 /**
  * @brief Initialize all GPIOs and interrupts.
  *
@@ -75,4 +77,4 @@ void led3_toggle(bool state);
  */
 void led4_toggle(bool state);
 
-#endif // GPIO_H
+#endif /* GPIO_H */

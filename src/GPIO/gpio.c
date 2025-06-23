@@ -78,9 +78,13 @@ int gpio_init(void)
     return 0;
 }
 
-void ui_task(void)
-{
-    printk("UI task\n");
+/**
+ * @brief UI thread
+ * 
+ * Handles user interface logic (e.g. display or input polling)
+ */
+void ui_thread_func(void *argA, void *argB, void *argC)
+{   
     while (1) {
         enum button_event evt;
         k_msgq_get(&button_msgq, &evt, K_FOREVER);

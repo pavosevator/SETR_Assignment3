@@ -12,6 +12,7 @@ target_include_directories(app PRIVATE
     src/UART
     src/GPIO
     src/Heater
+    src/Control
 )
 
 target_sources(app PRIVATE
@@ -21,6 +22,7 @@ target_sources(app PRIVATE
     src/UART/uart.c
     src/GPIO/gpio.c
     src/Heater/heater.c
+    src/Control/control.c
 )
 
 if(UNIT_TESTING)

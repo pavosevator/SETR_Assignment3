@@ -14,6 +14,7 @@
 #include "i2c.h"
 #include "data.h"
 #include "gpio.h"
+#include "uart.h"
 
 // UART receive buffer and current length
 unsigned char UARTRxBuffer[UART_RX_SIZE];
@@ -36,7 +37,6 @@ int cmdProcessor(void)
 {
     int i;
     unsigned char sid;  // command ID character
-    signed char temp;   // temperature value [-40, +99]
 
     // Working arrays for building response
     char tempChar[3];       // holds ASCII digits of temperature
@@ -46,17 +46,9 @@ int cmdProcessor(void)
     int sofIndex;
     int eofIndex;
 
-    // If no data in RX buffer, nothing to do
-    if (checkSofEof(&sofIndex, &eofIndex) == CMD_EMPTY_STRING)
-        return CMD_EMPTY_STRING;
-
-    // Missing '#' start marker
-    if (checkSofEof(&sofIndex, &eofIndex) == CMD_MISSING_SOF_ERROR)
-        return CMD_MISSING_SOF_ERROR;
-
-    // Missing '!' end marker
-    if (checkSofEof(&sofIndex, &eofIndex) == CMD_MISSING_EOF_ERROR)
-        return CMD_MISSING_EOF_ERROR;
+    int status = checkSofEof(&sofIndex, &eofIndex);
+    if (status != CMD_OK)
+        return status;
 
     int frameLen, newLen;
     char val[4];  // temporary buffer for numeric parsing
@@ -134,23 +126,29 @@ int cmdProcessor(void)
                 memset(UARTRxBuffer + newLen, '0', frameLen);
                 return CMD_OK;
 
-            case 'S': // "Snnn!": set duty cycle (0-100)
-                // Parse duty cycle value
-                for (int j = 0; j < 3; j++) {
-                    val[j] = UARTRxBuffer[sofIndex + 2 + j];
-                }
-                val[3] = '\0';
+            case 'S': // "Snnn!": turn heater ON/OFF
+                int len;
+                int buf[3]; /// FIX THIS!!!
+                /* Must have exactly two digits + checksum */
+                if (len != 1 /*'S'*/ + 2 /*hh*/ + 2 /*CC*/ || !isdigit(buf[1]) || !isdigit(buf[2]))
                 {
-                    int duty = atoi(val);
-                    // Validate range
-                    if (duty < 0 || duty > 100) {
-                        txChar('#'); txChar('E'); txChar('i');
-                        // 'Ei' indicates invalid input
-                    } else {
-                        txChar('#'); txChar('E'); txChar('9');
-                        // 'E9' indicates success for duty command
-                    }
+                    return CMD_INVALID;
                 }
+                /* Extract half-band */
+                char tmp[3] = {buf[1], buf[2], '\0'};
+                int hb = atoi(tmp); // 0–99 °C
+
+                /* Validate reasonable range */
+                if (hb < 0 || hb > 50)
+                { // e.g. max 50°C hysteresis
+                    return CMD_INVALID;
+                }
+
+                /* Store under mutex */
+                k_mutex_lock(&ctrl_state.mutex, K_FOREVER);
+                ctrl_state.hys_half_band = hb;
+                k_mutex_unlock(&ctrl_state.mutex);
+
                 // Append checksum
                 snprintf(checksumchar, CS_DIGITS + 1,
                          "%03d", calcChecksum(UARTTxBuffer + 1, 2));
@@ -186,6 +184,46 @@ int cmdProcessor(void)
     memset(UARTRxBuffer + newLen, '0', frameLen);
     return CMD_CS_ERROR;
 }
+
+/**
+ * @brief Command thread
+ * 
+ * Reads bytes from UART queue, passes them into command parser, and handles output
+ */
+void command_thread_func(void *argA , void *argB, void *argC)
+{
+    uint8_t b;
+    while (1) {
+        if (!ctrl_state.system_on) {
+            k_sleep(K_MSEC(100));
+            continue;
+        }
+
+        // Wait for a byte from UART with timeout
+        if (k_msgq_get(&uart_msgq, &b, K_MSEC(100)) != 0) {
+            continue;
+        }
+
+        // Process the first received byte
+        rxChar(b);
+
+        // Process all other bytes in queue without blocking
+        while (k_msgq_get(&uart_msgq, &b, K_NO_WAIT) == 0) {
+            rxChar(b);
+        }
+
+        resetTxBuffer();
+
+        // Process full command if valid
+        unsigned char *tx_data;
+        int tx_len;
+        if (cmdProcessor() == CMD_OK) {
+            getTxBuffer(&tx_data, &tx_len);
+            uart_send(tx_data, tx_len); // Send back response
+        }
+    }
+}
+
 
 /**
  * Finds start-of-frame ('#') and end-of-frame ('!') in RX buffer.

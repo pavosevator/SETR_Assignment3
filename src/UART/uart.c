@@ -45,8 +45,6 @@ K_MSGQ_DEFINE(uart_msgq, sizeof(uint8_t), 32, 4);
  * Generic error and message buffers
  **/
 int err = 0;
-uint8_t welcome_mesg[] =
-    "UART demo: Type a few chars in a row and then pause for a little while ...\n\r";
 uint8_t rep_mesg[MSG_BUF_SIZE];    /* Buffer for user to fill with reply data */
 
 /** 
@@ -71,8 +69,7 @@ const struct uart_config uart_cfg = {
  *  2. Apply runtime configuration
  *  3. Register interrupt-driven callback
  *  4. Enable RX with timeout
- *  5. Send welcome message
- *  6. Initialize RX semaphore
+ *  5. Initialize RX semaphore
  *
  * @return 0 on success or FATAL_ERR on failure
  **/
@@ -105,14 +102,7 @@ int uart_init(void)
         printk("uart_rx_enable() error. Error code:%d\n\r", err);
         return FATAL_ERR;
     }
-
-    /* Transmit welcome message (blocking until done) */
-    err = uart_tx(uart_dev, welcome_mesg, sizeof(welcome_mesg), SYS_FOREVER_MS);
-    if (err) {
-        printk("uart_tx() error. Error code:%d\n\r", err);
-        return FATAL_ERR;
-    }
-
+    
     printk("Start testing...\n");
     /* Initialize semaphore to 0; will be given in RX callback */
     k_sem_init(&uart_rx_sem, 0, 1);

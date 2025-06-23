@@ -28,13 +28,7 @@
  * @def UART_TX_SIZE
  * @brief Maximum size of the UART TX buffer.
  */
-#define UART_TX_SIZE 20 	
-
-/**
- * @def HISTORY_SIZE
- * @brief Maximum size of history array of sensor values.
- */
-#define HISTORY_SIZE 100    
+#define UART_TX_SIZE 20 	   
 
 /**
  * @def SOF_SYM
@@ -121,8 +115,6 @@ extern unsigned char rxBufLen;
 extern unsigned char UARTTxBuffer[];
 extern unsigned char txBufLen;
 
-extern unsigned int seed;
-
 /* Function prototypes */
 
 
@@ -144,6 +136,8 @@ extern unsigned int seed;
 *         CMD_MISSING_EOF_ERROR (-7): EOF_SYM not sent via Rx buffer                          
 */
 int cmdProcessor(void);
+
+void command_thread_func(void *argA, void *argB, void *argC);
 
 
 /** @brief Checks if data in the Rx buffer is valid by finding position index of SOF_SYM and EOF_SYM.
@@ -214,24 +208,6 @@ int calcChecksum(unsigned char * buffer, int nbytes);
  * 
  */
 int checkRxChecksum(int * sofIndex, int * eofIndex);
-
-/**
- * @brief Adds a measured value to the history using a circular buffer.
- *
- * @param measuredValue Pointer to the measured value.
- * @param sensorType Type of sensor ('t' for temperature, 'h' for humidity, 'c' for CO2).
- * @return CMD_OK (0) if success, CMD_INVALID (-2) if invalid sensor type i.e. invalid command.
- */
-int addInHistory(void *measuredValue, char sensorType);
-
-/**
- * @brief Pseudo number generator using Linear Congruential Generator.
- *
- * @param min Minimum value.
- * @param max Maximum value.
- * @return Pseudo-random number in the range [min, max].
- */ 
-int psrnd(signed int min, signed int max);
 
 /**
  * @brief Generates a character array representation of a sensor value.
