@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['psrnd_0',['psrnd',['../cmdproc_8h.html#a73a1aa166f1a37ecf9110d031e6930c5',1,'cmdproc.h']]]
+  ['txchar_0',['txChar',['../cmdproc_8c.html#abdb4363f0662688850bbcdfb59ce4566',1,'txChar(unsigned char car):&#160;cmdproc.c'],['../cmdproc_8h.html#abdb4363f0662688850bbcdfb59ce4566',1,'txChar(unsigned char car):&#160;cmdproc.c']]]
 ];

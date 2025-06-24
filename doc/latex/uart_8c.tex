@@ -37,8 +37,6 @@ volatile int {\bfseries uart\+\_\+rxbuf\+\_\+nchar} = 0
 \item 
 int \mbox{\hyperlink{uart_8c_a6ce68847c12434f60d1b2654a3dc3409}{err}} = 0
 \item 
-uint8\+\_\+t \mbox{\hyperlink{uart_8c_aa10d925c769d61749a2c03cbc08accf9}{welcome\+\_\+mesg}} \mbox{[}$\,$\mbox{]}
-\item 
 \Hypertarget{uart_8c_a565d5826c90f24cba59e1de26779f4a1}\label{uart_8c_a565d5826c90f24cba59e1de26779f4a1} 
 uint8\+\_\+t {\bfseries rep\+\_\+mesg} \mbox{[}\mbox{\hyperlink{uart_8h_a8b8af8bedcac87c0d3c68634448b94a7}{MSG\+\_\+\+BUF\+\_\+\+SIZE}}\mbox{]}
 \item 
@@ -113,7 +111,6 @@ Steps\+:
 \item Apply runtime configuration
 \item Register interrupt-\/driven callback
 \item Enable RX with timeout
-\item Send welcome message
 \item Initialize RX semaphore
 \end{DoxyEnumerate}
 
@@ -196,15 +193,4 @@ If dynamic configuration is enabled (CONFIG\+\_\+\+UART\+\_\+\+USE\+\_\+\+RUNTIM
 const struct device\texorpdfstring{$\ast$}{*} uart\+\_\+dev = DEVICE\+\_\+\+DT\+\_\+\+GET(\mbox{\hyperlink{uart_8h_a07b40c5bd9acc44f62a9182527dbcc9b}{UART\+\_\+\+NODE}})}
 
 \hypertarget{uart_8c_autotoc_md2}{}\doxysubsubsection{\texorpdfstring{UART device instance from Device\+Tree}{UART device instance from Device\+Tree}}\label{uart_8c_autotoc_md2}
-The UART\+\_\+\+NODE label must be defined in your board\textquotesingle{}s devicetree. \Hypertarget{uart_8c_aa10d925c769d61749a2c03cbc08accf9}\index{uart.c@{uart.c}!welcome\_mesg@{welcome\_mesg}}
-\index{welcome\_mesg@{welcome\_mesg}!uart.c@{uart.c}}
-\doxysubsubsection{\texorpdfstring{welcome\_mesg}{welcome\_mesg}}
-{\footnotesize\ttfamily \label{uart_8c_aa10d925c769d61749a2c03cbc08accf9} 
-uint8\+\_\+t welcome\+\_\+mesg\mbox{[}$\,$\mbox{]}}
-
-{\bfseries Initial value\+:}
-\begin{DoxyCode}{0}
-\DoxyCodeLine{=}
-\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{"{}UART\ demo:\ Type\ a\ few\ chars\ in\ a\ row\ and\ then\ pause\ for\ a\ little\ while\ ...\(\backslash\)n\(\backslash\)r"{}}}
-
-\end{DoxyCode}
+The UART\+\_\+\+NODE label must be defined in your board\textquotesingle{}s devicetree. 

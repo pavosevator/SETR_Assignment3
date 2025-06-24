@@ -7,34 +7,45 @@
 \DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ GPIO\_H}}
 \DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ GPIO\_H}}
 \DoxyCodeLine{00011\ }
-\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <zephyr/kernel.h>}\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ for\ k\_msleep()\ */}}
-\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <zephyr/device.h>}\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ for\ device\_is\_ready()\ and\ device\ structure\ */}}
-\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <zephyr/devicetree.h>}\ \ \ \ \ \ \textcolor{comment}{/*\ for\ DT\_NODELABEL()\ */}}
-\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <zephyr/drivers/gpio.h>}\ \ \ \ \textcolor{comment}{/*\ for\ GPIO\ api*/}}
-\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <zephyr/sys/printk.h>}\ \ \ \ \ \ \textcolor{comment}{/*\ for\ printk()*/}}
-\DoxyCodeLine{00017\ }
-\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ BUTTON1\_NODE\ DT\_ALIAS(sw0)}}
-\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ BUTTON2\_NODE\ DT\_ALIAS(sw1)}}
-\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ BUTTON3\_NODE\ DT\_ALIAS(sw2)}}
-\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ BUTTON4\_NODE\ DT\_ALIAS(sw3)}}
-\DoxyCodeLine{00027\ }
-\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#define\ LED1\_NODE\ DT\_ALIAS(led0)}}
-\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#define\ LED2\_NODE\ DT\_ALIAS(led1)}}
-\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ LED3\_NODE\ DT\_ALIAS(led2)}}
-\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#define\ LED4\_NODE\ DT\_ALIAS(led3)}\textcolor{preprocessor}{}}
-\DoxyCodeLine{00033\ }
-\DoxyCodeLine{00041\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{gpio_8h_aef3bfa643c3b8a552ebe6d85a6ee9581}{gpio\_init}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}data.h"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{heater_8h}{heater.h}}"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <zephyr/kernel.h>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <zephyr/device.h>}\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ for\ device\_is\_ready()\ and\ device\ structure\ */}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <zephyr/devicetree.h>}\ \ \ \ \ \ \textcolor{comment}{/*\ for\ DT\_NODELABEL()\ */}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <zephyr/drivers/gpio.h>}\ \ \ \ \textcolor{comment}{/*\ for\ GPIO\ api*/}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <zephyr/sys/printk.h>}\ \ \ \ \ \ \textcolor{comment}{/*\ for\ printk()*/}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#define\ BUTTON1\_NODE\ DT\_ALIAS(sw0)}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#define\ BUTTON2\_NODE\ DT\_ALIAS(sw1)}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#define\ BUTTON3\_NODE\ DT\_ALIAS(sw2)}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ BUTTON4\_NODE\ DT\_ALIAS(sw3)}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ LED1\_NODE\ DT\_ALIAS(led0)}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ LED2\_NODE\ DT\_ALIAS(led1)}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ LED3\_NODE\ DT\_ALIAS(led2)}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#define\ LED4\_NODE\ DT\_ALIAS(led3)}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{gpio_8h_abd08509cbd21df3443f9c77cb0769238}{button\_event}}\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ BTN\_SYSTEM,}
+\DoxyCodeLine{00033\ \ \ \ \ BTN\_INCREASE,}
+\DoxyCodeLine{00034\ \ \ \ \ BTN\_TOGGLE,}
+\DoxyCodeLine{00035\ \ \ \ \ BTN\_DECREASE,}
+\DoxyCodeLine{00036\ \};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{extern}\ \textcolor{keyword}{struct\ }k\_msgq\ \mbox{\hyperlink{gpio_8h_a5d82834c646863b14ab341dc5bfcc8de}{button\_msgq}};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{gpio_8h_ae12fee25c27257f1263b910816b42f17}{ui\_thread\_func}}(\textcolor{keywordtype}{void}\ *argA,\ \textcolor{keywordtype}{void}\ *argB,\ \textcolor{keywordtype}{void}\ *argC);}
 \DoxyCodeLine{00042\ }
-\DoxyCodeLine{00048\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{gpio_8h_ab688493fe7382e6a04ec7fb6a9a5d748}{button\_task}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00048\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{gpio_8h_aef3bfa643c3b8a552ebe6d85a6ee9581}{gpio\_init}}(\textcolor{keywordtype}{void});}
 \DoxyCodeLine{00049\ }
-\DoxyCodeLine{00055\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{gpio_8h_a2ef19a1d6de29f70102d659267dfed38}{led\_task}}(\textcolor{keywordtype}{void});}
-\DoxyCodeLine{00056\ }
-\DoxyCodeLine{00062\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{gpio_8h_ae2cc898d427561ab2502a08ec2f48a2c}{led2\_toggle}}(\textcolor{keywordtype}{bool}\ state);}
-\DoxyCodeLine{00063\ }
-\DoxyCodeLine{00069\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{gpio_8h_a89e71f24e8e120d27b3d5e72e0958842}{led3\_toggle}}(\textcolor{keywordtype}{bool}\ state);}
-\DoxyCodeLine{00070\ }
-\DoxyCodeLine{00076\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{gpio_8h_aea28b60b4a1d85916d06a75802dfe276}{led4\_toggle}}(\textcolor{keywordtype}{bool}\ state);}
-\DoxyCodeLine{00077\ }
-\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GPIO\_H}}
+\DoxyCodeLine{00051\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{gpio_8h_aa3cc2e58affba462b069f6e1255a7e83}{ui\_task}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00058\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{gpio_8h_ae2cc898d427561ab2502a08ec2f48a2c}{led2\_toggle}}(\textcolor{keywordtype}{bool}\ state);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00065\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{gpio_8h_a89e71f24e8e120d27b3d5e72e0958842}{led3\_toggle}}(\textcolor{keywordtype}{bool}\ state);}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00072\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{gpio_8h_aea28b60b4a1d85916d06a75802dfe276}{led4\_toggle}}(\textcolor{keywordtype}{bool}\ state);}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ GPIO\_H\ */}\textcolor{preprocessor}{}}
 
 \end{DoxyCode}

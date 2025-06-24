@@ -9,6 +9,12 @@
 #include <stdint.h>
 #include "data.h"
 
+/**
+ * @brief Thread that periodically samples the TC74 sensor.
+ *
+ * Waits on an internal semaphore triggered by a timer and updates the
+ * shared @ref sensor_data structure with the latest temperature reading.
+ */
 void sensor_thread_func(void *argA, void *argB, void *argC);
 
 /**

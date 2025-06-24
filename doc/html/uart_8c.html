@@ -149,8 +149,6 @@ volatile int&#160;</td><td class="memItemRight" valign="bottom"><b>uart_rxbuf_nc
 <tr class="separator:a7f447b32df78b68d1bd7a3581558ca3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ce68847c12434f60d1b2654a3dc3409" id="r_a6ce68847c12434f60d1b2654a3dc3409"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ce68847c12434f60d1b2654a3dc3409">err</a> = 0</td></tr>
 <tr class="separator:a6ce68847c12434f60d1b2654a3dc3409"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa10d925c769d61749a2c03cbc08accf9" id="r_aa10d925c769d61749a2c03cbc08accf9"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa10d925c769d61749a2c03cbc08accf9">welcome_mesg</a> []</td></tr>
-<tr class="separator:aa10d925c769d61749a2c03cbc08accf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a565d5826c90f24cba59e1de26779f4a1" id="r_a565d5826c90f24cba59e1de26779f4a1"><td class="memItemLeft" align="right" valign="top"><a id="a565d5826c90f24cba59e1de26779f4a1" name="a565d5826c90f24cba59e1de26779f4a1"></a>
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>rep_mesg</b> [<a class="el" href="uart_8h.html#a8b8af8bedcac87c0d3c68634448b94a7">MSG_BUF_SIZE</a>]</td></tr>
 <tr class="separator:a565d5826c90f24cba59e1de26779f4a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -280,7 +278,6 @@ Message queue for received bytes</h2>
 <li>Apply runtime configuration</li>
 <li>Register interrupt-driven callback</li>
 <li>Enable RX with timeout</li>
-<li>Send welcome message</li>
 <li>Initialize RX semaphore</li>
 </ol>
 <dl class="section return"><dt>Returns</dt><dd>0 on success or FATAL_ERR on failure </dd></dl>
@@ -414,22 +411,6 @@ UART configuration settings</h2>
 UART device instance from DeviceTree</h2>
 <p>The UART_NODE label must be defined in your board's devicetree. </p>
 
-</div>
-</div>
-<a id="aa10d925c769d61749a2c03cbc08accf9" name="aa10d925c769d61749a2c03cbc08accf9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa10d925c769d61749a2c03cbc08accf9">&#9670;&#160;</a></span>welcome_mesg</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t welcome_mesg[]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">=</div>
-<div class="line">    <span class="stringliteral">&quot;UART demo: Type a few chars in a row and then pause for a little while ...\n\r&quot;</span></div>
-</div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

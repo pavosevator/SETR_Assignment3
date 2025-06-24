@@ -1,6 +1,9 @@
-// data.h – shared header (very small)
 #ifndef DATA_H
 #define DATA_H
+/**
+ * @file data.h
+ * @brief Shared data structures for sensor readings and controller state.
+ */
 
 #include <zephyr/kernel.h>
 

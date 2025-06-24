@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['led2_5ftoggle_0',['led2_toggle',['../gpio_8c.html#ae2cc898d427561ab2502a08ec2f48a2c',1,'led2_toggle(bool state):&#160;gpio.c'],['../gpio_8h.html#ae2cc898d427561ab2502a08ec2f48a2c',1,'led2_toggle(bool state):&#160;gpio.c']]],
-  ['led3_5ftoggle_1',['led3_toggle',['../gpio_8c.html#a89e71f24e8e120d27b3d5e72e0958842',1,'led3_toggle(bool state):&#160;gpio.c'],['../gpio_8h.html#a89e71f24e8e120d27b3d5e72e0958842',1,'led3_toggle(bool state):&#160;gpio.c']]],
-  ['led4_5ftoggle_2',['led4_toggle',['../gpio_8c.html#aea28b60b4a1d85916d06a75802dfe276',1,'led4_toggle(bool state):&#160;gpio.c'],['../gpio_8h.html#aea28b60b4a1d85916d06a75802dfe276',1,'led4_toggle(bool state):&#160;gpio.c']]],
-  ['led_5ftask_3',['led_task',['../gpio_8h.html#a2ef19a1d6de29f70102d659267dfed38',1,'gpio.h']]]
+  ['main_5fsleep_5ftime_5fms_0',['MAIN_SLEEP_TIME_MS',['../uart_8h.html#aabfdd434c3f5fc98789fd65dc741f3f5',1,'uart.h']]],
+  ['message_20queue_20for_20received_20bytes_1',['Message queue for received bytes',['../uart_8c.html#autotoc_md4',1,'']]],
+  ['msg_5fbuf_5fsize_2',['MSG_BUF_SIZE',['../uart_8h.html#a8b8af8bedcac87c0d3c68634448b94a7',1,'uart.h']]]
 ];

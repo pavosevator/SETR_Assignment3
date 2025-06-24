@@ -5,6 +5,8 @@
 GPIO interface for button and LED handling using Zephyr RTOS.  
 
 
+{\ttfamily \#include "{}data.\+h"{}}\newline
+{\ttfamily \#include "{}heater.\+h"{}}\newline
 {\ttfamily \#include $<$zephyr/kernel.\+h$>$}\newline
 {\ttfamily \#include $<$zephyr/device.\+h$>$}\newline
 {\ttfamily \#include $<$zephyr/devicetree.\+h$>$}\newline
@@ -13,37 +15,59 @@ GPIO interface for button and LED handling using Zephyr RTOS.
 \doxysubsubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
+\Hypertarget{gpio_8h_a50a4b11a3c0f17fc97461530feed10c8}\label{gpio_8h_a50a4b11a3c0f17fc97461530feed10c8} 
 \#define {\bfseries BUTTON1\+\_\+\+NODE}~DT\+\_\+\+ALIAS(sw0)
 \item 
+\Hypertarget{gpio_8h_a2c5038e4144b173b2c4e547acba956fc}\label{gpio_8h_a2c5038e4144b173b2c4e547acba956fc} 
 \#define {\bfseries BUTTON2\+\_\+\+NODE}~DT\+\_\+\+ALIAS(sw1)
 \item 
+\Hypertarget{gpio_8h_a88df8840f5bb65057292e7d06db5edd9}\label{gpio_8h_a88df8840f5bb65057292e7d06db5edd9} 
 \#define {\bfseries BUTTON3\+\_\+\+NODE}~DT\+\_\+\+ALIAS(sw2)
 \item 
+\Hypertarget{gpio_8h_a567eb58617b1145a5c0ab08f838612e7}\label{gpio_8h_a567eb58617b1145a5c0ab08f838612e7} 
 \#define {\bfseries BUTTON4\+\_\+\+NODE}~DT\+\_\+\+ALIAS(sw3)
 \item 
+\Hypertarget{gpio_8h_ac8b7bbb65d5065e43a35775d9fc3e322}\label{gpio_8h_ac8b7bbb65d5065e43a35775d9fc3e322} 
 \#define {\bfseries LED1\+\_\+\+NODE}~DT\+\_\+\+ALIAS(led0)
 \item 
+\Hypertarget{gpio_8h_a9014b2cb02041c926b50b6411232ee82}\label{gpio_8h_a9014b2cb02041c926b50b6411232ee82} 
 \#define {\bfseries LED2\+\_\+\+NODE}~DT\+\_\+\+ALIAS(led1)
 \item 
+\Hypertarget{gpio_8h_ad5246f73682d98292ef7d7b038582700}\label{gpio_8h_ad5246f73682d98292ef7d7b038582700} 
 \#define {\bfseries LED3\+\_\+\+NODE}~DT\+\_\+\+ALIAS(led2)
 \item 
+\Hypertarget{gpio_8h_ae4c8a732da78bf809363947e4aff8ea5}\label{gpio_8h_ae4c8a732da78bf809363947e4aff8ea5} 
 \#define {\bfseries LED4\+\_\+\+NODE}~DT\+\_\+\+ALIAS(led3)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{gpio_8h_abd08509cbd21df3443f9c77cb0769238}{button\+\_\+event}} \{ {\bfseries BTN\+\_\+\+SYSTEM}
+, {\bfseries BTN\+\_\+\+INCREASE}
+, {\bfseries BTN\+\_\+\+TOGGLE}
+, {\bfseries BTN\+\_\+\+DECREASE}
+ \}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
+void \mbox{\hyperlink{gpio_8h_ae12fee25c27257f1263b910816b42f17}{ui\+\_\+thread\+\_\+func}} (void \texorpdfstring{$\ast$}{*}argA, void \texorpdfstring{$\ast$}{*}argB, void \texorpdfstring{$\ast$}{*}argC)
+\begin{DoxyCompactList}\small\item\em UI thread. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{gpio_8h_aef3bfa643c3b8a552ebe6d85a6ee9581}{gpio\+\_\+init}} (void)
-\begin{DoxyCompactList}\small\item\em Initialize all GPIOs (buttons and LEDs) \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{gpio_8h_ab688493fe7382e6a04ec7fb6a9a5d748}{button\+\_\+task}} (void)
-\begin{DoxyCompactList}\small\item\em Task handling button press logic. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{gpio_8h_a2ef19a1d6de29f70102d659267dfed38}{led\+\_\+task}} (void)
-\begin{DoxyCompactList}\small\item\em Task to manage LED behavior. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Initialize all GPIOs and interrupts. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{gpio_8h_aa3cc2e58affba462b069f6e1255a7e83}{ui\+\_\+task}} (void)
+\item 
 void \mbox{\hyperlink{gpio_8h_ae2cc898d427561ab2502a08ec2f48a2c}{led2\+\_\+toggle}} (bool state)
 \begin{DoxyCompactList}\small\item\em Toggle LED 2 state. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{gpio_8h_a89e71f24e8e120d27b3d5e72e0958842}{led3\+\_\+toggle}} (bool state)
 \begin{DoxyCompactList}\small\item\em Toggle LED 3 state. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{gpio_8h_aea28b60b4a1d85916d06a75802dfe276}{led4\+\_\+toggle}} (bool state)
 \begin{DoxyCompactList}\small\item\em Toggle LED 4 state. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct k\+\_\+msgq \mbox{\hyperlink{gpio_8h_a5d82834c646863b14ab341dc5bfcc8de}{button\+\_\+msgq}}
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -51,18 +75,17 @@ GPIO interface for button and LED handling using Zephyr RTOS.
 
 This header defines initialization and control functions for buttons and LEDs. It uses GPIOs defined in the device tree via DT aliases ({\ttfamily sw0} to {\ttfamily sw3}, {\ttfamily led0} to {\ttfamily led3}). 
 
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{gpio_8h_abd08509cbd21df3443f9c77cb0769238}\index{gpio.h@{gpio.h}!button\_event@{button\_event}}
+\index{button\_event@{button\_event}!gpio.h@{gpio.h}}
+\doxysubsubsection{\texorpdfstring{button\_event}{button\_event}}
+{\footnotesize\ttfamily \label{gpio_8h_abd08509cbd21df3443f9c77cb0769238} 
+enum \mbox{\hyperlink{gpio_8h_abd08509cbd21df3443f9c77cb0769238}{button\+\_\+event}}}
+
+Button events delivered by the interrupt callbacks. 
+
 \doxysubsection{Function Documentation}
-\Hypertarget{gpio_8h_ab688493fe7382e6a04ec7fb6a9a5d748}\index{gpio.h@{gpio.h}!button\_task@{button\_task}}
-\index{button\_task@{button\_task}!gpio.h@{gpio.h}}
-\doxysubsubsection{\texorpdfstring{button\_task()}{button\_task()}}
-{\footnotesize\ttfamily \label{gpio_8h_ab688493fe7382e6a04ec7fb6a9a5d748} 
-void button\+\_\+task (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
-
-
-
-Task handling button press logic. 
-
-Should be called regularly (or run as a thread) to monitor button states. \Hypertarget{gpio_8h_aef3bfa643c3b8a552ebe6d85a6ee9581}\index{gpio.h@{gpio.h}!gpio\_init@{gpio\_init}}
+\Hypertarget{gpio_8h_aef3bfa643c3b8a552ebe6d85a6ee9581}\index{gpio.h@{gpio.h}!gpio\_init@{gpio\_init}}
 \index{gpio\_init@{gpio\_init}!gpio.h@{gpio.h}}
 \doxysubsubsection{\texorpdfstring{gpio\_init()}{gpio\_init()}}
 {\footnotesize\ttfamily \label{gpio_8h_aef3bfa643c3b8a552ebe6d85a6ee9581} 
@@ -70,14 +93,9 @@ int gpio\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCapti
 
 
 
-Initialize all GPIOs (buttons and LEDs) 
+Initialize all GPIOs and interrupts. 
 
-Configures GPIO pins for input (buttons) and output (LEDs) based on Device\+Tree aliases.
-
-\begin{DoxyReturn}{Returns}
-0 on success, or a negative error code on failure 
-\end{DoxyReturn}
-\Hypertarget{gpio_8h_ae2cc898d427561ab2502a08ec2f48a2c}\index{gpio.h@{gpio.h}!led2\_toggle@{led2\_toggle}}
+Configures buttons with pull-\/ups and edge interrupts and initialises LED pins. \Hypertarget{gpio_8h_ae2cc898d427561ab2502a08ec2f48a2c}\index{gpio.h@{gpio.h}!led2\_toggle@{led2\_toggle}}
 \index{led2\_toggle@{led2\_toggle}!gpio.h@{gpio.h}}
 \doxysubsubsection{\texorpdfstring{led2\_toggle()}{led2\_toggle()}}
 {\footnotesize\ttfamily \label{gpio_8h_ae2cc898d427561ab2502a08ec2f48a2c} 
@@ -122,14 +140,29 @@ Toggle LED 4 state.
 {\em state} & Boolean state\+: true to turn ON, false to turn OFF \\
 \hline
 \end{DoxyParams}
-\Hypertarget{gpio_8h_a2ef19a1d6de29f70102d659267dfed38}\index{gpio.h@{gpio.h}!led\_task@{led\_task}}
-\index{led\_task@{led\_task}!gpio.h@{gpio.h}}
-\doxysubsubsection{\texorpdfstring{led\_task()}{led\_task()}}
-{\footnotesize\ttfamily \label{gpio_8h_a2ef19a1d6de29f70102d659267dfed38} 
-void led\+\_\+task (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+\Hypertarget{gpio_8h_aa3cc2e58affba462b069f6e1255a7e83}\index{gpio.h@{gpio.h}!ui\_task@{ui\_task}}
+\index{ui\_task@{ui\_task}!gpio.h@{gpio.h}}
+\doxysubsubsection{\texorpdfstring{ui\_task()}{ui\_task()}}
+{\footnotesize\ttfamily \label{gpio_8h_aa3cc2e58affba462b069f6e1255a7e83} 
+void ui\+\_\+task (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+UI thread that waits for button events and updates the system state. \Hypertarget{gpio_8h_ae12fee25c27257f1263b910816b42f17}\index{gpio.h@{gpio.h}!ui\_thread\_func@{ui\_thread\_func}}
+\index{ui\_thread\_func@{ui\_thread\_func}!gpio.h@{gpio.h}}
+\doxysubsubsection{\texorpdfstring{ui\_thread\_func()}{ui\_thread\_func()}}
+{\footnotesize\ttfamily \label{gpio_8h_ae12fee25c27257f1263b910816b42f17} 
+void ui\+\_\+thread\+\_\+func (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argA}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{argB}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{argC}{}\end{DoxyParamCaption})}
 
 
 
-Task to manage LED behavior. 
+UI thread. 
 
-Handles blinking or pattern updates of LEDs depending on the system state. 
+Handles user interface logic (e.\+g. display or input polling) 
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{gpio_8h_a5d82834c646863b14ab341dc5bfcc8de}\index{gpio.h@{gpio.h}!button\_msgq@{button\_msgq}}
+\index{button\_msgq@{button\_msgq}!gpio.h@{gpio.h}}
+\doxysubsubsection{\texorpdfstring{button\_msgq}{button\_msgq}}
+{\footnotesize\ttfamily \label{gpio_8h_a5d82834c646863b14ab341dc5bfcc8de} 
+struct k\+\_\+msgq button\+\_\+msgq\hspace{0.3cm}{\ttfamily [extern]}}
+
+Message queue publishing button events. 

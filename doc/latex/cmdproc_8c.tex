@@ -9,11 +9,14 @@ Command processor for UART-\/based control of the sensor node. Parses received f
 {\ttfamily \#include "{}i2c.\+h"{}}\newline
 {\ttfamily \#include "{}data.\+h"{}}\newline
 {\ttfamily \#include "{}gpio.\+h"{}}\newline
+{\ttfamily \#include "{}uart.\+h"{}}\newline
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
 int \mbox{\hyperlink{cmdproc_8c_afbdfe0465dfd34a5f244fe41fa27c12a}{cmd\+Processor}} (void)
 \begin{DoxyCompactList}\small\item\em Processes the chars in the RX buffer looking for commands.\+abort. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{cmdproc_8c_af5972e3a0280cb41da7c0a1a462f953d}{command\+\_\+thread\+\_\+func}} (void \texorpdfstring{$\ast$}{*}argA, void \texorpdfstring{$\ast$}{*}argB, void \texorpdfstring{$\ast$}{*}argC)
+\begin{DoxyCompactList}\small\item\em Command thread. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{cmdproc_8c_af4b643cbe4d6c4473eec58b015044cdd}{check\+Sof\+Eof}} (int \texorpdfstring{$\ast$}{*}sof\+Index, int \texorpdfstring{$\ast$}{*}eof\+Index)
 \begin{DoxyCompactList}\small\item\em Checks if data in the Rx buffer is valid by finding position index of SOF\+\_\+\+SYM and EOF\+\_\+\+SYM. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{cmdproc_8c_adea97048aa6fcc4293f9de8509ad637f}{calc\+Checksum}} (unsigned char \texorpdfstring{$\ast$}{*}buffer, int nbytes)
@@ -144,7 +147,17 @@ Main command processor routine.
 CMD\+\_\+\+OK or error code 
 \end{DoxyReturn}
 
-\end{DoxyItemize}\Hypertarget{cmdproc_8c_ae220cfb8f7e5a90196ef7273d0ada926}\index{cmdproc.c@{cmdproc.c}!generateCharArray@{generateCharArray}}
+\end{DoxyItemize}\Hypertarget{cmdproc_8c_af5972e3a0280cb41da7c0a1a462f953d}\index{cmdproc.c@{cmdproc.c}!command\_thread\_func@{command\_thread\_func}}
+\index{command\_thread\_func@{command\_thread\_func}!cmdproc.c@{cmdproc.c}}
+\doxysubsubsection{\texorpdfstring{command\_thread\_func()}{command\_thread\_func()}}
+{\footnotesize\ttfamily \label{cmdproc_8c_af5972e3a0280cb41da7c0a1a462f953d} 
+void command\+\_\+thread\+\_\+func (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argA}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{argB}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{argC}{}\end{DoxyParamCaption})}
+
+
+
+Command thread. 
+
+Reads bytes from UART queue, passes them into command parser, and handles output \Hypertarget{cmdproc_8c_ae220cfb8f7e5a90196ef7273d0ada926}\index{cmdproc.c@{cmdproc.c}!generateCharArray@{generateCharArray}}
 \index{generateCharArray@{generateCharArray}!cmdproc.c@{cmdproc.c}}
 \doxysubsubsection{\texorpdfstring{generateCharArray()}{generateCharArray()}}
 {\footnotesize\ttfamily \label{cmdproc_8c_ae220cfb8f7e5a90196ef7273d0ada926} 

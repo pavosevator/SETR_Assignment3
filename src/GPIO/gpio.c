@@ -117,7 +117,6 @@ void ui_thread_func(void *argA, void *argB, void *argC)
             if (ctrl_state.system_on) {
                 ctrl_state.max_temp--;
                 printk("Temperature goal decreased to: %d\n", ctrl_state.max_temp);
-                printk("HYS to: %d\n", ctrl_state.hys_half_band);
             } else {
                 heater_off();
             }
@@ -127,16 +126,33 @@ void ui_thread_func(void *argA, void *argB, void *argC)
     }
 }
 
+/**
+ * @brief Control LED2 output
+ *
+ * Convenience wrapper used by the control logic to indicate system state.
+ *
+ * @param state Set to true to turn the LED on, false to turn it off.
+ */
 void led2_toggle(bool state)
 {
     gpio_pin_set_dt(&leds[1], state);
 }
 
+/**
+ * @brief Control LED3 output
+ *
+ * @param state Desired LED state (true = on).
+ */
 void led3_toggle(bool state)
 {
     gpio_pin_set_dt(&leds[2], state);
 }
 
+/**
+ * @brief Control LED4 output
+ *
+ * @param state Desired LED state (true = on).
+ */
 void led4_toggle(bool state)
 {
     gpio_pin_set_dt(&leds[3], state);

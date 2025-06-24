@@ -137,6 +137,12 @@ extern unsigned char txBufLen;
 */
 int cmdProcessor(void);
 
+/**
+ * @brief Zephyr thread handling incoming UART bytes.
+ *
+ * Reads characters from the UART message queue, assembles complete
+ * commands and triggers @ref cmdProcessor to parse them.
+ */
 void command_thread_func(void *argA, void *argB, void *argC);
 
 

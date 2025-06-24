@@ -2,20 +2,26 @@
 \hypertarget{gpio_8c}{}\label{gpio_8c}\index{src/GPIO/gpio.c@{src/GPIO/gpio.c}}
 
 
-GPIO interface for button and LED handling using Zephyr RTOS.  
+Interrupt driven GPIO handling for buttons and LEDs.  
 
 
 {\ttfamily \#include "{}gpio.\+h"{}}\newline
-{\ttfamily \#include "{}data.\+h"{}}\newline
-{\ttfamily \#include $<$zephyr/drivers/gpio.\+h$>$}\newline
+{\ttfamily \#include $<$zephyr/sys/util.\+h$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bfseries btn\+\_\+ctx}
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-int \mbox{\hyperlink{gpio_8c_aef3bfa643c3b8a552ebe6d85a6ee9581}{gpio\+\_\+init}} (void)
-\begin{DoxyCompactList}\small\item\em Initialize all GPIOs (buttons and LEDs) \end{DoxyCompactList}\item 
-\Hypertarget{gpio_8c_aa3cc2e58affba462b069f6e1255a7e83}\label{gpio_8c_aa3cc2e58affba462b069f6e1255a7e83} 
-void {\bfseries ui\+\_\+task} (void)
+\Hypertarget{gpio_8c_a80ddf3e62837527d990c58065eacd09c}\label{gpio_8c_a80ddf3e62837527d990c58065eacd09c} 
+{\bfseries K\+\_\+\+MSGQ\+\_\+\+DEFINE} (\mbox{\hyperlink{gpio_8h_a5d82834c646863b14ab341dc5bfcc8de}{button\+\_\+msgq}}, sizeof(enum \mbox{\hyperlink{gpio_8h_abd08509cbd21df3443f9c77cb0769238}{button\+\_\+event}}), 8, 4)
 \item 
+int \mbox{\hyperlink{gpio_8c_aef3bfa643c3b8a552ebe6d85a6ee9581}{gpio\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Initialize all GPIOs and interrupts. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{gpio_8c_ae12fee25c27257f1263b910816b42f17}{ui\+\_\+thread\+\_\+func}} (void \texorpdfstring{$\ast$}{*}argA, void \texorpdfstring{$\ast$}{*}argB, void \texorpdfstring{$\ast$}{*}argC)
+\begin{DoxyCompactList}\small\item\em UI thread. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{gpio_8c_ae2cc898d427561ab2502a08ec2f48a2c}{led2\+\_\+toggle}} (bool state)
 \begin{DoxyCompactList}\small\item\em Toggle LED 2 state. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{gpio_8c_a89e71f24e8e120d27b3d5e72e0958842}{led3\+\_\+toggle}} (bool state)
@@ -25,9 +31,9 @@ void \mbox{\hyperlink{gpio_8c_aea28b60b4a1d85916d06a75802dfe276}{led4\+\_\+toggl
 
 
 \doxysubsection{Detailed Description}
-GPIO interface for button and LED handling using Zephyr RTOS. 
+Interrupt driven GPIO handling for buttons and LEDs. 
 
-This header defines initialization and control functions for buttons and LEDs. It uses GPIOs defined in the device tree via DT aliases ({\ttfamily sw0} to {\ttfamily sw3}, {\ttfamily led0} to {\ttfamily led3}). 
+
 
 \doxysubsection{Function Documentation}
 \Hypertarget{gpio_8c_aef3bfa643c3b8a552ebe6d85a6ee9581}\index{gpio.c@{gpio.c}!gpio\_init@{gpio\_init}}
@@ -38,14 +44,9 @@ int gpio\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCapti
 
 
 
-Initialize all GPIOs (buttons and LEDs) 
+Initialize all GPIOs and interrupts. 
 
-Configures GPIO pins for input (buttons) and output (LEDs) based on Device\+Tree aliases.
-
-\begin{DoxyReturn}{Returns}
-0 on success, or a negative error code on failure 
-\end{DoxyReturn}
-\Hypertarget{gpio_8c_ae2cc898d427561ab2502a08ec2f48a2c}\index{gpio.c@{gpio.c}!led2\_toggle@{led2\_toggle}}
+Configures buttons with pull-\/ups and edge interrupts and initialises LED pins. \Hypertarget{gpio_8c_ae2cc898d427561ab2502a08ec2f48a2c}\index{gpio.c@{gpio.c}!led2\_toggle@{led2\_toggle}}
 \index{led2\_toggle@{led2\_toggle}!gpio.c@{gpio.c}}
 \doxysubsubsection{\texorpdfstring{led2\_toggle()}{led2\_toggle()}}
 {\footnotesize\ttfamily \label{gpio_8c_ae2cc898d427561ab2502a08ec2f48a2c} 
@@ -90,3 +91,14 @@ Toggle LED 4 state.
 {\em state} & Boolean state\+: true to turn ON, false to turn OFF \\
 \hline
 \end{DoxyParams}
+\Hypertarget{gpio_8c_ae12fee25c27257f1263b910816b42f17}\index{gpio.c@{gpio.c}!ui\_thread\_func@{ui\_thread\_func}}
+\index{ui\_thread\_func@{ui\_thread\_func}!gpio.c@{gpio.c}}
+\doxysubsubsection{\texorpdfstring{ui\_thread\_func()}{ui\_thread\_func()}}
+{\footnotesize\ttfamily \label{gpio_8c_ae12fee25c27257f1263b910816b42f17} 
+void ui\+\_\+thread\+\_\+func (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argA}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{argB}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{argC}{}\end{DoxyParamCaption})}
+
+
+
+UI thread. 
+
+Handles user interface logic (e.\+g. display or input polling) 

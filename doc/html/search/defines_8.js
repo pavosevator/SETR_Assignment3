@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['t_5fdigits_0',['T_DIGITS',['../cmdproc_8h.html#ad811f81994bebf5304716394d2a8945a',1,'cmdproc.h']]],
-  ['tc74_5fcmd_5frtr_1',['TC74_CMD_RTR',['../i2c_8c.html#a79aaa89920d05217559f07e3602af050',1,'i2c.c']]],
-  ['txbuf_5fsize_2',['TXBUF_SIZE',['../uart_8h.html#a923af2d146f214e75816a7f5993cee29',1,'uart.h']]]
+  ['uart_5fnode_0',['UART_NODE',['../uart_8h.html#a07b40c5bd9acc44f62a9182527dbcc9b',1,'uart.h']]],
+  ['uart_5frx_5fsize_1',['UART_RX_SIZE',['../cmdproc_8h.html#a7e4912ef6d5612f8ebca463ff206d9ce',1,'cmdproc.h']]],
+  ['uart_5ftx_5fsize_2',['UART_TX_SIZE',['../cmdproc_8h.html#a7bd31e3844f5461db2cbe6d906ca4040',1,'cmdproc.h']]]
 ];

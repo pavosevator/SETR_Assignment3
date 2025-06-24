@@ -115,12 +115,16 @@ $(function(){initNavTree('cmdproc_8c.html',''); initResizable(true); });
 <code>#include &quot;i2c.h&quot;</code><br />
 <code>#include &quot;data.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="gpio_8h_source.html">gpio.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="uart_8h_source.html">uart.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:afbdfe0465dfd34a5f244fe41fa27c12a" id="r_afbdfe0465dfd34a5f244fe41fa27c12a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afbdfe0465dfd34a5f244fe41fa27c12a">cmdProcessor</a> (void)</td></tr>
 <tr class="memdesc:afbdfe0465dfd34a5f244fe41fa27c12a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes the chars in the RX buffer looking for commands.abort.  <br /></td></tr>
 <tr class="separator:afbdfe0465dfd34a5f244fe41fa27c12a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5972e3a0280cb41da7c0a1a462f953d" id="r_af5972e3a0280cb41da7c0a1a462f953d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af5972e3a0280cb41da7c0a1a462f953d">command_thread_func</a> (void *argA, void *argB, void *argC)</td></tr>
+<tr class="memdesc:af5972e3a0280cb41da7c0a1a462f953d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Command thread.  <br /></td></tr>
+<tr class="separator:af5972e3a0280cb41da7c0a1a462f953d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4b643cbe4d6c4473eec58b015044cdd" id="r_af4b643cbe4d6c4473eec58b015044cdd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af4b643cbe4d6c4473eec58b015044cdd">checkSofEof</a> (int *sofIndex, int *eofIndex)</td></tr>
 <tr class="memdesc:af4b643cbe4d6c4473eec58b015044cdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if data in the Rx buffer is valid by finding position index of SOF_SYM and EOF_SYM.  <br /></td></tr>
 <tr class="separator:af4b643cbe4d6c4473eec58b015044cdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -292,6 +296,35 @@ unsigned char&#160;</td><td class="memItemRight" valign="bottom"><b>txBufLen</b>
 <li>Cleans up processed bytes from RX buffer <dl class="section return"><dt>Returns</dt><dd>CMD_OK or error code </dd></dl>
 </li>
 </ul>
+
+</div>
+</div>
+<a id="af5972e3a0280cb41da7c0a1a462f953d" name="af5972e3a0280cb41da7c0a1a462f953d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5972e3a0280cb41da7c0a1a462f953d">&#9670;&#160;</a></span>command_thread_func()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void command_thread_func </td>
+          <td>(</td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>argA</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>argB</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>argC</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Command thread. </p>
+<p>Reads bytes from UART queue, passes them into command parser, and handles output </p>
 
 </div>
 </div>

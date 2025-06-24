@@ -17,11 +17,6 @@
 #include <zephyr/drivers/gpio.h>    /* for GPIO api*/
 #include <zephyr/sys/printk.h>      /* for printk()*/
 
-/**
- * @defgroup gpio_aliases GPIO DeviceTree Aliases
- * @brief Mappings of buttons and LEDs to DeviceTree aliases
- * @{
- */
 #define BUTTON1_NODE DT_ALIAS(sw0)
 #define BUTTON2_NODE DT_ALIAS(sw1)
 #define BUTTON3_NODE DT_ALIAS(sw2)
@@ -31,7 +26,6 @@
 #define LED2_NODE DT_ALIAS(led1)
 #define LED3_NODE DT_ALIAS(led2)
 #define LED4_NODE DT_ALIAS(led3)
-/**@}*/
 
 /** Button events delivered by the interrupt callbacks. */
 enum button_event {
@@ -44,6 +38,12 @@ enum button_event {
 /** Message queue publishing button events. */
 extern struct k_msgq button_msgq;
 
+/**
+ * @brief UI handling thread.
+ *
+ * Waits for button events from @ref button_msgq and updates the
+ * controller state accordingly.
+ */
 void ui_thread_func(void *argA, void *argB, void *argC);
 
 /**

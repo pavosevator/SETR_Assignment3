@@ -1,4 +1,9 @@
+/**
+ * @file control.c
+ * @brief Implementation of the temperature control loops.
+ */
 #include "control.h"
+
 #include "heater.h"
 #include "gpio.h"
 #include "data.h"
@@ -8,16 +13,24 @@ static struct k_sem actuator_sem;
 static struct k_timer control_timer;
 static struct k_timer actuator_timer;
 
+/* Timer callback giving the control semaphore. */
 static void control_timer_handler(struct k_timer *t)
 {
     k_sem_give(&control_sem);
 }
 
+/* Timer callback giving the actuator semaphore. */
 static void actuator_timer_handler(struct k_timer *t)
 {
     k_sem_give(&actuator_sem);
 }
 
+/**
+ * @brief Initialise control module.
+ *
+ * Sets up semaphores and periodic timers driving the control and
+ * actuator threads.
+ */
 int control_init(void)
 {
     k_sem_init(&control_sem, 0, 1);
@@ -32,7 +45,9 @@ int control_init(void)
     return 0;
 }
 
-
+/**
+ * @brief Thread implementing the control algorithm.
+ */
 void control_thread_func(void *argA, void *argB, void *argC)
 {
     int delta;
@@ -66,6 +81,9 @@ void control_thread_func(void *argA, void *argB, void *argC)
     }
 }
 
+/**
+ * @brief Thread toggling the heater based on temperature readings.
+ */
 void actuator_thread_func(void *argA, void *argB, void *argC)
 {
     static int actuator_period = 200;

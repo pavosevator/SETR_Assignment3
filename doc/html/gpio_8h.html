@@ -104,14 +104,18 @@ $(function(){initNavTree('gpio_8h.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">gpio.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
 <p>GPIO interface for button and LED handling using Zephyr RTOS.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;zephyr/kernel.h&gt;</code><br />
+<div class="textblock"><code>#include &quot;data.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="heater_8h_source.html">heater.h</a>&quot;</code><br />
+<code>#include &lt;zephyr/kernel.h&gt;</code><br />
 <code>#include &lt;zephyr/device.h&gt;</code><br />
 <code>#include &lt;zephyr/devicetree.h&gt;</code><br />
 <code>#include &lt;zephyr/drivers/gpio.h&gt;</code><br />
@@ -121,42 +125,50 @@ $(function(){initNavTree('gpio_8h.html',''); initResizable(true); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ga50a4b11a3c0f17fc97461530feed10c8" id="r_ga50a4b11a3c0f17fc97461530feed10c8"><td class="memItemLeft" align="right" valign="top">
+<tr class="memitem:a50a4b11a3c0f17fc97461530feed10c8" id="r_a50a4b11a3c0f17fc97461530feed10c8"><td class="memItemLeft" align="right" valign="top"><a id="a50a4b11a3c0f17fc97461530feed10c8" name="a50a4b11a3c0f17fc97461530feed10c8"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>BUTTON1_NODE</b>&#160;&#160;&#160;DT_ALIAS(sw0)</td></tr>
-<tr class="separator:ga50a4b11a3c0f17fc97461530feed10c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2c5038e4144b173b2c4e547acba956fc" id="r_ga2c5038e4144b173b2c4e547acba956fc"><td class="memItemLeft" align="right" valign="top">
+<tr class="separator:a50a4b11a3c0f17fc97461530feed10c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c5038e4144b173b2c4e547acba956fc" id="r_a2c5038e4144b173b2c4e547acba956fc"><td class="memItemLeft" align="right" valign="top"><a id="a2c5038e4144b173b2c4e547acba956fc" name="a2c5038e4144b173b2c4e547acba956fc"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>BUTTON2_NODE</b>&#160;&#160;&#160;DT_ALIAS(sw1)</td></tr>
-<tr class="separator:ga2c5038e4144b173b2c4e547acba956fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga88df8840f5bb65057292e7d06db5edd9" id="r_ga88df8840f5bb65057292e7d06db5edd9"><td class="memItemLeft" align="right" valign="top">
+<tr class="separator:a2c5038e4144b173b2c4e547acba956fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88df8840f5bb65057292e7d06db5edd9" id="r_a88df8840f5bb65057292e7d06db5edd9"><td class="memItemLeft" align="right" valign="top"><a id="a88df8840f5bb65057292e7d06db5edd9" name="a88df8840f5bb65057292e7d06db5edd9"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>BUTTON3_NODE</b>&#160;&#160;&#160;DT_ALIAS(sw2)</td></tr>
-<tr class="separator:ga88df8840f5bb65057292e7d06db5edd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga567eb58617b1145a5c0ab08f838612e7" id="r_ga567eb58617b1145a5c0ab08f838612e7"><td class="memItemLeft" align="right" valign="top">
+<tr class="separator:a88df8840f5bb65057292e7d06db5edd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a567eb58617b1145a5c0ab08f838612e7" id="r_a567eb58617b1145a5c0ab08f838612e7"><td class="memItemLeft" align="right" valign="top"><a id="a567eb58617b1145a5c0ab08f838612e7" name="a567eb58617b1145a5c0ab08f838612e7"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>BUTTON4_NODE</b>&#160;&#160;&#160;DT_ALIAS(sw3)</td></tr>
-<tr class="separator:ga567eb58617b1145a5c0ab08f838612e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac8b7bbb65d5065e43a35775d9fc3e322" id="r_gac8b7bbb65d5065e43a35775d9fc3e322"><td class="memItemLeft" align="right" valign="top">
+<tr class="separator:a567eb58617b1145a5c0ab08f838612e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8b7bbb65d5065e43a35775d9fc3e322" id="r_ac8b7bbb65d5065e43a35775d9fc3e322"><td class="memItemLeft" align="right" valign="top"><a id="ac8b7bbb65d5065e43a35775d9fc3e322" name="ac8b7bbb65d5065e43a35775d9fc3e322"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>LED1_NODE</b>&#160;&#160;&#160;DT_ALIAS(led0)</td></tr>
-<tr class="separator:gac8b7bbb65d5065e43a35775d9fc3e322"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9014b2cb02041c926b50b6411232ee82" id="r_ga9014b2cb02041c926b50b6411232ee82"><td class="memItemLeft" align="right" valign="top">
+<tr class="separator:ac8b7bbb65d5065e43a35775d9fc3e322"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9014b2cb02041c926b50b6411232ee82" id="r_a9014b2cb02041c926b50b6411232ee82"><td class="memItemLeft" align="right" valign="top"><a id="a9014b2cb02041c926b50b6411232ee82" name="a9014b2cb02041c926b50b6411232ee82"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>LED2_NODE</b>&#160;&#160;&#160;DT_ALIAS(led1)</td></tr>
-<tr class="separator:ga9014b2cb02041c926b50b6411232ee82"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad5246f73682d98292ef7d7b038582700" id="r_gad5246f73682d98292ef7d7b038582700"><td class="memItemLeft" align="right" valign="top">
+<tr class="separator:a9014b2cb02041c926b50b6411232ee82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5246f73682d98292ef7d7b038582700" id="r_ad5246f73682d98292ef7d7b038582700"><td class="memItemLeft" align="right" valign="top"><a id="ad5246f73682d98292ef7d7b038582700" name="ad5246f73682d98292ef7d7b038582700"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>LED3_NODE</b>&#160;&#160;&#160;DT_ALIAS(led2)</td></tr>
-<tr class="separator:gad5246f73682d98292ef7d7b038582700"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae4c8a732da78bf809363947e4aff8ea5" id="r_gae4c8a732da78bf809363947e4aff8ea5"><td class="memItemLeft" align="right" valign="top">
+<tr class="separator:ad5246f73682d98292ef7d7b038582700"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4c8a732da78bf809363947e4aff8ea5" id="r_ae4c8a732da78bf809363947e4aff8ea5"><td class="memItemLeft" align="right" valign="top"><a id="ae4c8a732da78bf809363947e4aff8ea5" name="ae4c8a732da78bf809363947e4aff8ea5"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>LED4_NODE</b>&#160;&#160;&#160;DT_ALIAS(led3)</td></tr>
-<tr class="separator:gae4c8a732da78bf809363947e4aff8ea5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ae4c8a732da78bf809363947e4aff8ea5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:abd08509cbd21df3443f9c77cb0769238" id="r_abd08509cbd21df3443f9c77cb0769238"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abd08509cbd21df3443f9c77cb0769238">button_event</a> { <b>BTN_SYSTEM</b>
+, <b>BTN_INCREASE</b>
+, <b>BTN_TOGGLE</b>
+, <b>BTN_DECREASE</b>
+ }</td></tr>
+<tr class="separator:abd08509cbd21df3443f9c77cb0769238"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ae12fee25c27257f1263b910816b42f17" id="r_ae12fee25c27257f1263b910816b42f17"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae12fee25c27257f1263b910816b42f17">ui_thread_func</a> (void *argA, void *argB, void *argC)</td></tr>
+<tr class="memdesc:ae12fee25c27257f1263b910816b42f17"><td class="mdescLeft">&#160;</td><td class="mdescRight">UI thread.  <br /></td></tr>
+<tr class="separator:ae12fee25c27257f1263b910816b42f17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef3bfa643c3b8a552ebe6d85a6ee9581" id="r_aef3bfa643c3b8a552ebe6d85a6ee9581"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aef3bfa643c3b8a552ebe6d85a6ee9581">gpio_init</a> (void)</td></tr>
-<tr class="memdesc:aef3bfa643c3b8a552ebe6d85a6ee9581"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize all GPIOs (buttons and LEDs)  <br /></td></tr>
+<tr class="memdesc:aef3bfa643c3b8a552ebe6d85a6ee9581"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize all GPIOs and interrupts.  <br /></td></tr>
 <tr class="separator:aef3bfa643c3b8a552ebe6d85a6ee9581"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab688493fe7382e6a04ec7fb6a9a5d748" id="r_ab688493fe7382e6a04ec7fb6a9a5d748"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab688493fe7382e6a04ec7fb6a9a5d748">button_task</a> (void)</td></tr>
-<tr class="memdesc:ab688493fe7382e6a04ec7fb6a9a5d748"><td class="mdescLeft">&#160;</td><td class="mdescRight">Task handling button press logic.  <br /></td></tr>
-<tr class="separator:ab688493fe7382e6a04ec7fb6a9a5d748"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ef19a1d6de29f70102d659267dfed38" id="r_a2ef19a1d6de29f70102d659267dfed38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ef19a1d6de29f70102d659267dfed38">led_task</a> (void)</td></tr>
-<tr class="memdesc:a2ef19a1d6de29f70102d659267dfed38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Task to manage LED behavior.  <br /></td></tr>
-<tr class="separator:a2ef19a1d6de29f70102d659267dfed38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3cc2e58affba462b069f6e1255a7e83" id="r_aa3cc2e58affba462b069f6e1255a7e83"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3cc2e58affba462b069f6e1255a7e83">ui_task</a> (void)</td></tr>
+<tr class="separator:aa3cc2e58affba462b069f6e1255a7e83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2cc898d427561ab2502a08ec2f48a2c" id="r_ae2cc898d427561ab2502a08ec2f48a2c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae2cc898d427561ab2502a08ec2f48a2c">led2_toggle</a> (bool state)</td></tr>
 <tr class="memdesc:ae2cc898d427561ab2502a08ec2f48a2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Toggle LED 2 state.  <br /></td></tr>
 <tr class="separator:ae2cc898d427561ab2502a08ec2f48a2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -166,31 +178,32 @@ Functions</h2></td></tr>
 <tr class="memitem:aea28b60b4a1d85916d06a75802dfe276" id="r_aea28b60b4a1d85916d06a75802dfe276"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aea28b60b4a1d85916d06a75802dfe276">led4_toggle</a> (bool state)</td></tr>
 <tr class="memdesc:aea28b60b4a1d85916d06a75802dfe276"><td class="mdescLeft">&#160;</td><td class="mdescRight">Toggle LED 4 state.  <br /></td></tr>
 <tr class="separator:aea28b60b4a1d85916d06a75802dfe276"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a5d82834c646863b14ab341dc5bfcc8de" id="r_a5d82834c646863b14ab341dc5bfcc8de"><td class="memItemLeft" align="right" valign="top">struct k_msgq&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5d82834c646863b14ab341dc5bfcc8de">button_msgq</a></td></tr>
+<tr class="separator:a5d82834c646863b14ab341dc5bfcc8de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>GPIO interface for button and LED handling using Zephyr RTOS. </p>
 <p>This header defines initialization and control functions for buttons and LEDs. It uses GPIOs defined in the device tree via DT aliases (<code>sw0</code> to <code>sw3</code>, <code>led0</code> to <code>led3</code>). </p>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a id="ab688493fe7382e6a04ec7fb6a9a5d748" name="ab688493fe7382e6a04ec7fb6a9a5d748"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab688493fe7382e6a04ec7fb6a9a5d748">&#9670;&#160;</a></span>button_task()</h2>
+</div><h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="abd08509cbd21df3443f9c77cb0769238" name="abd08509cbd21df3443f9c77cb0769238"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd08509cbd21df3443f9c77cb0769238">&#9670;&#160;</a></span>button_event</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void button_task </td>
-          <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
+          <td class="memname">enum <a class="el" href="#abd08509cbd21df3443f9c77cb0769238">button_event</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Task handling button press logic. </p>
-<p>Should be called regularly (or run as a thread) to monitor button states. </p>
+<p>Button events delivered by the interrupt callbacks. </p>
 
 </div>
 </div>
+<h2 class="groupheader">Function Documentation</h2>
 <a id="aef3bfa643c3b8a552ebe6d85a6ee9581" name="aef3bfa643c3b8a552ebe6d85a6ee9581"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aef3bfa643c3b8a552ebe6d85a6ee9581">&#9670;&#160;</a></span>gpio_init()</h2>
 
@@ -206,9 +219,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Initialize all GPIOs (buttons and LEDs) </p>
-<p>Configures GPIO pins for input (buttons) and output (LEDs) based on DeviceTree aliases.</p>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, or a negative error code on failure </dd></dl>
+<p>Initialize all GPIOs and interrupts. </p>
+<p>Configures buttons with pull-ups and edge interrupts and initialises LED pins. </p>
 
 </div>
 </div>
@@ -287,23 +299,74 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a2ef19a1d6de29f70102d659267dfed38" name="a2ef19a1d6de29f70102d659267dfed38"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2ef19a1d6de29f70102d659267dfed38">&#9670;&#160;</a></span>led_task()</h2>
+<a id="aa3cc2e58affba462b069f6e1255a7e83" name="aa3cc2e58affba462b069f6e1255a7e83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3cc2e58affba462b069f6e1255a7e83">&#9670;&#160;</a></span>ui_task()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void led_task </td>
+          <td class="memname">void ui_task </td>
           <td>(</td>
           <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>UI thread that waits for button events and updates the system state. </p>
 
-<p>Task to manage LED behavior. </p>
-<p>Handles blinking or pattern updates of LEDs depending on the system state. </p>
+</div>
+</div>
+<a id="ae12fee25c27257f1263b910816b42f17" name="ae12fee25c27257f1263b910816b42f17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae12fee25c27257f1263b910816b42f17">&#9670;&#160;</a></span>ui_thread_func()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ui_thread_func </td>
+          <td>(</td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>argA</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>argB</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>argC</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>UI thread. </p>
+<p>Handles user interface logic (e.g. display or input polling) </p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a5d82834c646863b14ab341dc5bfcc8de" name="a5d82834c646863b14ab341dc5bfcc8de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d82834c646863b14ab341dc5bfcc8de">&#9670;&#160;</a></span>button_msgq</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct k_msgq button_msgq</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Message queue publishing button events. </p>
 
 </div>
 </div>
