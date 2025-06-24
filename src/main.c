@@ -70,6 +70,7 @@ void app_init(void)
     // Initialize system control state
     ctrl_state.system_on = false;
     ctrl_state.max_temp = 25;  // Default target temperature
+    ctrl_state.hys_half_band = 2;  // Default hysteresis range
 
     // Initial LED state
     led4_toggle(0);

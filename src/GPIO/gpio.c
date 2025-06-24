@@ -112,21 +112,12 @@ void ui_thread_func(void *argA, void *argB, void *argC)
             k_mutex_unlock(&ctrl_state.mutex);
             break;
 
-        case BTN_TOGGLE:
-            k_mutex_lock(&ctrl_state.mutex, K_FOREVER);
-            bool on = ctrl_state.system_on;
-            k_mutex_unlock(&ctrl_state.mutex);
-            if (on) {
-                heater_toggle();
-                printk("Heater toggled\n");
-            }
-            break;
-
         case BTN_DECREASE:
             k_mutex_lock(&ctrl_state.mutex, K_FOREVER);
             if (ctrl_state.system_on) {
                 ctrl_state.max_temp--;
                 printk("Temperature goal decreased to: %d\n", ctrl_state.max_temp);
+                printk("HYS to: %d\n", ctrl_state.hys_half_band);
             } else {
                 heater_off();
             }

@@ -127,28 +127,22 @@ int cmdProcessor(void)
                 return CMD_OK;
 
             case 'S': // "Snnn!": turn heater ON/OFF
-                int len;
-                int buf[3]; /// FIX THIS!!!
-                /* Must have exactly two digits + checksum */
-                if (len != 1 /*'S'*/ + 2 /*hh*/ + 2 /*CC*/ || !isdigit(buf[1]) || !isdigit(buf[2]))
-                {
-                    return CMD_INVALID;
+                // Copy three ASCII digits into val[], append '\0'
+                for (int j = 0; j < 2; j++) {
+                    val[j] = UARTRxBuffer[sofIndex + 2 + j];
                 }
-                /* Extract half-band */
-                char tmp[3] = {buf[1], buf[2], '\0'};
-                int hb = atoi(tmp); // 0–99 °C
-
-                /* Validate reasonable range */
-                if (hb < 0 || hb > 50)
-                { // e.g. max 50°C hysteresis
-                    return CMD_INVALID;
-                }
-
+                val[2] = '\0';
+                // Convert string to integer
+                int hb = atoi(val);
                 /* Store under mutex */
                 k_mutex_lock(&ctrl_state.mutex, K_FOREVER);
                 ctrl_state.hys_half_band = hb;
                 k_mutex_unlock(&ctrl_state.mutex);
 
+                // Build acknowledgement frame: #E0<checksum>!
+                txChar('#');        // SOF
+                txChar('E');
+                txChar('0');        // "E0" = OK for 'M' command
                 // Append checksum
                 snprintf(checksumchar, CS_DIGITS + 1,
                          "%03d", calcChecksum(UARTTxBuffer + 1, 2));
@@ -173,7 +167,7 @@ int cmdProcessor(void)
                 rxBufLen = newLen;
                 memset(UARTRxBuffer + newLen, '0', frameLen);
                 return CMD_INVALID;
-        }
+            }
     }
 
     // Checksum error: discard corrupted frame

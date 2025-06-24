@@ -36,16 +36,20 @@ int control_init(void)
 void control_thread_func(void *argA, void *argB, void *argC)
 {
     int delta;
+    int hys_hb;
+    k_mutex_lock(&ctrl_state.mutex, K_FOREVER);
+    hys_hb = ctrl_state.hys_half_band;
+    k_mutex_unlock(&ctrl_state.mutex);
     while (1) {
         k_sem_take(&control_sem, K_FOREVER);
         if (ctrl_state.system_on) {
             delta = sensor_data.current_temp - ctrl_state.max_temp;
 
-            if (delta > 2) {
+            if (delta > hys_hb) {
                 led2_toggle(false);
                 led3_toggle(false);
                 led4_toggle(true);
-            } else if (delta < -2) {
+            } else if (delta < (-1*hys_hb)) {
                 led2_toggle(false);
                 led3_toggle(true);
                 led4_toggle(false);
