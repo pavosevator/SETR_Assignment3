@@ -1,23 +1,8 @@
 var searchData=
 [
-  ['calcchecksum_0',['calcChecksum',['../cmdproc_8c.html#adea97048aa6fcc4293f9de8509ad637f',1,'calcChecksum(unsigned char *buffer, int nbytes):&#160;cmdproc.c'],['../cmdproc_8h.html#adea97048aa6fcc4293f9de8509ad637f',1,'calcChecksum(unsigned char *buffer, int nbytes):&#160;cmdproc.c']]],
-  ['checkrxchecksum_1',['checkRxChecksum',['../cmdproc_8c.html#a5e99bf56b7fa2aa95aa8c3752af46b34',1,'checkRxChecksum(int *sofIndex, int *eofIndex):&#160;cmdproc.c'],['../cmdproc_8h.html#a5e99bf56b7fa2aa95aa8c3752af46b34',1,'checkRxChecksum(int *sofIndex, int *eofIndex):&#160;cmdproc.c']]],
-  ['checksofeof_2',['checkSofEof',['../cmdproc_8c.html#af4b643cbe4d6c4473eec58b015044cdd',1,'checkSofEof(int *sofIndex, int *eofIndex):&#160;cmdproc.c'],['../cmdproc_8h.html#af4b643cbe4d6c4473eec58b015044cdd',1,'checkSofEof(int *sofIndex, int *eofIndex):&#160;cmdproc.c']]],
-  ['cmd_5fbuffer_5fempty_3',['CMD_BUFFER_EMPTY',['../cmdproc_8h.html#ad786404deb185b92e8fb003e4243e091',1,'cmdproc.h']]],
-  ['cmd_5fbuffer_5ffull_4',['CMD_BUFFER_FULL',['../cmdproc_8h.html#ab673e05f9aa77add258fda36c87f9da4',1,'cmdproc.h']]],
-  ['cmd_5fcs_5ferror_5',['CMD_CS_ERROR',['../cmdproc_8h.html#a7c05fea069d1051d1e81073d0aaa84c5',1,'cmdproc.h']]],
-  ['cmd_5fempty_5fstring_6',['CMD_EMPTY_STRING',['../cmdproc_8h.html#a58d9edeb01fa855cfc869904d55a3cb9',1,'cmdproc.h']]],
-  ['cmd_5finvalid_7',['CMD_INVALID',['../cmdproc_8h.html#a257cfa90b83ea92f857763aecd409836',1,'cmdproc.h']]],
-  ['cmd_5fmissing_5feof_5ferror_8',['CMD_MISSING_EOF_ERROR',['../cmdproc_8h.html#a6529cd16673d524fcda0a42b11edad29',1,'cmdproc.h']]],
-  ['cmd_5fmissing_5fsof_5ferror_9',['CMD_MISSING_SOF_ERROR',['../cmdproc_8h.html#a50241d6e862d3cf841ef5f2b8f17b0cf',1,'cmdproc.h']]],
-  ['cmd_5fok_10',['CMD_OK',['../cmdproc_8h.html#abb50905ce8538a1ee8952ff664a7a865',1,'cmdproc.h']]],
-  ['cmdproc_2ec_11',['cmdproc.c',['../cmdproc_8c.html',1,'']]],
-  ['cmdproc_2eh_12',['cmdproc.h',['../cmdproc_8h.html',1,'']]],
-  ['cmdprocessor_13',['cmdProcessor',['../cmdproc_8c.html#afbdfe0465dfd34a5f244fe41fa27c12a',1,'cmdProcessor(void):&#160;cmdproc.c'],['../cmdproc_8h.html#afbdfe0465dfd34a5f244fe41fa27c12a',1,'cmdProcessor(void):&#160;cmdproc.c']]],
-  ['command_5fthread_5ffunc_14',['command_thread_func',['../cmdproc_8c.html#af5972e3a0280cb41da7c0a1a462f953d',1,'command_thread_func(void *argA, void *argB, void *argC):&#160;cmdproc.c'],['../cmdproc_8h.html#af5972e3a0280cb41da7c0a1a462f953d',1,'command_thread_func(void *argA, void *argB, void *argC):&#160;cmdproc.c']]],
-  ['commands_15',['TC74 sensor commands',['../i2c_8c.html#autotoc_md0',1,'']]],
-  ['configuration_20settings_16',['UART configuration settings',['../uart_8c.html#autotoc_md5',1,'']]],
-  ['connected_20tc74_20sensor_17',['Device Tree binding for the I2C-connected TC74 sensor',['../i2c_8c.html#autotoc_md1',1,'']]],
-  ['controller_5fstate_18',['controller_state',['../structcontroller__state.html',1,'']]],
-  ['cs_5fdigits_19',['CS_DIGITS',['../cmdproc_8h.html#a48c6b9b9e6821d7c5b6ce92761aaa150',1,'cmdproc.h']]]
+  ['binding_20for_20the_20i2c_20connected_20tc74_20sensor_0',['Device Tree binding for the I2C-connected TC74 sensor',['../i2c_8c.html#autotoc_md1',1,'']]],
+  ['buffers_20to_20hold_20incoming_20data_1',['RX buffers to hold incoming data',['../uart_8c.html#autotoc_md3',1,'']]],
+  ['button_5fevent_2',['button_event',['../gpio_8h.html#abd08509cbd21df3443f9c77cb0769238',1,'gpio.h']]],
+  ['button_5fmsgq_3',['button_msgq',['../gpio_8h.html#a5d82834c646863b14ab341dc5bfcc8de',1,'gpio.h']]],
+  ['bytes_4',['Message queue for received bytes',['../uart_8c.html#autotoc_md4',1,'']]]
 ];

@@ -252,6 +252,7 @@ TC74 sensor commands</h2>
 </div><div class="memdoc">
 
 <p>Periodic sensor read thread. </p>
+<p>Thread that periodically samples the TC74 sensor.</p>
 <p>This function is intended to be run as a Zephyr thread. It polls the TC74 at a fixed interval and stores the converted temperature into a shared data structure, protecting access with a mutex.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

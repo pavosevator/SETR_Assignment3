@@ -1,0 +1,61 @@
+\doxysection{src/\+Control/control.c File Reference}
+\hypertarget{control_8c}{}\label{control_8c}\index{src/Control/control.c@{src/Control/control.c}}
+
+
+Implementation of the temperature control loops.  
+
+
+{\ttfamily \#include "{}control.\+h"{}}\newline
+{\ttfamily \#include "{}heater.\+h"{}}\newline
+{\ttfamily \#include "{}gpio.\+h"{}}\newline
+{\ttfamily \#include "{}data.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{control_8c_aeae5ca6e366a0b092b3a34e2c4ed26a8}{control\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Initialise control module. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{control_8c_a3afe34788c1b8b215045ef59f4f5accd}{control\+\_\+thread\+\_\+func}} (void \texorpdfstring{$\ast$}{*}argA, void \texorpdfstring{$\ast$}{*}argB, void \texorpdfstring{$\ast$}{*}argC)
+\begin{DoxyCompactList}\small\item\em Thread implementing the control algorithm. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{control_8c_a3dc546a3d1dca20fdd071c99f7019eb0}{actuator\+\_\+thread\+\_\+func}} (void \texorpdfstring{$\ast$}{*}argA, void \texorpdfstring{$\ast$}{*}argB, void \texorpdfstring{$\ast$}{*}argC)
+\begin{DoxyCompactList}\small\item\em Thread toggling the heater based on temperature readings. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementation of the temperature control loops. 
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{control_8c_a3dc546a3d1dca20fdd071c99f7019eb0}\index{control.c@{control.c}!actuator\_thread\_func@{actuator\_thread\_func}}
+\index{actuator\_thread\_func@{actuator\_thread\_func}!control.c@{control.c}}
+\doxysubsubsection{\texorpdfstring{actuator\_thread\_func()}{actuator\_thread\_func()}}
+{\footnotesize\ttfamily \label{control_8c_a3dc546a3d1dca20fdd071c99f7019eb0} 
+void actuator\+\_\+thread\+\_\+func (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argA}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{argB}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{argC}{}\end{DoxyParamCaption})}
+
+
+
+Thread toggling the heater based on temperature readings. 
+
+Thread driving the heater actuator based on system state. \Hypertarget{control_8c_aeae5ca6e366a0b092b3a34e2c4ed26a8}\index{control.c@{control.c}!control\_init@{control\_init}}
+\index{control\_init@{control\_init}!control.c@{control.c}}
+\doxysubsubsection{\texorpdfstring{control\_init()}{control\_init()}}
+{\footnotesize\ttfamily \label{control_8c_aeae5ca6e366a0b092b3a34e2c4ed26a8} 
+int control\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Initialise control module. 
+
+Initialise control timers and semaphores.
+
+Sets up semaphores and periodic timers driving the control and actuator threads. \Hypertarget{control_8c_a3afe34788c1b8b215045ef59f4f5accd}\index{control.c@{control.c}!control\_thread\_func@{control\_thread\_func}}
+\index{control\_thread\_func@{control\_thread\_func}!control.c@{control.c}}
+\doxysubsubsection{\texorpdfstring{control\_thread\_func()}{control\_thread\_func()}}
+{\footnotesize\ttfamily \label{control_8c_a3afe34788c1b8b215045ef59f4f5accd} 
+void control\+\_\+thread\+\_\+func (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argA}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{argB}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{argC}{}\end{DoxyParamCaption})}
+
+
+
+Thread implementing the control algorithm. 
+
+Thread implementing the control state machine. 

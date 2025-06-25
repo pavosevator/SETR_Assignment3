@@ -113,7 +113,7 @@ $(function(){initNavTree('gpio_8h.html',''); initResizable(true); });
 
 <p>GPIO interface for button and LED handling using Zephyr RTOS.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;data.h&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="data_8h_source.html">data.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="heater_8h_source.html">heater.h</a>&quot;</code><br />
 <code>#include &lt;zephyr/kernel.h&gt;</code><br />
 <code>#include &lt;zephyr/device.h&gt;</code><br />
@@ -162,7 +162,7 @@ Enumerations</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ae12fee25c27257f1263b910816b42f17" id="r_ae12fee25c27257f1263b910816b42f17"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae12fee25c27257f1263b910816b42f17">ui_thread_func</a> (void *argA, void *argB, void *argC)</td></tr>
-<tr class="memdesc:ae12fee25c27257f1263b910816b42f17"><td class="mdescLeft">&#160;</td><td class="mdescRight">UI thread.  <br /></td></tr>
+<tr class="memdesc:ae12fee25c27257f1263b910816b42f17"><td class="mdescLeft">&#160;</td><td class="mdescRight">UI handling thread.  <br /></td></tr>
 <tr class="separator:ae12fee25c27257f1263b910816b42f17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef3bfa643c3b8a552ebe6d85a6ee9581" id="r_aef3bfa643c3b8a552ebe6d85a6ee9581"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aef3bfa643c3b8a552ebe6d85a6ee9581">gpio_init</a> (void)</td></tr>
 <tr class="memdesc:aef3bfa643c3b8a552ebe6d85a6ee9581"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize all GPIOs and interrupts.  <br /></td></tr>
@@ -242,7 +242,15 @@ Variables</h2></td></tr>
 <p>Toggle LED 2 state. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">state</td><td>Boolean state: true to turn ON, false to turn OFF </td></tr>
+    <tr><td class="paramname">state</td><td>Boolean state: true to turn ON, false to turn OFF</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Toggle LED 2 state.</p>
+<p>Convenience wrapper used by the control logic to indicate system state.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">state</td><td>Set to true to turn the LED on, false to turn it off. </td></tr>
   </table>
   </dd>
 </dl>
@@ -267,7 +275,14 @@ Variables</h2></td></tr>
 <p>Toggle LED 3 state. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">state</td><td>Boolean state: true to turn ON, false to turn OFF </td></tr>
+    <tr><td class="paramname">state</td><td>Boolean state: true to turn ON, false to turn OFF</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Toggle LED 3 state.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">state</td><td>Desired LED state (true = on). </td></tr>
   </table>
   </dd>
 </dl>
@@ -292,7 +307,14 @@ Variables</h2></td></tr>
 <p>Toggle LED 4 state. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">state</td><td>Boolean state: true to turn ON, false to turn OFF </td></tr>
+    <tr><td class="paramname">state</td><td>Boolean state: true to turn ON, false to turn OFF</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Toggle LED 4 state.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">state</td><td>Desired LED state (true = on). </td></tr>
   </table>
   </dd>
 </dl>
@@ -341,7 +363,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>UI thread. </p>
+<p>UI handling thread. </p>
+<p>Waits for button events from <a class="el" href="#a5d82834c646863b14ab341dc5bfcc8de">button_msgq</a> and updates the controller state accordingly.</p>
+<p>UI handling thread.</p>
 <p>Handles user interface logic (e.g. display or input polling) </p>
 
 </div>

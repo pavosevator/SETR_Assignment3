@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['i2c_20connected_20tc74_20sensor_0',['Device Tree binding for the I2C-connected TC74 sensor',['../i2c_8c.html#autotoc_md1',1,'']]],
-  ['i2c_2ec_1',['i2c.c',['../i2c_8c.html',1,'']]],
-  ['i2c0_5fnid_2',['I2C0_NID',['../i2c_8c.html#a61e15cb2413134ad4873a095057ba60e',1,'i2c.c']]],
-  ['i2c_5finit_3',['i2c_init',['../i2c_8c.html#a599b53a348ffd9b2298fcb561417add4',1,'i2c.c']]],
-  ['i2c_5fread_5ftemperature_4',['i2c_read_temperature',['../i2c_8c.html#a2ece0787f26f95fa4966ec862ae85447',1,'i2c.c']]],
-  ['incoming_20data_5',['RX buffers to hold incoming data',['../uart_8c.html#autotoc_md3',1,'']]],
-  ['instance_20from_20devicetree_6',['UART device instance from DeviceTree',['../uart_8c.html#autotoc_md2',1,'']]]
+  ['heater_2ec_0',['heater.c',['../heater_8c.html',1,'']]],
+  ['heater_2eh_1',['heater.h',['../heater_8h.html',1,'']]],
+  ['heater_5finit_2',['heater_init',['../heater_8c.html#a21c58f658bbbba87393c37ce821a7b15',1,'heater_init(void):&#160;heater.c'],['../heater_8h.html#a21c58f658bbbba87393c37ce821a7b15',1,'heater_init(void):&#160;heater.c']]],
+  ['heater_5foff_3',['heater_off',['../heater_8c.html#aa377f11ac36aba3cc86d71773fe864ff',1,'heater_off(void):&#160;heater.c'],['../heater_8h.html#aa377f11ac36aba3cc86d71773fe864ff',1,'heater_off(void):&#160;heater.c']]],
+  ['heater_5fon_4',['heater_on',['../heater_8c.html#a11ff01e82f68d886ebf88b0e6c3b9ef7',1,'heater_on(void):&#160;heater.c'],['../heater_8h.html#a11ff01e82f68d886ebf88b0e6c3b9ef7',1,'heater_on(void):&#160;heater.c']]],
+  ['heater_5ftoggle_5',['heater_toggle',['../heater_8c.html#a2726abca64678bd3328c3a86d9b5d1cf',1,'heater_toggle(void):&#160;heater.c'],['../heater_8h.html#a2726abca64678bd3328c3a86d9b5d1cf',1,'heater_toggle(void):&#160;heater.c']]],
+  ['hold_20incoming_20data_6',['RX buffers to hold incoming data',['../uart_8c.html#autotoc_md3',1,'']]]
 ];

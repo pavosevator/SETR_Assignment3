@@ -46,12 +46,29 @@ int cmdProcessor(void)
     int sofIndex;
     int eofIndex;
 
+    int frameLen, newLen;
+    char val[4]; // temporary buffer for numeric parsing
     int status = checkSofEof(&sofIndex, &eofIndex);
     if (status != CMD_OK)
+    {
+        txChar('#'); // SOF
+        txChar('E');
+        txChar('f'); // "Ef" = framing error
+        // Append checksum
+        snprintf(checksumchar, CS_DIGITS + 1,
+                 "%03d", calcChecksum(UARTTxBuffer + 1, 2));
+        for (int i = 0; i < CS_DIGITS; i++)
+        {
+            txChar(checksumchar[i]);
+        }
+        txChar('!');
+        frameLen = eofIndex - sofIndex + 1;
+        newLen = rxBufLen - frameLen;
+        memmove(UARTRxBuffer, UARTRxBuffer + frameLen, newLen);
+        rxBufLen = newLen;
+        memset(UARTRxBuffer + newLen, '0', frameLen);
         return status;
-
-    int frameLen, newLen;
-    char val[4];  // temporary buffer for numeric parsing
+    }
 
     // Validate checksum of received frame
     if (checkRxChecksum(&sofIndex, &eofIndex) == CMD_OK) {
@@ -75,7 +92,7 @@ int cmdProcessor(void)
                 // Build acknowledgement frame: #E0<checksum>!
                 txChar('#');        // SOF
                 txChar('E');
-                txChar('0');        // "E0" = OK for 'M' command
+                txChar('o');        // "E0" = OK for 'M' command
                 // Calculate checksum on payload "E0"
                 snprintf(checksumchar, CS_DIGITS + 1,
                          "%03d", calcChecksum(UARTTxBuffer + 1, 2));
@@ -142,7 +159,7 @@ int cmdProcessor(void)
                 // Build acknowledgement frame: #E0<checksum>!
                 txChar('#');        // SOF
                 txChar('E');
-                txChar('0');        // "E0" = OK for 'M' command
+                txChar('o');        // "E0" = OK for 'M' command
                 // Append checksum
                 snprintf(checksumchar, CS_DIGITS + 1,
                          "%03d", calcChecksum(UARTTxBuffer + 1, 2));
@@ -161,6 +178,16 @@ int cmdProcessor(void)
 
             default:
                 // Unknown command: discard frame and report error
+                txChar('#');        // SOF
+                txChar('E');
+                txChar('i');        // nvalid commmand
+                // Append checksum
+                snprintf(checksumchar, CS_DIGITS + 1,
+                         "%03d", calcChecksum(UARTTxBuffer + 1, 2));
+                for (int i = 0; i < CS_DIGITS; i++) {
+                    txChar(checksumchar[i]);
+                }
+                txChar('!');
                 frameLen = eofIndex - sofIndex + 1;
                 newLen = rxBufLen - frameLen;
                 memmove(UARTRxBuffer, UARTRxBuffer + frameLen, newLen);
@@ -171,6 +198,17 @@ int cmdProcessor(void)
     }
 
     // Checksum error: discard corrupted frame
+    txChar('#'); // SOF
+    txChar('E');
+    txChar('s'); // "Es" = invalid checksum
+    // Append checksum
+    snprintf(checksumchar, CS_DIGITS + 1,
+             "%03d", calcChecksum(UARTTxBuffer + 1, 2));
+    for (int i = 0; i < CS_DIGITS; i++)
+    {
+        txChar(checksumchar[i]);
+    }
+    txChar('!');
     frameLen = eofIndex - sofIndex + 1;
     newLen = rxBufLen - frameLen;
     memmove(UARTRxBuffer, UARTRxBuffer + frameLen, newLen);
@@ -212,6 +250,9 @@ void command_thread_func(void *argA , void *argB, void *argC)
         unsigned char *tx_data;
         int tx_len;
         if (cmdProcessor() == CMD_OK) {
+            getTxBuffer(&tx_data, &tx_len);
+            uart_send(tx_data, tx_len); // Send back response
+        } else {
             getTxBuffer(&tx_data, &tx_len);
             uart_send(tx_data, tx_len); // Send back response
         }

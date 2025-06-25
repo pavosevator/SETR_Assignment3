@@ -113,7 +113,7 @@ $(function(){initNavTree('cmdproc_8c.html',''); initResizable(true); });
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="cmdproc_8h_source.html">cmdproc.h</a>&quot;</code><br />
 <code>#include &quot;i2c.h&quot;</code><br />
-<code>#include &quot;data.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="data_8h_source.html">data.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="gpio_8h_source.html">gpio.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="uart_8h_source.html">uart.h</a>&quot;</code><br />
 </div><table class="memberdecls">
@@ -324,6 +324,7 @@ unsigned char&#160;</td><td class="memItemRight" valign="bottom"><b>txBufLen</b>
 </div><div class="memdoc">
 
 <p>Command thread. </p>
+<p>Zephyr thread handling incoming UART bytes.</p>
 <p>Reads bytes from UART queue, passes them into command parser, and handles output </p>
 
 </div>

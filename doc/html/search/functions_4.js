@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['k_5fmsgq_5fdefine_0',['K_MSGQ_DEFINE',['../uart_8c.html#a81ff70a2946d6a022892af2ee7fa6b20',1,'uart.c']]]
+  ['i2c_5finit_0',['i2c_init',['../i2c_8c.html#a599b53a348ffd9b2298fcb561417add4',1,'i2c.c']]],
+  ['i2c_5fread_5ftemperature_1',['i2c_read_temperature',['../i2c_8c.html#a2ece0787f26f95fa4966ec862ae85447',1,'i2c.c']]]
 ];

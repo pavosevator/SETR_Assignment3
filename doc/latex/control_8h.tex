@@ -1,0 +1,58 @@
+\doxysection{src/\+Control/control.h File Reference}
+\hypertarget{control_8h}{}\label{control_8h}\index{src/Control/control.h@{src/Control/control.h}}
+
+
+Temperature control logic and actuator threads.  
+
+
+{\ttfamily \#include $<$zephyr/kernel.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{control_8h_aeae5ca6e366a0b092b3a34e2c4ed26a8}{control\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Initialise control timers and semaphores. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{control_8h_a3afe34788c1b8b215045ef59f4f5accd}{control\+\_\+thread\+\_\+func}} (void \texorpdfstring{$\ast$}{*}argA, void \texorpdfstring{$\ast$}{*}argB, void \texorpdfstring{$\ast$}{*}argC)
+\begin{DoxyCompactList}\small\item\em Thread implementing the control state machine. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{control_8h_a3dc546a3d1dca20fdd071c99f7019eb0}{actuator\+\_\+thread\+\_\+func}} (void \texorpdfstring{$\ast$}{*}argA, void \texorpdfstring{$\ast$}{*}argB, void \texorpdfstring{$\ast$}{*}argC)
+\begin{DoxyCompactList}\small\item\em Thread driving the heater actuator based on system state. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Temperature control logic and actuator threads. 
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{control_8h_a3dc546a3d1dca20fdd071c99f7019eb0}\index{control.h@{control.h}!actuator\_thread\_func@{actuator\_thread\_func}}
+\index{actuator\_thread\_func@{actuator\_thread\_func}!control.h@{control.h}}
+\doxysubsubsection{\texorpdfstring{actuator\_thread\_func()}{actuator\_thread\_func()}}
+{\footnotesize\ttfamily \label{control_8h_a3dc546a3d1dca20fdd071c99f7019eb0} 
+void actuator\+\_\+thread\+\_\+func (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argA}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{argB}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{argC}{}\end{DoxyParamCaption})}
+
+
+
+Thread driving the heater actuator based on system state. 
+
+Thread driving the heater actuator based on system state. \Hypertarget{control_8h_aeae5ca6e366a0b092b3a34e2c4ed26a8}\index{control.h@{control.h}!control\_init@{control\_init}}
+\index{control\_init@{control\_init}!control.h@{control.h}}
+\doxysubsubsection{\texorpdfstring{control\_init()}{control\_init()}}
+{\footnotesize\ttfamily \label{control_8h_aeae5ca6e366a0b092b3a34e2c4ed26a8} 
+int control\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Initialise control timers and semaphores. 
+
+Initialise control timers and semaphores.
+
+Sets up semaphores and periodic timers driving the control and actuator threads. \Hypertarget{control_8h_a3afe34788c1b8b215045ef59f4f5accd}\index{control.h@{control.h}!control\_thread\_func@{control\_thread\_func}}
+\index{control\_thread\_func@{control\_thread\_func}!control.h@{control.h}}
+\doxysubsubsection{\texorpdfstring{control\_thread\_func()}{control\_thread\_func()}}
+{\footnotesize\ttfamily \label{control_8h_a3afe34788c1b8b215045ef59f4f5accd} 
+void control\+\_\+thread\+\_\+func (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{argA}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{argB}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{argC}{}\end{DoxyParamCaption})}
+
+
+
+Thread implementing the control state machine. 
+
+Thread implementing the control state machine. 

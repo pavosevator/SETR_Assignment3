@@ -131,13 +131,13 @@ Functions</h2></td></tr>
 <tr class="memdesc:ae12fee25c27257f1263b910816b42f17"><td class="mdescLeft">&#160;</td><td class="mdescRight">UI thread.  <br /></td></tr>
 <tr class="separator:ae12fee25c27257f1263b910816b42f17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2cc898d427561ab2502a08ec2f48a2c" id="r_ae2cc898d427561ab2502a08ec2f48a2c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae2cc898d427561ab2502a08ec2f48a2c">led2_toggle</a> (bool state)</td></tr>
-<tr class="memdesc:ae2cc898d427561ab2502a08ec2f48a2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Toggle LED 2 state.  <br /></td></tr>
+<tr class="memdesc:ae2cc898d427561ab2502a08ec2f48a2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Control LED2 output.  <br /></td></tr>
 <tr class="separator:ae2cc898d427561ab2502a08ec2f48a2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a89e71f24e8e120d27b3d5e72e0958842" id="r_a89e71f24e8e120d27b3d5e72e0958842"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a89e71f24e8e120d27b3d5e72e0958842">led3_toggle</a> (bool state)</td></tr>
-<tr class="memdesc:a89e71f24e8e120d27b3d5e72e0958842"><td class="mdescLeft">&#160;</td><td class="mdescRight">Toggle LED 3 state.  <br /></td></tr>
+<tr class="memdesc:a89e71f24e8e120d27b3d5e72e0958842"><td class="mdescLeft">&#160;</td><td class="mdescRight">Control LED3 output.  <br /></td></tr>
 <tr class="separator:a89e71f24e8e120d27b3d5e72e0958842"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea28b60b4a1d85916d06a75802dfe276" id="r_aea28b60b4a1d85916d06a75802dfe276"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aea28b60b4a1d85916d06a75802dfe276">led4_toggle</a> (bool state)</td></tr>
-<tr class="memdesc:aea28b60b4a1d85916d06a75802dfe276"><td class="mdescLeft">&#160;</td><td class="mdescRight">Toggle LED 4 state.  <br /></td></tr>
+<tr class="memdesc:aea28b60b4a1d85916d06a75802dfe276"><td class="mdescLeft">&#160;</td><td class="mdescRight">Control LED4 output.  <br /></td></tr>
 <tr class="separator:aea28b60b4a1d85916d06a75802dfe276"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -178,10 +178,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Toggle LED 2 state. </p>
+<p>Control LED2 output. </p>
+<p>Toggle LED 2 state.</p>
+<p>Convenience wrapper used by the control logic to indicate system state.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">state</td><td>Boolean state: true to turn ON, false to turn OFF </td></tr>
+    <tr><td class="paramname">state</td><td>Set to true to turn the LED on, false to turn it off. </td></tr>
   </table>
   </dd>
 </dl>
@@ -203,10 +205,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Toggle LED 3 state. </p>
+<p>Control LED3 output. </p>
+<p>Toggle LED 3 state.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">state</td><td>Boolean state: true to turn ON, false to turn OFF </td></tr>
+    <tr><td class="paramname">state</td><td>Desired LED state (true = on). </td></tr>
   </table>
   </dd>
 </dl>
@@ -228,10 +231,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Toggle LED 4 state. </p>
+<p>Control LED4 output. </p>
+<p>Toggle LED 4 state.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">state</td><td>Boolean state: true to turn ON, false to turn OFF </td></tr>
+    <tr><td class="paramname">state</td><td>Desired LED state (true = on). </td></tr>
   </table>
   </dd>
 </dl>
@@ -263,6 +267,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>UI thread. </p>
+<p>UI handling thread.</p>
 <p>Handles user interface logic (e.g. display or input polling) </p>
 
 </div>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['txchar_0',['txChar',['../cmdproc_8c.html#abdb4363f0662688850bbcdfb59ce4566',1,'txChar(unsigned char car):&#160;cmdproc.c'],['../cmdproc_8h.html#abdb4363f0662688850bbcdfb59ce4566',1,'txChar(unsigned char car):&#160;cmdproc.c']]]
+  ['sensor_5fthread_5ffunc_0',['sensor_thread_func',['../i2c_8c.html#a3b66eb6cc6ae3514944169a9bc550ded',1,'i2c.c']]]
 ];

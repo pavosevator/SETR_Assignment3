@@ -52,7 +52,7 @@ enum \mbox{\hyperlink{gpio_8h_abd08509cbd21df3443f9c77cb0769238}{button\+\_\+eve
 \begin{DoxyCompactItemize}
 \item 
 void \mbox{\hyperlink{gpio_8h_ae12fee25c27257f1263b910816b42f17}{ui\+\_\+thread\+\_\+func}} (void \texorpdfstring{$\ast$}{*}argA, void \texorpdfstring{$\ast$}{*}argB, void \texorpdfstring{$\ast$}{*}argC)
-\begin{DoxyCompactList}\small\item\em UI thread. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em UI handling thread. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{gpio_8h_aef3bfa643c3b8a552ebe6d85a6ee9581}{gpio\+\_\+init}} (void)
 \begin{DoxyCompactList}\small\item\em Initialize all GPIOs and interrupts. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{gpio_8h_aa3cc2e58affba462b069f6e1255a7e83}{ui\+\_\+task}} (void)
@@ -107,7 +107,16 @@ Toggle LED 2 state.
 
 
 \begin{DoxyParams}{Parameters}
-{\em state} & Boolean state\+: true to turn ON, false to turn OFF \\
+{\em state} & Boolean state\+: true to turn ON, false to turn OFF\\
+\hline
+\end{DoxyParams}
+Toggle LED 2 state.
+
+Convenience wrapper used by the control logic to indicate system state.
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & Set to true to turn the LED on, false to turn it off. \\
 \hline
 \end{DoxyParams}
 \Hypertarget{gpio_8h_a89e71f24e8e120d27b3d5e72e0958842}\index{gpio.h@{gpio.h}!led3\_toggle@{led3\_toggle}}
@@ -122,7 +131,14 @@ Toggle LED 3 state.
 
 
 \begin{DoxyParams}{Parameters}
-{\em state} & Boolean state\+: true to turn ON, false to turn OFF \\
+{\em state} & Boolean state\+: true to turn ON, false to turn OFF\\
+\hline
+\end{DoxyParams}
+Toggle LED 3 state.
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & Desired LED state (true = on). \\
 \hline
 \end{DoxyParams}
 \Hypertarget{gpio_8h_aea28b60b4a1d85916d06a75802dfe276}\index{gpio.h@{gpio.h}!led4\_toggle@{led4\_toggle}}
@@ -137,7 +153,14 @@ Toggle LED 4 state.
 
 
 \begin{DoxyParams}{Parameters}
-{\em state} & Boolean state\+: true to turn ON, false to turn OFF \\
+{\em state} & Boolean state\+: true to turn ON, false to turn OFF\\
+\hline
+\end{DoxyParams}
+Toggle LED 4 state.
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & Desired LED state (true = on). \\
 \hline
 \end{DoxyParams}
 \Hypertarget{gpio_8h_aa3cc2e58affba462b069f6e1255a7e83}\index{gpio.h@{gpio.h}!ui\_task@{ui\_task}}
@@ -154,7 +177,11 @@ void ui\+\_\+thread\+\_\+func (\begin{DoxyParamCaption}\item[{void \texorpdfstri
 
 
 
-UI thread. 
+UI handling thread. 
+
+Waits for button events from \doxylink{gpio_8h_a5d82834c646863b14ab341dc5bfcc8de}{button\+\_\+msgq} and updates the controller state accordingly.
+
+UI handling thread.
 
 Handles user interface logic (e.\+g. display or input polling) 
 

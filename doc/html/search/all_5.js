@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['generatechararray_0',['generateCharArray',['../cmdproc_8c.html#ae220cfb8f7e5a90196ef7273d0ada926',1,'generateCharArray(char flag, int value, char *buffer):&#160;cmdproc.c'],['../cmdproc_8h.html#ae220cfb8f7e5a90196ef7273d0ada926',1,'generateCharArray(char flag, int value, char *buffer):&#160;cmdproc.c']]],
-  ['gettxbuffer_1',['getTxBuffer',['../cmdproc_8c.html#a1b0b9f1531a9eb5307e0c0a9861ac29c',1,'getTxBuffer(unsigned char **buf, int *len):&#160;cmdproc.c'],['../cmdproc_8h.html#a1b0b9f1531a9eb5307e0c0a9861ac29c',1,'getTxBuffer(unsigned char **buf, int *len):&#160;cmdproc.c']]],
-  ['gpio_2ec_2',['gpio.c',['../gpio_8c.html',1,'']]],
-  ['gpio_2eh_3',['gpio.h',['../gpio_8h.html',1,'']]],
-  ['gpio_5finit_4',['gpio_init',['../gpio_8c.html#aef3bfa643c3b8a552ebe6d85a6ee9581',1,'gpio_init(void):&#160;gpio.c'],['../gpio_8h.html#aef3bfa643c3b8a552ebe6d85a6ee9581',1,'gpio_init(void):&#160;gpio.c']]]
+  ['fatal_5ferr_0',['FATAL_ERR',['../uart_8h.html#aa46777f75164fc107271e38f1f773e4d',1,'uart.h']]],
+  ['for_20received_20bytes_1',['Message queue for received bytes',['../uart_8c.html#autotoc_md4',1,'']]],
+  ['for_20the_20i2c_20connected_20tc74_20sensor_2',['Device Tree binding for the I2C-connected TC74 sensor',['../i2c_8c.html#autotoc_md1',1,'']]],
+  ['from_20devicetree_3',['UART device instance from DeviceTree',['../uart_8c.html#autotoc_md2',1,'']]]
 ];

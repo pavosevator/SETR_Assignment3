@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['eof_5fsym_0',['EOF_SYM',['../cmdproc_8h.html#a87045860c979c33b7bb6e4f90e7914df',1,'cmdproc.h']]],
-  ['err_1',['err',['../uart_8c.html#a6ce68847c12434f60d1b2654a3dc3409',1,'uart.c']]]
+  ['data_0',['RX buffers to hold incoming data',['../uart_8c.html#autotoc_md3',1,'']]],
+  ['data_2eh_1',['data.h',['../data_8h.html',1,'']]],
+  ['device_20instance_20from_20devicetree_2',['UART device instance from DeviceTree',['../uart_8c.html#autotoc_md2',1,'']]],
+  ['device_20tree_20binding_20for_20the_20i2c_20connected_20tc74_20sensor_3',['Device Tree binding for the I2C-connected TC74 sensor',['../i2c_8c.html#autotoc_md1',1,'']]],
+  ['devicetree_4',['UART device instance from DeviceTree',['../uart_8c.html#autotoc_md2',1,'']]]
 ];

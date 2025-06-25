@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['resetrxbuffer_0',['resetRxBuffer',['../cmdproc_8c.html#a918f38a7eecdd03671d28a3a07f94856',1,'resetRxBuffer(void):&#160;cmdproc.c'],['../cmdproc_8h.html#a918f38a7eecdd03671d28a3a07f94856',1,'resetRxBuffer(void):&#160;cmdproc.c']]],
-  ['resettxbuffer_1',['resetTxBuffer',['../cmdproc_8c.html#abd91ad9b5887f4769f45823899583bab',1,'resetTxBuffer(void):&#160;cmdproc.c'],['../cmdproc_8h.html#abd91ad9b5887f4769f45823899583bab',1,'resetTxBuffer(void):&#160;cmdproc.c']]],
-  ['rxchar_2',['rxChar',['../cmdproc_8c.html#a67ae8a79a708a3c5471668bddbd16400',1,'rxChar(unsigned char car):&#160;cmdproc.c'],['../cmdproc_8h.html#a67ae8a79a708a3c5471668bddbd16400',1,'rxChar(unsigned char car):&#160;cmdproc.c']]]
+  ['led2_5ftoggle_0',['led2_toggle',['../gpio_8c.html#ae2cc898d427561ab2502a08ec2f48a2c',1,'led2_toggle(bool state):&#160;gpio.c'],['../gpio_8h.html#ae2cc898d427561ab2502a08ec2f48a2c',1,'led2_toggle(bool state):&#160;gpio.c']]],
+  ['led3_5ftoggle_1',['led3_toggle',['../gpio_8c.html#a89e71f24e8e120d27b3d5e72e0958842',1,'led3_toggle(bool state):&#160;gpio.c'],['../gpio_8h.html#a89e71f24e8e120d27b3d5e72e0958842',1,'led3_toggle(bool state):&#160;gpio.c']]],
+  ['led4_5ftoggle_2',['led4_toggle',['../gpio_8c.html#aea28b60b4a1d85916d06a75802dfe276',1,'led4_toggle(bool state):&#160;gpio.c'],['../gpio_8h.html#aea28b60b4a1d85916d06a75802dfe276',1,'led4_toggle(bool state):&#160;gpio.c']]]
 ];

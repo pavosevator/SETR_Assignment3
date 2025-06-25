@@ -23,11 +23,11 @@ int \mbox{\hyperlink{gpio_8c_aef3bfa643c3b8a552ebe6d85a6ee9581}{gpio\+\_\+init}}
 void \mbox{\hyperlink{gpio_8c_ae12fee25c27257f1263b910816b42f17}{ui\+\_\+thread\+\_\+func}} (void \texorpdfstring{$\ast$}{*}argA, void \texorpdfstring{$\ast$}{*}argB, void \texorpdfstring{$\ast$}{*}argC)
 \begin{DoxyCompactList}\small\item\em UI thread. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{gpio_8c_ae2cc898d427561ab2502a08ec2f48a2c}{led2\+\_\+toggle}} (bool state)
-\begin{DoxyCompactList}\small\item\em Toggle LED 2 state. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Control LED2 output. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{gpio_8c_a89e71f24e8e120d27b3d5e72e0958842}{led3\+\_\+toggle}} (bool state)
-\begin{DoxyCompactList}\small\item\em Toggle LED 3 state. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Control LED3 output. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{gpio_8c_aea28b60b4a1d85916d06a75802dfe276}{led4\+\_\+toggle}} (bool state)
-\begin{DoxyCompactList}\small\item\em Toggle LED 4 state. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Control LED4 output. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -54,11 +54,15 @@ void led2\+\_\+toggle (\begin{DoxyParamCaption}\item[{bool}]{state}{}\end{DoxyPa
 
 
 
-Toggle LED 2 state. 
+Control LED2 output. 
+
+Toggle LED 2 state.
+
+Convenience wrapper used by the control logic to indicate system state.
 
 
 \begin{DoxyParams}{Parameters}
-{\em state} & Boolean state\+: true to turn ON, false to turn OFF \\
+{\em state} & Set to true to turn the LED on, false to turn it off. \\
 \hline
 \end{DoxyParams}
 \Hypertarget{gpio_8c_a89e71f24e8e120d27b3d5e72e0958842}\index{gpio.c@{gpio.c}!led3\_toggle@{led3\_toggle}}
@@ -69,11 +73,13 @@ void led3\+\_\+toggle (\begin{DoxyParamCaption}\item[{bool}]{state}{}\end{DoxyPa
 
 
 
-Toggle LED 3 state. 
+Control LED3 output. 
+
+Toggle LED 3 state.
 
 
 \begin{DoxyParams}{Parameters}
-{\em state} & Boolean state\+: true to turn ON, false to turn OFF \\
+{\em state} & Desired LED state (true = on). \\
 \hline
 \end{DoxyParams}
 \Hypertarget{gpio_8c_aea28b60b4a1d85916d06a75802dfe276}\index{gpio.c@{gpio.c}!led4\_toggle@{led4\_toggle}}
@@ -84,11 +90,13 @@ void led4\+\_\+toggle (\begin{DoxyParamCaption}\item[{bool}]{state}{}\end{DoxyPa
 
 
 
-Toggle LED 4 state. 
+Control LED4 output. 
+
+Toggle LED 4 state.
 
 
 \begin{DoxyParams}{Parameters}
-{\em state} & Boolean state\+: true to turn ON, false to turn OFF \\
+{\em state} & Desired LED state (true = on). \\
 \hline
 \end{DoxyParams}
 \Hypertarget{gpio_8c_ae12fee25c27257f1263b910816b42f17}\index{gpio.c@{gpio.c}!ui\_thread\_func@{ui\_thread\_func}}
@@ -100,5 +108,7 @@ void ui\+\_\+thread\+\_\+func (\begin{DoxyParamCaption}\item[{void \texorpdfstri
 
 
 UI thread. 
+
+UI handling thread.
 
 Handles user interface logic (e.\+g. display or input polling) 

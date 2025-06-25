@@ -188,7 +188,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:afbdfe0465dfd34a5f244fe41fa27c12a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes the chars in the RX buffer looking for commands.abort.  <br /></td></tr>
 <tr class="separator:afbdfe0465dfd34a5f244fe41fa27c12a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5972e3a0280cb41da7c0a1a462f953d" id="r_af5972e3a0280cb41da7c0a1a462f953d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af5972e3a0280cb41da7c0a1a462f953d">command_thread_func</a> (void *argA, void *argB, void *argC)</td></tr>
-<tr class="memdesc:af5972e3a0280cb41da7c0a1a462f953d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Command thread.  <br /></td></tr>
+<tr class="memdesc:af5972e3a0280cb41da7c0a1a462f953d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zephyr thread handling incoming UART bytes.  <br /></td></tr>
 <tr class="separator:af5972e3a0280cb41da7c0a1a462f953d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4b643cbe4d6c4473eec58b015044cdd" id="r_af4b643cbe4d6c4473eec58b015044cdd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af4b643cbe4d6c4473eec58b015044cdd">checkSofEof</a> (int *sofIndex, int *eofIndex)</td></tr>
 <tr class="memdesc:af4b643cbe4d6c4473eec58b015044cdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if data in the Rx buffer is valid by finding position index of SOF_SYM and EOF_SYM.  <br /></td></tr>
@@ -423,7 +423,9 @@ unsigned char&#160;</td><td class="memItemRight" valign="bottom"><b>txBufLen</b>
       </table>
 </div><div class="memdoc">
 
-<p>Command thread. </p>
+<p>Zephyr thread handling incoming UART bytes. </p>
+<p>Reads characters from the UART message queue, assembles complete commands and triggers <a class="el" href="cmdproc_8c.html#afbdfe0465dfd34a5f244fe41fa27c12a">cmdProcessor</a> to parse them.</p>
+<p>Zephyr thread handling incoming UART bytes.</p>
 <p>Reads bytes from UART queue, passes them into command parser, and handles output </p>
 
 </div>

@@ -63,7 +63,7 @@ Header file for command processor module for smart sensor node.
 int \mbox{\hyperlink{cmdproc_8h_afbdfe0465dfd34a5f244fe41fa27c12a}{cmd\+Processor}} (void)
 \begin{DoxyCompactList}\small\item\em Processes the chars in the RX buffer looking for commands.\+abort. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{cmdproc_8h_af5972e3a0280cb41da7c0a1a462f953d}{command\+\_\+thread\+\_\+func}} (void \texorpdfstring{$\ast$}{*}argA, void \texorpdfstring{$\ast$}{*}argB, void \texorpdfstring{$\ast$}{*}argC)
-\begin{DoxyCompactList}\small\item\em Command thread. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Zephyr thread handling incoming UART bytes. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{cmdproc_8h_af4b643cbe4d6c4473eec58b015044cdd}{check\+Sof\+Eof}} (int \texorpdfstring{$\ast$}{*}sof\+Index, int \texorpdfstring{$\ast$}{*}eof\+Index)
 \begin{DoxyCompactList}\small\item\em Checks if data in the Rx buffer is valid by finding position index of SOF\+\_\+\+SYM and EOF\+\_\+\+SYM. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{cmdproc_8h_a67ae8a79a708a3c5471668bddbd16400}{rx\+Char}} (unsigned char car)
@@ -250,7 +250,11 @@ void command\+\_\+thread\+\_\+func (\begin{DoxyParamCaption}\item[{void \texorpd
 
 
 
-Command thread. 
+Zephyr thread handling incoming UART bytes. 
+
+Reads characters from the UART message queue, assembles complete commands and triggers \doxylink{cmdproc_8c_afbdfe0465dfd34a5f244fe41fa27c12a}{cmd\+Processor} to parse them.
+
+Zephyr thread handling incoming UART bytes.
 
 Reads bytes from UART queue, passes them into command parser, and handles output \Hypertarget{cmdproc_8h_ae220cfb8f7e5a90196ef7273d0ada926}\index{cmdproc.h@{cmdproc.h}!generateCharArray@{generateCharArray}}
 \index{generateCharArray@{generateCharArray}!cmdproc.h@{cmdproc.h}}

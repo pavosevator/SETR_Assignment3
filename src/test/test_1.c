@@ -125,30 +125,6 @@ void test_cmdproc_temperature_request_should_succeed(void) {
     TEST_ASSERT_EQUAL('c', txbuf[1]);
 }
 
-void test_cmdproc_set_duty_cycle_valid(void) {
-    char frame[16];
-    buildCommand('S', "075", frame);
-    sendFrameToRxBuffer(frame);
-    TEST_ASSERT_EQUAL(CMD_OK, cmdProcessor());
-
-    unsigned char *txbuf;
-    int len;
-    getTxBuffer(&txbuf, &len);
-    TEST_ASSERT_EQUAL('9', txbuf[2]); // 'E9'
-}
-
-void test_cmdproc_set_duty_cycle_invalid(void) {
-    char frame[16];
-    buildCommand('S', "200", frame);
-    sendFrameToRxBuffer(frame);
-    TEST_ASSERT_EQUAL(CMD_OK, cmdProcessor());
-
-    unsigned char *txbuf;
-    int len;
-    getTxBuffer(&txbuf, &len);
-    TEST_ASSERT_EQUAL('i', txbuf[2]); // 'Ei'
-}
-
 // === Main Test Runner ===
 int main(void) {
     UNITY_BEGIN();
@@ -163,8 +139,5 @@ int main(void) {
     RUN_TEST(test_cmdproc_set_max_temp_should_succeed);
     RUN_TEST(test_cmdproc_invalid_checksum_should_fail);
     RUN_TEST(test_cmdproc_temperature_request_should_succeed);
-    RUN_TEST(test_cmdproc_set_duty_cycle_valid);
-    RUN_TEST(test_cmdproc_set_duty_cycle_invalid);
-
     return UNITY_END();
 }

@@ -102,6 +102,8 @@ void sensor\+\_\+thread\+\_\+func (\begin{DoxyParamCaption}\item[{void \texorpdf
 
 Periodic sensor read thread. 
 
+Thread that periodically samples the TC74 sensor.
+
 This function is intended to be run as a Zephyr thread. It polls the TC74 at a fixed interval and stores the converted temperature into a shared data structure, protecting access with a mutex.
 
 
