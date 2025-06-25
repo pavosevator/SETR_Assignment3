@@ -22,6 +22,8 @@
   ASCII-frame command parser/formatter (`#M`, `#C`, `#S`, checksum, ACK/ERR) 
 - **`data.c / data.h`**  
   Shared RTDB definitions
+  - **`control.c / control.h`**  
+  Control logic and actuatuion on the heater
 - **`test_1.c`**  
   Unity testing file
 
